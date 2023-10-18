@@ -1,0 +1,161 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/NunitoSans-Bold.ttf",
+      "sha1": "c7e885d00c275b5385579d3479f48392013334e7"
+    },
+    {
+      "path": "assets/fonts/NunitoSans-ExtraBold.ttf",
+      "sha1": "15819f2aba91bda9d9931f50aed113eba5adde1e"
+    },
+    {
+      "path": "assets/fonts/NunitoSans-Regular.ttf",
+      "sha1": "771b9299e1d5d4239c032c7d4243a6f9343f89c4"
+    },
+    {
+      "path": "assets/fonts/NunitoSans-SemiBold.ttf",
+      "sha1": "85055562e9e48d7c1ca4eee938f5cf90f740b3c1"
+    },
+    {
+      "path": "assets/fonts/Rasa-Bold.ttf",
+      "sha1": "1a83f36148f9c1c1224de549bfa8ce8f363275ec"
+    },
+    {
+      "path": "assets/images/app_icon.png",
+      "sha1": "30d548cc6985a8754e4e7b4658e975df33a1b36d"
+    },
+    {
+      "path": "assets/images/cabs/cab1.png",
+      "sha1": "c421d623a0fbde67d5533a1aedd6da24d81663aa"
+    },
+    {
+      "path": "assets/images/cabs/cab2.png",
+      "sha1": "39377e015638a00c3a376126570dd3c0f351456c"
+    },
+    {
+      "path": "assets/images/cabs/cab3.png",
+      "sha1": "18801870a69e2c39f411d80966c457f4bfdfb828"
+    },
+    {
+      "path": "assets/images/cabs/cab4.png",
+      "sha1": "c6f1977763019ff3620bbd1e3f638ce856237c34"
+    },
+    {
+      "path": "assets/images/cabs/cab5.png",
+      "sha1": "9197e0229d63e23cdff8c03bc36c70ba465a05f7"
+    },
+    {
+      "path": "assets/images/cabs/cab6.png",
+      "sha1": "db716b62b85fab7dfedc4d9a8fe483af85d0c6a9"
+    },
+    {
+      "path": "assets/images/cardbg.png",
+      "sha1": "e3ac623938e1328868185c545a3cda1670058984"
+    },
+    {
+      "path": "assets/images/icons/cab.png",
+      "sha1": "cf43941f1f6b3c48903c65030d14ab9dfec35c78"
+    },
+    {
+      "path": "assets/images/icons/current_marker.png",
+      "sha1": "d6b2de2b67d8919554550380f475652e3f362529"
+    },
+    {
+      "path": "assets/images/icons/marker2.png",
+      "sha1": "74fc5796f5ea6614d5e7a56255043b686290b831"
+    },
+    {
+      "path": "assets/images/icons/marker3.png",
+      "sha1": "fed9f2cf027734efa9574a630b264bbdd5a0c8b4"
+    },
+    {
+      "path": "assets/images/invite_friend.png",
+      "sha1": "682aeeae09316aff50ab9edc068237eeb89f134e"
+    },
+    {
+      "path": "assets/images/login.png",
+      "sha1": "98b62ccf39631b8cdd55d5714cfa8388039d5576"
+    },
+    {
+      "path": "assets/images/onboarding/onboarding1.png",
+      "sha1": "609dca836842fcd1fa0821fddaea9b1d15e87f0e"
+    },
+    {
+      "path": "assets/images/onboarding/onboarding2.png",
+      "sha1": "8b44688db5b07f2b5259cc83d17d6750e1737ebc"
+    },
+    {
+      "path": "assets/images/onboarding/onboarding3.png",
+      "sha1": "64aa607ab85432d859c7b1455b253ba64c89b26d"
+    },
+    {
+      "path": "assets/images/paymentMethods/cash.png",
+      "sha1": "040f5f2998970b6d47f635c0bdbdfe63bc86c9c7"
+    },
+    {
+      "path": "assets/images/paymentMethods/master_card.png",
+      "sha1": "3d7c32df3595a632f18bbbb48bd530693591be64"
+    },
+    {
+      "path": "assets/images/paymentMethods/visa.png",
+      "sha1": "9d4c0b105103fa7790a475a04fc6e1773d102c0c"
+    },
+    {
+      "path": "assets/images/paymentMethods/wallet.png",
+      "sha1": "b5942ffb6349fd0eb6e069eb67690affe421ca5b"
+    },
+    {
+      "path": "assets/images/search_driver.png",
+      "sha1": "bbd96205c5cda00da23fbe8c99c2cfe3ec3b3cbd"
+    },
+    {
+      "path": "assets/images/users/user1.png",
+      "sha1": "64068a1bb75a9cf1b69f5fc8b664c23fb25c26c9"
+    },
+    {
+      "path": "assets/images/users/user10.png",
+      "sha1": "19ebf45375d257c394b89f19490378a99ff52b0e"
+    },
+    {
+      "path": "assets/images/users/user11.png",
+      "sha1": "1ccbc5148acd6cf94ecc51f1abb64807c51da331"
+    },
+    {
+      "path": "assets/images/users/user12.png",
+      "sha1": "7c6cd4c867ac96c337a9c82be70bf221ef41aae7"
+    },
+    {
+      "path": "assets/images/users/user2.png",
+      "sha1": "3cb29aedd0cd689e40981adc444aa400a762188d"
+    },
+    {
+      "path": "assets/images/users/user3.png",
+      "sha1": "2237861160344f2b669fcb161aaed38613e91898"
+    },
+    {
+      "path": "assets/images/users/user4.png",
+      "sha1": "51a10b69c7dbfa94957f6b27e4129e5cee701c92"
+    },
+    {
+      "path": "assets/images/users/user5.png",
+      "sha1": "36683421776f3dc78af021c720147dae37436e8c"
+    },
+    {
+      "path": "assets/images/users/user6.png",
+      "sha1": "3afdd26e1bad138877140532aa7f386aeb5e1f23"
+    },
+    {
+      "path": "assets/images/users/user7.png",
+      "sha1": "f69a6ac87b9783ed5afd76eb2b4df130888aea2d"
+    },
+    {
+      "path": "assets/images/users/user8.png",
+      "sha1": "6b252f0691a38f0d79224675c52e3be5114072ee"
+    },
+    {
+      "path": "assets/images/users/user9.png",
+      "sha1": "e02cf38253372811bad6ad701172ee4bed70baf8"
+    }
+  ]
+}
