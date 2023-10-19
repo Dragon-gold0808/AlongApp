@@ -15,7 +15,7 @@ import {
   commonStyles,
   screenHeight,
   screenWidth,
-} from '../../../src/constants/styles';
+} from '../../constants/styles';
 import MapViewDirections from 'react-native-maps-directions';
 import {Key} from '../../../src/constants/key';
 import MapView, {PROVIDER_GOOGLE, Marker, Callout} from 'react-native-maps';

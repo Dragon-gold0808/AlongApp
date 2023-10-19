@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {useState} from 'react';
-import {Colors, Fonts, Sizes} from '../../../src/constants/styles';
+import {Colors, Fonts, Sizes} from '../../constants/styles';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MyStatusBar from '../../../src/components/myStatusBar';
@@ -22,7 +22,9 @@ const ContactUsScreen = ({navigation}) => {
       <MyStatusBar />
       <View style={{flex: 1}}>
         {header()}
-        <ScrollView automaticallyAdjustKeyboardInsets={true} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          automaticallyAdjustKeyboardInsets={true}
+          showsVerticalScrollIndicator={false}>
           {contactInfo()}
           {messageDetail()}
         </ScrollView>
@@ -199,7 +201,7 @@ const styles = StyleSheet.create({
     ...Fonts.blackColor16Bold,
     marginTop: Sizes.fixPadding - 5.0,
     marginBottom: Sizes.fixPadding - 4.0,
-    padding:0,
+    padding: 0,
   },
   buttonStyle: {
     backgroundColor: Colors.primaryColor,

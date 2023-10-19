@@ -14,7 +14,7 @@ import {
   Sizes,
   screenHeight,
   screenWidth,
-} from '../../../src/constants/styles';
+} from '../../constants/styles';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
@@ -259,8 +259,8 @@ const RideEndScreen = ({navigation}) => {
       longitude: 88.474119,
     };
     const userLocation = {
-        latitude: 22.715024,
-        longitude: 88.474120,
+      latitude: 22.715024,
+      longitude: 88.47412,
     };
     return (
       <MapView

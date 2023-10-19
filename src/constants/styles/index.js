@@ -1,4 +1,6 @@
 import {Dimensions} from 'react-native';
+import {authStyles} from './authStyles';
+import {headerWrapStyle} from './headerWrapStyle';
 
 export const Colors = {
   primaryColor: '#087F23',
@@ -257,3 +259,5 @@ export const commonStyles = {
     shadowOpacity: 0.15,
   },
 };
+
+export {authStyles, headerWrapStyle};

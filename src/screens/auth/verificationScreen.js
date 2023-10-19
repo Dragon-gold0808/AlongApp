@@ -8,11 +8,13 @@ import {
   Platform,
 } from 'react-native';
 import React, {useState} from 'react';
-import {Colors, Fonts, Sizes} from '../../../src/constants/styles';
+import {Colors, Fonts, Sizes, authStyles} from '../../constants/styles';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Overlay} from '@rneui/themed';
 import OTPTextView from 'react-native-otp-textinput';
 import MyStatusBar from '../../../src/components/myStatusBar';
+import LoadingDialog from '../../components/loadingDialog';
+import Header from '../../components/header';
 
 const VerificationScreen = ({navigation}) => {
   const [otpInput, setotpInput] = useState('');
@@ -22,7 +24,7 @@ const VerificationScreen = ({navigation}) => {
     <View style={{flex: 1, backgroundColor: Colors.whiteColor}}>
       <MyStatusBar />
       <View style={{flex: 1}}>
-        {header()}
+        <Header title={'Verification'} onPressHandle={() => navigation.pop()} />
         <ScrollView
           automaticallyAdjustKeyboardInsets={true}
           showsVerticalScrollIndicator={false}>
@@ -32,32 +34,9 @@ const VerificationScreen = ({navigation}) => {
         </ScrollView>
       </View>
       {continueButton()}
-      {loadingDialog()}
+      <LoadingDialog text={'Please wait...'} isVisible={isLoading} />
     </View>
   );
-
-  function loadingDialog() {
-    return (
-      <Overlay isVisible={isLoading} overlayStyle={styles.dialogStyle}>
-        <ActivityIndicator
-          size={56}
-          color={Colors.primaryColor}
-          style={{
-            alignSelf: 'center',
-            transform: [{scale: Platform.OS == 'ios' ? 2 : 1}],
-          }}
-        />
-        <Text
-          style={{
-            marginTop: Sizes.fixPadding * 2.0,
-            textAlign: 'center',
-            ...Fonts.grayColor14Regular,
-          }}>
-          Please wait...
-        </Text>
-      </Overlay>
-    );
-  }
 
   function continueButton() {
     return (
@@ -70,7 +49,7 @@ const VerificationScreen = ({navigation}) => {
             navigation.push('Home');
           }, 2000);
         }}
-        style={styles.buttonStyle}>
+        style={authStyles.buttonStyle}>
         <Text style={{...Fonts.whiteColor18Bold}}>Continue</Text>
       </TouchableOpacity>
     );
@@ -171,23 +150,5 @@ const styles = StyleSheet.create({
     borderRadius: Sizes.fixPadding - 5.0,
     backgroundColor: Colors.bgColor,
     ...Fonts.blackColor16Bold,
-  },
-  buttonStyle: {
-    backgroundColor: Colors.primaryColor,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: Sizes.fixPadding - 5.0,
-    paddingVertical: Sizes.fixPadding + 3.0,
-    marginHorizontal: Sizes.fixPadding * 6.0,
-    marginVertical: Sizes.fixPadding * 2.0,
-  },
-  dialogStyle: {
-    width: '80%',
-    backgroundColor: Colors.whiteColor,
-    borderRadius: Sizes.fixPadding - 5.0,
-    paddingHorizontal: Sizes.fixPadding * 2.0,
-    paddingBottom: Sizes.fixPadding + 5.0,
-    paddingTop: Sizes.fixPadding * 2.0,
-    elevation: 3.0,
   },
 });

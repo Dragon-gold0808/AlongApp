@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -21,11 +21,11 @@ import {
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import { BottomSheet } from '@rneui/themed';
-import { Menu } from 'react-native-material-menu';
+import {BottomSheet} from '@rneui/themed';
+import {Menu} from 'react-native-material-menu';
 import MyStatusBar from '../../components/myStatusBar';
 
-const DriverModeScreen = ({ navigation }) => {
+const DriverModeScreen = ({navigation}) => {
   const carBrandsList = [
     'Toyota',
     'Maruti Suzuki',
@@ -54,9 +54,9 @@ const DriverModeScreen = ({ navigation }) => {
   const toggleSwitch = () => setDriverEnabled(previousState => !previousState);
 
   return (
-    <View style={{ flex: 1, backgroundColor: Colors.whiteColor }}>
+    <View style={{flex: 1, backgroundColor: Colors.whiteColor}}>
       <MyStatusBar />
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         {header()}
         {driverEnabled ? (
           <>
@@ -96,8 +96,8 @@ const DriverModeScreen = ({ navigation }) => {
             alignItems: 'center',
             justifyContent: 'space-between',
           }}>
-          <Text style={{ ...Fonts.grayColor15SemiBold }}>License</Text>
-          <Text style={{ ...Fonts.primaryColor14Bold }}>Upload</Text>
+          <Text style={{...Fonts.grayColor15SemiBold}}>License</Text>
+          <Text style={{...Fonts.primaryColor14Bold}}>Upload</Text>
         </View>
         <View style={styles.govermentIdAndLicenseWrapStyle}>
           <MaterialCommunityIcons
@@ -122,8 +122,8 @@ const DriverModeScreen = ({ navigation }) => {
 
   function govermentIdInfo() {
     return (
-      <View style={{ margin: Sizes.fixPadding * 2.0 }}>
-        <Text style={{ ...Fonts.grayColor15SemiBold }}>Government ID</Text>
+      <View style={{margin: Sizes.fixPadding * 2.0}}>
+        <Text style={{...Fonts.grayColor15SemiBold}}>Government ID</Text>
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
@@ -163,7 +163,7 @@ const DriverModeScreen = ({ navigation }) => {
 
   function carModelInfo() {
     return (
-      <View style={{ marginHorizontal: Sizes.fixPadding * 2.0 }}>
+      <View style={{marginHorizontal: Sizes.fixPadding * 2.0}}>
         <Text
           style={{
             marginBottom: Sizes.fixPadding - 6.0,
@@ -181,7 +181,7 @@ const DriverModeScreen = ({ navigation }) => {
                 setShowCarModels(true);
               }}
               style={styles.carModelAndBrandWrapStyle}>
-              <Text style={{ ...Fonts.blackColor16Bold }}>
+              <Text style={{...Fonts.blackColor16Bold}}>
                 {selectedCarModel}
               </Text>
               <MaterialIcons
@@ -195,7 +195,7 @@ const DriverModeScreen = ({ navigation }) => {
             setShowCarModels(false);
           }}>
           <ScrollView
-            contentContainerStyle={{ paddingTop: Sizes.fixPadding * 2.0 }}>
+            contentContainerStyle={{paddingTop: Sizes.fixPadding * 2.0}}>
             {carModelsList.map((item, index) => (
               <Text
                 key={`${index}`}
@@ -220,7 +220,7 @@ const DriverModeScreen = ({ navigation }) => {
 
   function carBrandInfo() {
     return (
-      <View style={{ margin: Sizes.fixPadding * 2.0 }}>
+      <View style={{margin: Sizes.fixPadding * 2.0}}>
         <Text
           style={{
             marginBottom: Sizes.fixPadding - 6.0,
@@ -238,7 +238,7 @@ const DriverModeScreen = ({ navigation }) => {
                 setShowCarBrands(true);
               }}
               style={styles.carModelAndBrandWrapStyle}>
-              <Text style={{ ...Fonts.blackColor16Bold }}>
+              <Text style={{...Fonts.blackColor16Bold}}>
                 {selectedCarBrand}
               </Text>
               <MaterialIcons
@@ -252,7 +252,7 @@ const DriverModeScreen = ({ navigation }) => {
             setShowCarBrands(false);
           }}>
           <ScrollView
-            contentContainerStyle={{ paddingTop: Sizes.fixPadding * 2.0 }}>
+            contentContainerStyle={{paddingTop: Sizes.fixPadding * 2.0}}>
             {carBrandsList.map((item, index) => (
               <Text
                 key={`${index}`}
@@ -277,8 +277,8 @@ const DriverModeScreen = ({ navigation }) => {
 
   function vehicleNumberInfo() {
     return (
-      <View style={{ margin: Sizes.fixPadding * 2.0 }}>
-        <Text style={{ ...Fonts.grayColor15SemiBold }}>Vehicle Number</Text>
+      <View style={{margin: Sizes.fixPadding * 2.0}}>
+        <Text style={{...Fonts.grayColor15SemiBold}}>Vehicle Number</Text>
         <TextInput
           value={vehicleNumber}
           onChangeText={value => setVehicleNumber(value)}
@@ -299,13 +299,13 @@ const DriverModeScreen = ({ navigation }) => {
           navigation.pop();
         }}
         style={styles.buttonStyle}>
-        <Text style={{ ...Fonts.whiteColor18Bold }}>Save</Text>
+        <Text style={{...Fonts.whiteColor18Bold}}>Save</Text>
       </TouchableOpacity>
     );
   }
 
   function divider() {
-    return <View style={{ backgroundColor: Colors.shadowColor, height: 1.0 }} />;
+    return <View style={{backgroundColor: Colors.shadowColor, height: 1.0}} />;
   }
 
   function header() {
@@ -326,7 +326,7 @@ const DriverModeScreen = ({ navigation }) => {
           Driver Mode
         </Text>
         <Switch
-          trackColor={{ false: '#767577', true: '#81b0ff' }}
+          trackColor={{false: '#767577', true: '#81b0ff'}}
           thumbColor={driverEnabled ? '#f5dd4b' : '#f4f3f4'}
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitch}
