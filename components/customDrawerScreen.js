@@ -146,7 +146,7 @@ const CustomDrawer = props => {
               activeOpacity={0.8}
               onPress={() => {
                 setShowLogoutDialog(false);
-                props.navigation.push('Login');
+                props.navigation.push('AuthHome');
               }}
               style={{
                 ...styles.cancelAndLogoutButtonStyle,
@@ -197,7 +197,16 @@ const CustomDrawer = props => {
         })}
         {divider()}
         {drawerOptionSort({
-          iconName: 'directions-car',
+          iconName: 'local-taxi',
+          option: 'Driver Mode',
+          onPress: () => {
+            props.navigation.closeDrawer();
+            props.navigation.push('DriverMode');
+          },
+        })}
+        {divider()}
+        {drawerOptionSort({
+          iconName: 'history',
           option: 'My Rides',
           onPress: () => {
             props.navigation.closeDrawer();
@@ -216,19 +225,10 @@ const CustomDrawer = props => {
         {divider()}
         {drawerOptionSort({
           iconName: 'notifications',
-          option: 'Notification',
+          option: 'Notifications',
           onPress: () => {
             props.navigation.closeDrawer();
             props.navigation.push('Notifications');
-          },
-        })}
-        {divider()}
-        {drawerOptionSort({
-          iconName: 'card-giftcard',
-          option: 'Invite Friends',
-          onPress: () => {
-            props.navigation.closeDrawer();
-            props.navigation.push('InviteFriends');
           },
         })}
         {divider()}
@@ -242,11 +242,29 @@ const CustomDrawer = props => {
         })}
         {divider()}
         {drawerOptionSort({
+          iconName: 'info',
+          option: 'About us',
+          onPress: () => {
+            props.navigation.closeDrawer();
+            props.navigation.push('Faqs');
+          },
+        })}
+        {divider()}
+        {drawerOptionSort({
           iconName: 'email',
           option: 'Contact us',
           onPress: () => {
             props.navigation.closeDrawer();
             props.navigation.push('ContactUs');
+          },
+        })}
+        {divider()}
+        {drawerOptionSort({
+          iconName: 'settings-suggest',
+          option: 'Location',
+          onPress: () => {
+            props.navigation.closeDrawer();
+            props.navigation.push('UserRides');
           },
         })}
         {divider()}
