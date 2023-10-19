@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View, Animated} from 'react-native';
 import React, {useState, useRef} from 'react';
-import {Colors, Fonts, Sizes, screenWidth} from '../../../src/constants/styles';
+import {Colors, Fonts, Sizes, screenWidth} from '../../constants/styles';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {Snackbar} from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -156,15 +156,15 @@ const NotificationsScreen = ({navigation}) => {
           </View>
           <View
             style={{
-            backgroundColor:
-              data.index == listData.length - 1
-                ? Colors.whiteColor
-                : Colors.shadowColor,
-            height: 1.0,
-            marginTop: Sizes.fixPadding * 2.0,
-          }}
-        />
-        </View>        
+              backgroundColor:
+                data.index == listData.length - 1
+                  ? Colors.whiteColor
+                  : Colors.shadowColor,
+              height: 1.0,
+              marginTop: Sizes.fixPadding * 2.0,
+            }}
+          />
+        </View>
       </View>
     </Animated.View>
   );

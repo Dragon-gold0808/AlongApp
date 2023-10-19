@@ -9,8 +9,13 @@ import {
   Platform,
 } from 'react-native';
 import React, {useState, useCallback} from 'react';
-import {Colors, Fonts, Sizes, screenHeight} from '../../../src/constants/styles';
-import IntlPhoneInput from 'react-native-intl-phone-input';
+import {
+  Colors,
+  Fonts,
+  Sizes,
+  screenHeight,
+  authStyles,
+} from '../../constants/styles';
 import {useFocusEffect} from '@react-navigation/native';
 import MyStatusBar from '../../../src/components/myStatusBar';
 
@@ -21,7 +26,7 @@ const AuthHomeScreen = ({navigation}) => {
         e.preventDefault();
       });
     } else {
-      backClickCount == 1 ? BackHandler.exitApp() : _spring();
+      backClickCount === 1 ? BackHandler.exitApp() : _spring();
       return true;
     }
   };
@@ -41,26 +46,23 @@ const AuthHomeScreen = ({navigation}) => {
     setBackClickCount(1);
     setTimeout(() => {
       setBackClickCount(0);
-    }, 1000);
+    }, 2000);
   }
 
   const [backClickCount, setBackClickCount] = useState(0);
-  const [phoneNumber, setPhoneNumber] = useState('');
 
   return (
-    <View style={{flex: 1, backgroundColor: Colors.whiteColor}}>
+    <View style={styles.view}>
       <MyStatusBar />
-      <View style={{flex: 1, justifyContent: 'flex-start'}}>
-        <ScrollView
-          automaticallyAdjustKeyboardInsets={true}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{justifyContent: 'flex-start', flexGrow: 1}}>
-          {loginImage()}
-          {welcomeInfo()}
-          {loginButton()}
-          {registerButton()}
-        </ScrollView>
-      </View>
+      <ScrollView
+        automaticallyAdjustKeyboardInsets={true}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollView}>
+        {loginImage()}
+        {welcomeInfo()}
+        {loginButton()}
+        {registerButton()}
+      </ScrollView>
       {exitInfo()}
     </View>
   );
@@ -72,7 +74,7 @@ const AuthHomeScreen = ({navigation}) => {
         onPress={() => {
           navigation.push('Login');
         }}
-        style={styles.buttonStyle}>
+        style={authStyles.buttonStyle}>
         <Text style={{...Fonts.whiteColor18Bold}}>Sign In</Text>
       </TouchableOpacity>
     );
@@ -84,15 +86,15 @@ const AuthHomeScreen = ({navigation}) => {
         onPress={() => {
           navigation.push('Register');
         }}
-        style={styles.buttonStyle}>
+        style={authStyles.buttonStyle}>
         <Text style={{...Fonts.whiteColor18Bold}}>Sign Up</Text>
       </TouchableOpacity>
     );
   }
 
   function exitInfo() {
-    return backClickCount == 1 ? (
-      <View style={styles.exitInfoWrapStyle}>
+    return backClickCount === 1 ? (
+      <View style={authStyles.exitInfoWrapStyle}>
         <Text style={{...Fonts.whiteColor15SemiBold}}>
           Press Back Once Again to Exit
         </Text>
@@ -111,7 +113,7 @@ const AuthHomeScreen = ({navigation}) => {
         <Text style={{...Fonts.blackColor20Bold}}>Welcome to Along App</Text>
         <Text
           style={{marginTop: Sizes.fixPadding, ...Fonts.grayColor14SemiBold}}>
-          Enter your phone number to continue
+          Sign In to book a car
         </Text>
       </View>
     );
@@ -121,11 +123,7 @@ const AuthHomeScreen = ({navigation}) => {
     return (
       <Image
         source={require('../../assets/images/login.png')}
-        style={{
-          width: '100%',
-          height: screenHeight / 3.0,
-          resizeMode: 'stretch',
-        }}
+        style={styles.logoStyle}
       />
     );
   }
@@ -134,31 +132,11 @@ const AuthHomeScreen = ({navigation}) => {
 export default AuthHomeScreen;
 
 const styles = StyleSheet.create({
-  phoneInputStyle: {
-    flex: 1,
-    ...Fonts.blackColor15Bold,
-    borderBottomColor: Colors.shadowColor,
-    borderBottomWidth: 1.0,
-    padding: 0,
-  },
-  exitInfoWrapStyle: {
-    backgroundColor: Colors.lightBlackColor,
-    position: 'absolute',
-    bottom: 20,
-    alignSelf: 'center',
-    borderRadius: Sizes.fixPadding * 2.0,
-    paddingHorizontal: Sizes.fixPadding + 5.0,
-    paddingVertical: Sizes.fixPadding,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonStyle: {
-    backgroundColor: Colors.primaryColor,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: Sizes.fixPadding - 5.0,
-    paddingVertical: Sizes.fixPadding + 3.0,
-    marginHorizontal: Sizes.fixPadding * 6.0,
-    marginVertical: Sizes.fixPadding * 2.0,
+  view: {flex: 1, backgroundColor: Colors.whiteColor},
+  scrollView: {justifyContent: 'flex-start', flexGrow: 1},
+  logoStyle: {
+    width: '100%',
+    height: screenHeight / 3.0,
+    resizeMode: 'stretch',
   },
 });

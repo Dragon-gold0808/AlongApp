@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import {Colors, Fonts, Sizes, commonStyles} from '../../../src/constants/styles';
+import {Colors, Fonts, Sizes, commonStyles} from '../../constants/styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import MyStatusBar from '../../../src/components/myStatusBar';

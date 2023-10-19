@@ -15,7 +15,7 @@ import {
   Sizes,
   commonStyles,
   screenWidth,
-} from '../../../src/constants/styles';
+} from '../../constants/styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {BottomSheet} from '@rneui/themed';

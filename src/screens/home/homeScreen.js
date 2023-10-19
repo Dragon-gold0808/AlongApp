@@ -9,7 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import React, {useState, useCallback} from 'react';
-import {Colors, Fonts, Sizes, screenHeight} from '../../../src/constants/styles';
+import {Colors, Fonts, Sizes, screenHeight} from '../../constants/styles';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import BottomSheet from 'react-native-simple-bottom-sheet';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';

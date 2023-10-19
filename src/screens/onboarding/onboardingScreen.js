@@ -15,7 +15,7 @@ import {
   Sizes,
   commonStyles,
   screenWidth,
-} from '../../../src/constants/styles';
+} from '../../constants/styles';
 import {useFocusEffect} from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MyStatusBar from '../../../src/components/myStatusBar';

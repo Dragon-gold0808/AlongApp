@@ -14,6 +14,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import * as Animatable from 'react-native-animatable';
 import MyStatusBar from '../../../src/components/myStatusBar';
+import Header from '../../components/header';
 
 const BookNowScreen = ({navigation}) => {
   return (
@@ -21,7 +22,11 @@ const BookNowScreen = ({navigation}) => {
       <MyStatusBar />
       <View style={{flex: 1}}>
         {directionInfo()}
-        {header()}
+        <Header
+          title={'Book Your Ride'}
+          type={'absolute'}
+          onPressHandle={() => navigation.pop()}
+        />
         {addressesInfoSheet()}
       </View>
     </View>
@@ -129,27 +134,6 @@ const BookNowScreen = ({navigation}) => {
     );
   }
 
-  function header() {
-    return (
-      <View style={styles.headerWrapStyle}>
-        <FontAwesome6
-          name="arrow-left"
-          size={20}
-          color={Colors.blackColor}
-          onPress={() => navigation.pop()}
-        />
-        <Text
-          style={{
-            flex: 1,
-            marginLeft: Sizes.fixPadding + 2.0,
-            ...Fonts.blackColor20ExtraBold,
-          }}>
-          Book Your Ride
-        </Text>
-      </View>
-    );
-  }
-
   function directionInfo() {
     const currentCabLocation = {
       latitude: 22.715024,
@@ -218,14 +202,6 @@ const BookNowScreen = ({navigation}) => {
 export default BookNowScreen;
 
 const styles = StyleSheet.create({
-  headerWrapStyle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'absolute',
-    top: 20.0,
-    left: 15.0,
-    right: 15.0,
-  },
   calloutWrapStyle: {
     width: screenWidth / 1.5,
     flexDirection: 'row',
