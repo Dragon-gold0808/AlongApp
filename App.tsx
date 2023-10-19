@@ -18,6 +18,7 @@ import RideEndScreen from './screens/rideEnd/rideEndScreen';
 import RatingScreen from './screens/rating/ratingScreen';
 import EditProfileScreen from './screens/editProfile/editProfileScreen';
 import UserRidesScreen from './screens/userRides/userRidesScreen';
+import SettingsScreen from './screens/settings/settingsScreen';
 import RideDetailScreen from './screens/rideDetail/rideDetailScreen';
 import WalletScreen from './screens/wallet/walletScreen';
 import PaymentMethodsScreen from './screens/paymentMethods/paymentMethodsScreen';
@@ -110,6 +111,7 @@ function MyApp() {
         <Stack.Screen name="EditProfile" component={EditProfileScreen} />
         <Stack.Screen name="DriverMode" component={DriverModeScreen} />
         <Stack.Screen name="UserRides" component={UserRidesScreen} />
+        <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="RideDetail" component={RideDetailScreen} />
         <Stack.Screen name="Wallet" component={WalletScreen} />
         <Stack.Screen name="PaymentMethods" component={PaymentMethodsScreen} />
