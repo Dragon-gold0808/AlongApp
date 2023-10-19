@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -16,38 +16,280 @@ import {
   Sizes,
   commonStyles,
   screenWidth,
-} from '../../../src/constants/styles';
+  screenHeight,
+} from '../../constants/styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import {BottomSheet} from '@rneui/themed';
-import MyStatusBar from '../../../src/components/myStatusBar';
+import { BottomSheet } from '@rneui/themed';
+import { Menu } from 'react-native-material-menu';
+import MyStatusBar from '../../components/myStatusBar';
 
-const DriverModeScreen = ({navigation}) => {
-  const [name, setName] = useState('Samantha Smith');
-  const [email, setEmail] = useState('samanthasmith@gmail.com');
-  const [phoneNumber, setPhoneNumber] = useState('+91 1236457890');
-  const [password, setPassword] = useState('123456789');
+const DriverModeScreen = ({ navigation }) => {
+  const carBrandsList = [
+    'Toyota',
+    'Maruti Suzuki',
+    'Hyundai',
+    'Mahindra',
+    'Tata Motors',
+  ];
+
+  const carModelsList = [
+    'Toyota Innova',
+    'Maruti Wagon R',
+    'Hyundai Creta',
+    'Mahindra Xuv500',
+    'Hyundai I10',
+    'Renault Kwid',
+    'Hyundai I20',
+  ];
+
   const [showSheet, setShowSheet] = useState(false);
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const [driverEnabled, setDriverEnabled] = useState(false);
+  const [vehicleNumber, setVehicleNumber] = useState('GJ 5 AB 1258');
+  const [showCarBrands, setShowCarBrands] = useState(false);
+  const [selectedCarBrand, setSelectedCarBrand] = useState(carBrandsList[0]);
+  const [showCarModels, setShowCarModels] = useState(false);
+  const [selectedCarModel, setSelectedCarModel] = useState(carModelsList[0]);
+  const toggleSwitch = () => setDriverEnabled(previousState => !previousState);
 
   return (
-    <View style={{flex: 1, backgroundColor: Colors.whiteColor}}>
+    <View style={{ flex: 1, backgroundColor: Colors.whiteColor }}>
       <MyStatusBar />
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         {header()}
-        <ScrollView
-          automaticallyAdjustKeyboardInsets={true}
-          showsVerticalScrollIndicator={false}>
-          {fullNameInfo()}
-          {emailInfo()}
-          {phoneNumberInfo()}
-          {passwordInfo()}
-        </ScrollView>
+        {driverEnabled ? (
+          <>
+            <ScrollView
+              automaticallyAdjustKeyboardInsets={true}
+              showsVerticalScrollIndicator={false}>
+              {carInfo()}
+              {documentInfo()}
+            </ScrollView>
+            {saveButton()}
+          </>
+        ) : null}
       </View>
-      {saveButton()}
     </View>
   );
+
+  function documentInfo() {
+    return (
+      <View style={styles.documentInfoWrapStyle}>
+        <Text style={styles.carAndDocumentInfoTitleStyle}>Document</Text>
+        {govermentIdInfo()}
+        {licenseInfo()}
+      </View>
+    );
+  }
+
+  function licenseInfo() {
+    return (
+      <View
+        style={{
+          marginHorizontal: Sizes.fixPadding * 2.0,
+          marginBottom: Sizes.fixPadding * 2.0,
+        }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+          <Text style={{ ...Fonts.grayColor15SemiBold }}>License</Text>
+          <Text style={{ ...Fonts.primaryColor14Bold }}>Upload</Text>
+        </View>
+        <View style={styles.govermentIdAndLicenseWrapStyle}>
+          <MaterialCommunityIcons
+            name="shield-check"
+            size={18}
+            color={Colors.lightGrayColor}
+          />
+          <Text
+            numberOfLines={1}
+            style={{
+              marginLeft: Sizes.fixPadding,
+              flex: 1,
+              ...Fonts.blackColor16Bold,
+            }}>
+            Not yet uploaded
+          </Text>
+        </View>
+        {divider()}
+      </View>
+    );
+  }
+
+  function govermentIdInfo() {
+    return (
+      <View style={{ margin: Sizes.fixPadding * 2.0 }}>
+        <Text style={{ ...Fonts.grayColor15SemiBold }}>Government ID</Text>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            setShowSheet(true);
+          }}
+          style={styles.govermentIdAndLicenseWrapStyle}>
+          <MaterialCommunityIcons
+            name="shield-check"
+            size={18}
+            color={Colors.primaryColor}
+          />
+          <Text
+            numberOfLines={1}
+            style={{
+              marginLeft: Sizes.fixPadding,
+              flex: 1,
+              ...Fonts.blackColor16Bold,
+            }}>
+            Voted.jpg
+          </Text>
+        </TouchableOpacity>
+        {divider()}
+      </View>
+    );
+  }
+
+  function carInfo() {
+    return (
+      <View style={styles.carInfoWrapStyle}>
+        <Text style={styles.carAndDocumentInfoTitleStyle}>Car Info</Text>
+        {carBrandInfo()}
+        {carModelInfo()}
+        {vehicleNumberInfo()}
+      </View>
+    );
+  }
+
+  function carModelInfo() {
+    return (
+      <View style={{ marginHorizontal: Sizes.fixPadding * 2.0 }}>
+        <Text
+          style={{
+            marginBottom: Sizes.fixPadding - 6.0,
+            ...Fonts.grayColor15SemiBold,
+          }}>
+          Car Model
+        </Text>
+        <Menu
+          visible={showCarModels}
+          style={styles.menuStyle}
+          anchor={
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => {
+                setShowCarModels(true);
+              }}
+              style={styles.carModelAndBrandWrapStyle}>
+              <Text style={{ ...Fonts.blackColor16Bold }}>
+                {selectedCarModel}
+              </Text>
+              <MaterialIcons
+                name="keyboard-arrow-down"
+                size={20}
+                color={Colors.primaryColor}
+              />
+            </TouchableOpacity>
+          }
+          onRequestClose={() => {
+            setShowCarModels(false);
+          }}>
+          <ScrollView
+            contentContainerStyle={{ paddingTop: Sizes.fixPadding * 2.0 }}>
+            {carModelsList.map((item, index) => (
+              <Text
+                key={`${index}`}
+                onPress={() => {
+                  setShowCarModels(false);
+                  setSelectedCarModel(item);
+                }}
+                style={{
+                  ...Fonts.blackColor16Bold,
+                  marginBottom: Sizes.fixPadding,
+                  marginHorizontal: Sizes.fixPadding * 2.0,
+                }}>
+                {item}
+              </Text>
+            ))}
+          </ScrollView>
+        </Menu>
+        {divider()}
+      </View>
+    );
+  }
+
+  function carBrandInfo() {
+    return (
+      <View style={{ margin: Sizes.fixPadding * 2.0 }}>
+        <Text
+          style={{
+            marginBottom: Sizes.fixPadding - 6.0,
+            ...Fonts.grayColor15SemiBold,
+          }}>
+          Car Brand
+        </Text>
+        <Menu
+          visible={showCarBrands}
+          style={styles.menuStyle}
+          anchor={
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => {
+                setShowCarBrands(true);
+              }}
+              style={styles.carModelAndBrandWrapStyle}>
+              <Text style={{ ...Fonts.blackColor16Bold }}>
+                {selectedCarBrand}
+              </Text>
+              <MaterialIcons
+                name="keyboard-arrow-down"
+                size={20}
+                color={Colors.primaryColor}
+              />
+            </TouchableOpacity>
+          }
+          onRequestClose={() => {
+            setShowCarBrands(false);
+          }}>
+          <ScrollView
+            contentContainerStyle={{ paddingTop: Sizes.fixPadding * 2.0 }}>
+            {carBrandsList.map((item, index) => (
+              <Text
+                key={`${index}`}
+                onPress={() => {
+                  setShowCarBrands(false);
+                  setSelectedCarBrand(item);
+                }}
+                style={{
+                  ...Fonts.blackColor16Bold,
+                  marginBottom: Sizes.fixPadding,
+                  marginHorizontal: Sizes.fixPadding * 2.0,
+                }}>
+                {item}
+              </Text>
+            ))}
+          </ScrollView>
+        </Menu>
+        {divider()}
+      </View>
+    );
+  }
+
+  function vehicleNumberInfo() {
+    return (
+      <View style={{ margin: Sizes.fixPadding * 2.0 }}>
+        <Text style={{ ...Fonts.grayColor15SemiBold }}>Vehicle Number</Text>
+        <TextInput
+          value={vehicleNumber}
+          onChangeText={value => setVehicleNumber(value)}
+          style={styles.textFieldStyle}
+          cursorColor={Colors.primaryColor}
+          selectionColor={Colors.primaryColor}
+        />
+        {divider()}
+      </View>
+    );
+  }
 
   function saveButton() {
     return (
@@ -57,96 +299,13 @@ const DriverModeScreen = ({navigation}) => {
           navigation.pop();
         }}
         style={styles.buttonStyle}>
-        <Text style={{...Fonts.whiteColor18Bold}}>Save</Text>
+        <Text style={{ ...Fonts.whiteColor18Bold }}>Save</Text>
       </TouchableOpacity>
     );
   }
 
-  function passwordInfo() {
-    return (
-      <View
-        style={{
-          marginHorizontal: Sizes.fixPadding * 2.0,
-          marginBottom: Sizes.fixPadding * 2.0,
-        }}>
-        <Text style={{...Fonts.grayColor15SemiBold}}>Password</Text>
-        <TextInput
-          value={password}
-          onChangeText={value => setPassword(value)}
-          style={styles.textFieldStyle}
-          cursorColor={Colors.primaryColor}
-          selectionColor={Colors.primaryColor}
-          secureTextEntry
-        />
-        {divider()}
-      </View>
-    );
-  }
-
-  function phoneNumberInfo() {
-    return (
-      <View
-        style={{
-          marginHorizontal: Sizes.fixPadding * 2.0,
-          marginBottom: Sizes.fixPadding * 2.0,
-        }}>
-        <Text style={{...Fonts.grayColor15SemiBold}}>Phone Number</Text>
-        <TextInput
-          value={phoneNumber}
-          onChangeText={value => setPhoneNumber(value)}
-          style={styles.textFieldStyle}
-          cursorColor={Colors.primaryColor}
-          selectionColor={Colors.primaryColor}
-          keyboardType="phone-pad"
-        />
-        {divider()}
-      </View>
-    );
-  }
-
-  function emailInfo() {
-    return (
-      <View
-        style={{
-          marginHorizontal: Sizes.fixPadding * 2.0,
-          marginBottom: Sizes.fixPadding * 2.0,
-        }}>
-        <Text style={{...Fonts.grayColor15SemiBold}}>Email Address</Text>
-        <TextInput
-          value={email}
-          onChangeText={value => setEmail(value)}
-          style={styles.textFieldStyle}
-          cursorColor={Colors.primaryColor}
-          selectionColor={Colors.primaryColor}
-          keyboardType="email-address"
-        />
-        {divider()}
-      </View>
-    );
-  }
-
-  function fullNameInfo() {
-    return (
-      <View
-        style={{
-          marginHorizontal: Sizes.fixPadding * 2.0,
-          marginBottom: Sizes.fixPadding * 2.0,
-        }}>
-        <Text style={{...Fonts.grayColor15SemiBold}}>Full Name</Text>
-        <TextInput
-          value={name}
-          onChangeText={value => setName(value)}
-          style={styles.textFieldStyle}
-          selectionColor={Colors.primaryColor}
-          cursorColor={Colors.primaryColor}
-        />
-        {divider()}
-      </View>
-    );
-  }
-
   function divider() {
-    return <View style={{backgroundColor: Colors.shadowColor, height: 1.0}} />;
+    return <View style={{ backgroundColor: Colors.shadowColor, height: 1.0 }} />;
   }
 
   function header() {
@@ -167,11 +326,11 @@ const DriverModeScreen = ({navigation}) => {
           Driver Mode
         </Text>
         <Switch
-          trackColor={{false: '#767577', true: '#81b0ff'}}
-          thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+          trackColor={{ false: '#767577', true: '#81b0ff' }}
+          thumbColor={driverEnabled ? '#f5dd4b' : '#f4f3f4'}
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitch}
-          value={isEnabled}
+          value={driverEnabled}
         />
       </View>
     );
@@ -230,5 +389,49 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.whiteColor,
     paddingHorizontal: Sizes.fixPadding * 2.0,
     paddingBottom: Platform.OS == 'ios' ? Sizes.fixPadding * 1.5 : 0,
+  },
+  carAndDocumentInfoTitleStyle: {
+    marginTop: Sizes.fixPadding - 22.0,
+    textAlign: 'center',
+    ...Fonts.blackColor18Bold,
+    backgroundColor: Colors.whiteColor,
+    alignSelf: 'center',
+    paddingHorizontal: Sizes.fixPadding + 2.0,
+  },
+  carInfoWrapStyle: {
+    backgroundColor: Colors.whiteColor,
+    borderColor: Colors.shadowColor,
+    borderWidth: 1.0,
+    elevation: 1.0,
+    borderRadius: Sizes.fixPadding - 5.0,
+    margin: Sizes.fixPadding * 2.0,
+    paddingBottom: Sizes.fixPadding * 2.0,
+  },
+  carModelAndBrandWrapStyle: {
+    marginBottom: Sizes.fixPadding - 4.0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  menuStyle: {
+    width: '80%',
+    paddingBottom: Sizes.fixPadding - 5.0,
+    alignSelf: 'center',
+    maxHeight: screenHeight - 150,
+  },
+  govermentIdAndLicenseWrapStyle: {
+    marginTop: Sizes.fixPadding - 5.0,
+    marginBottom: Sizes.fixPadding - 4.0,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  documentInfoWrapStyle: {
+    backgroundColor: Colors.whiteColor,
+    borderColor: Colors.shadowColor,
+    borderWidth: 1.0,
+    borderRadius: Sizes.fixPadding - 5.0,
+    elevation: 1.0,
+    margin: Sizes.fixPadding * 2.0,
+    paddingBottom: Sizes.fixPadding * 2.0,
   },
 });

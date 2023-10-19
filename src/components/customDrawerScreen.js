@@ -261,10 +261,10 @@ const CustomDrawer = props => {
         {divider()}
         {drawerOptionSort({
           iconName: 'settings-suggest',
-          option: 'Location',
+          option: 'Settings',
           onPress: () => {
             props.navigation.closeDrawer();
-            props.navigation.push('UserRides');
+            props.navigation.push('Settings');
           },
         })}
         {divider()}
