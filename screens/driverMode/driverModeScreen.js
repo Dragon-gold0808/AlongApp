@@ -1,14 +1,15 @@
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
-  View,
   TouchableOpacity,
+  Switch,
+  View,
   Image,
   ScrollView,
   TextInput,
   Platform,
 } from 'react-native';
-import React, {useState} from 'react';
 import {
   Colors,
   Fonts,
@@ -27,6 +28,8 @@ const DriverModeScreen = ({navigation}) => {
   const [phoneNumber, setPhoneNumber] = useState('+91 1236457890');
   const [password, setPassword] = useState('123456789');
   const [showSheet, setShowSheet] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   return (
     <View style={{flex: 1, backgroundColor: Colors.whiteColor}}>
@@ -163,6 +166,13 @@ const DriverModeScreen = ({navigation}) => {
           }}>
           Driver Mode
         </Text>
+        <Switch
+          trackColor={{false: '#767577', true: '#81b0ff'}}
+          thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={toggleSwitch}
+          value={isEnabled}
+        />
       </View>
     );
   }

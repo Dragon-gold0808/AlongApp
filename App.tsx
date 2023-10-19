@@ -76,6 +76,11 @@ function MyApp() {
           component={LoginScreen}
           options={{...TransitionPresets.DefaultTransition}}
         />
+        <Stack.Screen
+          name="AuthHome"
+          component={AuthHomeScreen}
+          options={{...TransitionPresets.DefaultTransition}}
+        />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Verification" component={VerificationScreen} />
         <Stack.Screen
