@@ -3,18 +3,30 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Image,
   ScrollView,
   TextInput,
+  Platform,
 } from 'react-native';
 import React, {useState} from 'react';
-import {Colors, Fonts, Sizes} from '../../constants/styles';
+import {
+  Colors,
+  Fonts,
+  Sizes,
+  commonStyles,
+  screenWidth,
+} from '../../constants/styles';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import {BottomSheet} from '@rneui/themed';
 import MyStatusBar from '../../components/myStatusBar';
 
-const RegisterScreen = ({navigation}) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
+const DriverModeScreen = ({navigation}) => {
+  const [name, setName] = useState('Samantha Smith');
+  const [email, setEmail] = useState('samanthasmith@gmail.com');
+  const [phoneNumber, setPhoneNumber] = useState('+91 1236457890');
+  const [password, setPassword] = useState('123456789');
+  const [showSheet, setShowSheet] = useState(false);
 
   return (
     <View style={{flex: 1, backgroundColor: Colors.whiteColor}}>
@@ -27,22 +39,44 @@ const RegisterScreen = ({navigation}) => {
           {fullNameInfo()}
           {emailInfo()}
           {phoneNumberInfo()}
-          {continueButton()}
+          {passwordInfo()}
         </ScrollView>
       </View>
+      {saveButton()}
     </View>
   );
 
-  function continueButton() {
+  function saveButton() {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => {
-          navigation.push('Login');
+          navigation.pop();
         }}
         style={styles.buttonStyle}>
-        <Text style={{...Fonts.whiteColor18Bold}}>Continue</Text>
+        <Text style={{...Fonts.whiteColor18Bold}}>Save</Text>
       </TouchableOpacity>
+    );
+  }
+
+  function passwordInfo() {
+    return (
+      <View
+        style={{
+          marginHorizontal: Sizes.fixPadding * 2.0,
+          marginBottom: Sizes.fixPadding * 2.0,
+        }}>
+        <Text style={{...Fonts.grayColor15SemiBold}}>Password</Text>
+        <TextInput
+          value={password}
+          onChangeText={value => setPassword(value)}
+          style={styles.textFieldStyle}
+          cursorColor={Colors.primaryColor}
+          selectionColor={Colors.primaryColor}
+          secureTextEntry
+        />
+        {divider()}
+      </View>
     );
   }
 
@@ -59,9 +93,8 @@ const RegisterScreen = ({navigation}) => {
           onChangeText={value => setPhoneNumber(value)}
           style={styles.textFieldStyle}
           cursorColor={Colors.primaryColor}
+          selectionColor={Colors.primaryColor}
           keyboardType="phone-pad"
-          placeholder="Enter PhoneNumber"
-          placeholderTextColor={Colors.lightGrayColor}
         />
         {divider()}
       </View>
@@ -81,9 +114,8 @@ const RegisterScreen = ({navigation}) => {
           onChangeText={value => setEmail(value)}
           style={styles.textFieldStyle}
           cursorColor={Colors.primaryColor}
+          selectionColor={Colors.primaryColor}
           keyboardType="email-address"
-          placeholder="Enter Email"
-          placeholderTextColor={Colors.lightGrayColor}
         />
         {divider()}
       </View>
@@ -92,15 +124,18 @@ const RegisterScreen = ({navigation}) => {
 
   function fullNameInfo() {
     return (
-      <View style={{margin: Sizes.fixPadding * 2.0}}>
+      <View
+        style={{
+          marginHorizontal: Sizes.fixPadding * 2.0,
+          marginBottom: Sizes.fixPadding * 2.0,
+        }}>
         <Text style={{...Fonts.grayColor15SemiBold}}>Full Name</Text>
         <TextInput
           value={name}
           onChangeText={value => setName(value)}
           style={styles.textFieldStyle}
+          selectionColor={Colors.primaryColor}
           cursorColor={Colors.primaryColor}
-          placeholder="Enter FullName"
-          placeholderTextColor={Colors.lightGrayColor}
         />
         {divider()}
       </View>
@@ -126,14 +161,14 @@ const RegisterScreen = ({navigation}) => {
             marginLeft: Sizes.fixPadding + 2.0,
             ...Fonts.blackColor20ExtraBold,
           }}>
-          Create new account
+          Driver Mode
         </Text>
       </View>
     );
   }
 };
 
-export default RegisterScreen;
+export default DriverModeScreen;
 
 const styles = StyleSheet.create({
   headerWrapStyle: {
@@ -141,6 +176,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: Sizes.fixPadding + 5.0,
     marginVertical: Sizes.fixPadding * 2.0,
+  },
+  editIconWrapStyle: {
+    backgroundColor: Colors.whiteColor,
+    width: screenWidth / 16.0,
+    height: screenWidth / 16.0,
+    borderRadius: screenWidth / 16.0 / 2.0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 0.0,
+    right: 0.0,
+    elevation: 3.0,
+    ...commonStyles.shadow,
   },
   textFieldStyle: {
     height: 20.0,
@@ -157,5 +205,20 @@ const styles = StyleSheet.create({
     paddingVertical: Sizes.fixPadding + 3.0,
     marginHorizontal: Sizes.fixPadding * 6.0,
     marginVertical: Sizes.fixPadding * 2.0,
+  },
+  sheetIndicatorStyle: {
+    width: 50,
+    height: 5.0,
+    backgroundColor: Colors.primaryColor,
+    borderRadius: Sizes.fixPadding,
+    alignSelf: 'center',
+    marginVertical: Sizes.fixPadding * 2.0,
+  },
+  sheetWrapStyle: {
+    borderTopLeftRadius: Sizes.fixPadding * 2.5,
+    borderTopRightRadius: Sizes.fixPadding * 2.5,
+    backgroundColor: Colors.whiteColor,
+    paddingHorizontal: Sizes.fixPadding * 2.0,
+    paddingBottom: Platform.OS == 'ios' ? Sizes.fixPadding * 1.5 : 0,
   },
 });

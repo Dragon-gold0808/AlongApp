@@ -31,6 +31,8 @@ import OnboardingScreen from './screens/onboarding/onboardingScreen';
 import LoginScreen from './screens/auth/loginScreen';
 import RegisterScreen from './screens/auth/registerScreen';
 import VerificationScreen from './screens/auth/verificationScreen';
+import AuthHomeScreen from './screens/auth/authHomeScreen';
+import DriverModeScreen from './screens/driverMode/driverModeScreen';
 
 LogBox.ignoreAllLogs();
 
@@ -101,6 +103,7 @@ function MyApp() {
         <Stack.Screen name="RideEnd" component={RideEndScreen} />
         <Stack.Screen name="Rating" component={RatingScreen} />
         <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+        <Stack.Screen name="DriverMode" component={DriverModeScreen} />
         <Stack.Screen name="UserRides" component={UserRidesScreen} />
         <Stack.Screen name="RideDetail" component={RideDetailScreen} />
         <Stack.Screen name="Wallet" component={WalletScreen} />

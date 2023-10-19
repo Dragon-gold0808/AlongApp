@@ -97,7 +97,9 @@ const OnboardingScreen = ({navigation}) => {
     return (
       <View style={{...styles.skipAndNextWrapStyle}}>
         <Text
-          onPress={() => (currentScreen == 2 ? null : navigation.push('Login'))}
+          onPress={() =>
+            currentScreen == 2 ? null : navigation.push('AuthHome')
+          }
           style={{...Fonts.primaryColor16Bold}}>
           {currentScreen == 2 ? '' : 'Skip'}
         </Text>
@@ -105,7 +107,7 @@ const OnboardingScreen = ({navigation}) => {
           activeOpacity={0.8}
           onPress={() => {
             currentScreen == 2
-              ? navigation.push('Login')
+              ? navigation.push('AuthHome')
               : scrollToIndex({index: currentScreen + 1});
           }}
           style={styles.arrowForwardButtonStyle}>

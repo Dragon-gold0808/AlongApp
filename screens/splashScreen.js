@@ -1,9 +1,4 @@
-import {
-  Text,
-  View,
-  Image,
-  BackHandler,
-} from 'react-native';
+import {Text, View, Image, BackHandler} from 'react-native';
 import React, {useCallback} from 'react';
 import {Colors, Fonts, Sizes} from '../constants/styles';
 import {useFocusEffect} from '@react-navigation/native';
@@ -24,7 +19,7 @@ const SplashScreen = ({navigation}) => {
   );
 
   setTimeout(() => {
-    navigation.push('Onboarding')
+    navigation.push('Onboarding');
   }, 2000);
 
   return (
@@ -40,7 +35,7 @@ const SplashScreen = ({navigation}) => {
           margin: Sizes.fixPadding * 2.0,
           ...Fonts.grayColor12SemiBold,
         }}>
-        USER APP
+        Along APP
       </Text>
     </View>
   );
@@ -53,7 +48,7 @@ const SplashScreen = ({navigation}) => {
           letterSpacing: 3.0,
           ...Fonts.primaryColor24RasaBold,
         }}>
-        CABWIND
+        ALONG APP
       </Text>
     );
   }
