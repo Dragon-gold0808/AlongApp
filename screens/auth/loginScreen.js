@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable prettier/prettier */
 import {
   StyleSheet,
   Text,
@@ -9,21 +11,21 @@ import {
   TextInput,
   Platform,
 } from 'react-native';
-import React, {useState, useCallback} from 'react';
-import {Colors, Fonts, Sizes, screenHeight} from '../../constants/styles';
+import React, { useState, useCallback } from 'react';
+import { Colors, Fonts, Sizes, screenHeight } from '../../constants/styles';
 import IntlPhoneInput from 'react-native-intl-phone-input';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {useFocusEffect} from '@react-navigation/native';
 import MyStatusBar from '../../components/myStatusBar';
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({ navigation }) => {
   const backAction = () => {
     if (Platform.OS === 'ios') {
-      navigation.addListener('beforeRemove', e => {
+      navigation.addListener('beforeRemove', (e) => {
         e.preventDefault();
       });
     } else {
-      backClickCount == 1 ? BackHandler.exitApp() : _spring();
+      backClickCount === 1 ? BackHandler.exitApp() : _spring();
       return true;
     }
   };
@@ -36,7 +38,7 @@ const LoginScreen = ({navigation}) => {
         BackHandler.removeEventListener('hardwareBackPress', backAction);
         navigation.removeListener('gestureEnd', backAction);
       };
-    }, [backAction]),
+    }, [backAction])
   );
 
   function _spring() {
@@ -53,7 +55,7 @@ const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
 
   return (
-    <View style={{flex: 1, backgroundColor: Colors.whiteColor}}>
+    <View style={{ flex: 1, backgroundColor: Colors.whiteColor }}>
       <MyStatusBar />
       <View style={{flex: 1}}>
         {header()}
@@ -206,7 +208,7 @@ const LoginScreen = ({navigation}) => {
   function exitInfo() {
     return backClickCount == 1 ? (
       <View style={styles.exitInfoWrapStyle}>
-        <Text style={{...Fonts.whiteColor15SemiBold}}>
+        <Text style={{ ...Fonts.whiteColor15SemiBold }}>
           Press Back Once Again to Exit
         </Text>
       </View>
@@ -219,7 +221,33 @@ const LoginScreen = ({navigation}) => {
         style={{
           marginHorizontal: Sizes.fixPadding * 2.0,
           marginBottom: Sizes.fixPadding,
-        }}>
+        }}
+      >
+        <IntlPhoneInput
+          onChangeText={({ phoneNumber }) => setPhoneNumber(phoneNumber)}
+          defaultCountry="IN"
+          containerStyle={{ backgroundColor: Colors.whiteColor }}
+          placeholder={'Enter Your Number'}
+          phoneInputStyle={styles.phoneInputStyle}
+          dialCodeTextStyle={{
+            ...Fonts.blackColor15Bold,
+            marginHorizontal: Sizes.fixPadding - 2.0,
+          }}
+          modalCountryItemCountryNameStyle={{ ...Fonts.blackColor16Bold }}
+          flagStyle={{ width: 40.0, height: 40.0, marginBottom: 10.0 }}
+        />
+      </View>
+    );
+  }
+
+  function emailInfo() {
+    return (
+      <View
+        style={{
+          marginHorizontal: Sizes.fixPadding * 2.0,
+          marginBottom: Sizes.fixPadding,
+        }}
+      >
         <IntlPhoneInput
           onChangeText={({phoneNumber}) => setPhoneNumber(phoneNumber)}
           defaultCountry="CA"
@@ -244,10 +272,11 @@ const LoginScreen = ({navigation}) => {
           marginHorizontal: Sizes.fixPadding * 2.0,
           marginTop: Sizes.fixPadding * 4.0,
           marginBottom: Sizes.fixPadding * 2.0,
-        }}>
+      >
         <Text style={{...Fonts.blackColor20Bold}}>Welcome to Along App</Text>
         <Text
-          style={{marginTop: Sizes.fixPadding, ...Fonts.grayColor14SemiBold}}>
+          style={{ marginTop: Sizes.fixPadding, ...Fonts.grayColor14SemiBold }}
+        >
           Enter your phone number to continue
         </Text>
       </View>

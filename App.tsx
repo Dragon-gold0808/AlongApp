@@ -72,11 +72,6 @@ function MyApp() {
         />
         <Stack.Screen name="Onboarding" component={OnboardingScreen} />
         <Stack.Screen
-          name="AuthHome"
-          component={AuthHomeScreen}
-          options={{...TransitionPresets.DefaultTransition}}
-        />
-        <Stack.Screen
           name="Login"
           component={LoginScreen}
           options={{...TransitionPresets.DefaultTransition}}

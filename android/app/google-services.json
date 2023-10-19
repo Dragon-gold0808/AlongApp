@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "641734319672",
+    "project_id": "taxi-app-nigeria",
+    "storage_bucket": "taxi-app-nigeria.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641734319672:android:15750400d165f8cd5290cd",
+        "android_client_info": {
+          "package_name": "com.rncli_cabwind_userapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCB0WpB-3Aun3ES2iij0MWNEyjVoxseCBQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
