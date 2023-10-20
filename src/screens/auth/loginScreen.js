@@ -22,6 +22,10 @@ import MyStatusBar from '../../../src/components/myStatusBar';
 import { auth } from '../../../FirebaseConfig';
 import { ActivityIndicator } from 'react-native-paper';
 import { color } from '@rneui/base';
+import { authManager } from '../../core/api/firebase/authManager';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../../core/redux/actions/auth.action';
+import { LOGIN_SUCCESS } from '../../core/redux/types';
 
 
 const LoginScreen = ({ navigation }) => {
@@ -31,13 +35,20 @@ const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
-  const signIn = async () => {
+  const signIn = () => {
     setLoading(true);
     auth()
       .signInWithEmailAndPassword(email, password)
-      .then(() => {
+      .then((response) => {
         // Signed in
+        dispatch({
+          payload: {
+            email: email,
+          },
+          type: LOGIN_SUCCESS,
+        });
         navigation.push('Home');
       })
       .catch(error => {
@@ -47,7 +58,15 @@ const LoginScreen = ({ navigation }) => {
       .finally(() => {
         setLoading(false);
       });
-  }
+    // authManager.logInWithEmailAndPassword(email, password)
+    //   .then(() => {
+    //     navigation.push('Home');
+    //   }).catch(() => {
+    //     alert('Sign in faild:');
+    //   }).finally(() => {
+    //     setLoading(false);
+    //   });
+  };
 
   const backAction = () => {
     if (Platform.OS === 'ios') {

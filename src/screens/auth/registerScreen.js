@@ -5,18 +5,21 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
-} from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { Colors, Fonts, Sizes } from '../../../src/constants/styles';
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import MyStatusBar from '../../../src/components/myStatusBar';
-import { auth } from '../../../FirebaseConfig';
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import { Colors, Fonts, Sizes } from "../../../src/constants/styles";
+import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
+import MyStatusBar from "../../../src/components/myStatusBar";
+import { auth } from "../../../FirebaseConfig";
+import { firestore } from "../../../FirebaseConfig";
+import { ActivityIndicator } from "react-native-paper";
 
 const RegisterScreen = ({ navigation }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // useEffect(() => {
   //   onAuthStateChanged(auth().currentUser)
@@ -25,31 +28,20 @@ const RegisterScreen = ({ navigation }) => {
 
   const singUp = async () => {
     setLoading(true);
-    auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        // Signed in
-        const user = auth().currentUser;
-
-        user.updateProfile({
-          displayName: 'John Doe',
-          photoURL: 'https://example.com/johndoe.jpg'
-        }).then(() => {
-          // Profile updated
-        }).catch((error) => {
-          console.error(error);
-        });
-        navigation.push('Home');
-      })
-      .catch(error => {
-        console.error(error);
-        alert('Sign up faild: ' + error.code);
-      })
-      .finally(() => {
-        setLoading(false);
+    try {
+      const { user } = await auth().createUserWithEmailAndPassword(email, password);
+      await auth().signInWithEmailAndPassword(email, password);
+      await firestore().collection('users').doc(user.uid).set({
+        name,
       });
-  }
-
+      console.log('User data saved successfully');
+      navigation.push('Home');
+    } catch (error) {
+      console.log('Error registering user: ', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.whiteColor }}>
@@ -58,7 +50,8 @@ const RegisterScreen = ({ navigation }) => {
         {header()}
         <ScrollView
           automaticallyAdjustKeyboardInsets={true}
-          showsVerticalScrollIndicator={false}>
+          showsVerticalScrollIndicator={false}
+        >
           {fullNameInfo()}
           {emailInfo()}
           {passwordInfo()}
@@ -71,14 +64,19 @@ const RegisterScreen = ({ navigation }) => {
 
   function continueButton() {
     return (
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => {
-          navigation.push('Login');
-        }}
-        style={styles.buttonStyle}>
-        <Text style={{ ...Fonts.whiteColor18Bold }}>Continue</Text>
-      </TouchableOpacity>
+      <>
+        {loading ? (<ActivityIndicator size="large" color="#0000ff" />) : (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+              singUp();
+            }}
+            style={styles.buttonStyle}
+          >
+            <Text style={{ ...Fonts.whiteColor18Bold }}>Continue</Text>
+          </TouchableOpacity>
+        )}
+      </>
     );
   }
 
@@ -88,11 +86,12 @@ const RegisterScreen = ({ navigation }) => {
         style={{
           marginHorizontal: Sizes.fixPadding * 2.0,
           marginBottom: Sizes.fixPadding * 2.0,
-        }}>
+        }}
+      >
         <Text style={{ ...Fonts.grayColor15SemiBold }}>Phone Number</Text>
         <TextInput
           value={phoneNumber}
-          onChangeText={value => setPhoneNumber(value)}
+          onChangeText={(value) => setPhoneNumber(value)}
           style={styles.textFieldStyle}
           cursorColor={Colors.primaryColor}
           keyboardType="phone-pad"
@@ -110,11 +109,12 @@ const RegisterScreen = ({ navigation }) => {
         style={{
           marginHorizontal: Sizes.fixPadding * 2.0,
           marginBottom: Sizes.fixPadding * 2.0,
-        }}>
+        }}
+      >
         <Text style={{ ...Fonts.grayColor15SemiBold }}>Password</Text>
         <TextInput
           value={password}
-          onChangeText={value => setPassword(value)}
+          onChangeText={(value) => setPassword(value)}
           style={styles.textFieldStyle}
           cursorColor={Colors.primaryColor}
           secureTextEntry={true}
@@ -132,11 +132,12 @@ const RegisterScreen = ({ navigation }) => {
         style={{
           marginHorizontal: Sizes.fixPadding * 2.0,
           marginBottom: Sizes.fixPadding * 2.0,
-        }}>
+        }}
+      >
         <Text style={{ ...Fonts.grayColor15SemiBold }}>Email Address</Text>
         <TextInput
           value={email}
-          onChangeText={value => setEmail(value)}
+          onChangeText={(value) => setEmail(value)}
           style={styles.textFieldStyle}
           cursorColor={Colors.primaryColor}
           keyboardType="email-address"
@@ -154,7 +155,7 @@ const RegisterScreen = ({ navigation }) => {
         <Text style={{ ...Fonts.grayColor15SemiBold }}>Full Name</Text>
         <TextInput
           value={name}
-          onChangeText={value => setName(value)}
+          onChangeText={(value) => setName(value)}
           style={styles.textFieldStyle}
           cursorColor={Colors.primaryColor}
           placeholder="Enter FullName"
@@ -166,7 +167,9 @@ const RegisterScreen = ({ navigation }) => {
   }
 
   function divider() {
-    return <View style={{ backgroundColor: Colors.shadowColor, height: 1.0 }} />;
+    return (
+      <View style={{ backgroundColor: Colors.shadowColor, height: 1.0 }} />
+    );
   }
 
   function header() {
@@ -183,7 +186,8 @@ const RegisterScreen = ({ navigation }) => {
             flex: 1,
             marginLeft: Sizes.fixPadding + 2.0,
             ...Fonts.blackColor20ExtraBold,
-          }}>
+          }}
+        >
           Create new account
         </Text>
       </View>
@@ -195,8 +199,8 @@ export default RegisterScreen;
 
 const styles = StyleSheet.create({
   headerWrapStyle: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginHorizontal: Sizes.fixPadding + 5.0,
     marginVertical: Sizes.fixPadding * 2.0,
   },
@@ -209,8 +213,8 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     backgroundColor: Colors.primaryColor,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: Sizes.fixPadding - 5.0,
     paddingVertical: Sizes.fixPadding + 3.0,
     marginHorizontal: Sizes.fixPadding * 6.0,

@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import {
   Colors,
@@ -8,18 +8,18 @@ import {
   screenWidth,
 } from '../../../src/constants/styles';
 import MapViewDirections from 'react-native-maps-directions';
-import {Key} from '../../../src/constants/key';
-import MapView, {PROVIDER_GOOGLE, Marker, Callout} from 'react-native-maps';
+import { Key } from '../../../src/constants/key';
+import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import * as Animatable from 'react-native-animatable';
 import MyStatusBar from '../../../src/components/myStatusBar';
 
-const BookNowScreen = ({navigation}) => {
+const BookNowScreen = ({ navigation }) => {
   return (
-    <View style={{flex: 1, backgroundColor: Colors.whiteColor}}>
+    <View style={{ flex: 1, backgroundColor: Colors.whiteColor }}>
       <MyStatusBar />
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         {directionInfo()}
         {header()}
         {addressesInfoSheet()}
@@ -33,7 +33,7 @@ const BookNowScreen = ({navigation}) => {
         animation="slideInUp"
         iterationCount={1}
         duration={1500}
-        style={{...styles.bottomSheetWrapStyle}}>
+        style={{ ...styles.bottomSheetWrapStyle }}>
         {indicator()}
         {currentLocationInfo()}
         {currentToDropLocDivider()}
@@ -44,7 +44,7 @@ const BookNowScreen = ({navigation}) => {
   }
 
   function indicator() {
-    return <View style={{...styles.sheetIndicatorStyle}} />;
+    return <View style={{ ...styles.sheetIndicatorStyle }} />;
   }
 
   function continueButton() {
@@ -55,7 +55,7 @@ const BookNowScreen = ({navigation}) => {
           navigation.push('SelectCab');
         }}
         style={styles.buttonStyle}>
-        <Text style={{...Fonts.whiteColor18Bold}}>Continue</Text>
+        <Text style={{ ...Fonts.whiteColor18Bold }}>Continue</Text>
       </TouchableOpacity>
     );
   }
@@ -63,7 +63,7 @@ const BookNowScreen = ({navigation}) => {
   function dropLocationInfo() {
     return (
       <View style={styles.dropLocationInfoWrapStyle}>
-        <View style={{width: 24.0, alignItems: 'center'}}>
+        <View style={{ width: 24.0, alignItems: 'center' }}>
           <MaterialIcons
             name="location-pin"
             size={24}
@@ -91,8 +91,8 @@ const BookNowScreen = ({navigation}) => {
           flexDirection: 'row',
           alignItems: 'center',
         }}>
-        <View style={{width: 24.0, alignItems: 'center'}}>
-          <Text style={{...Fonts.blackColor8SemiBold, lineHeight: 6}}>
+        <View style={{ width: 24.0, alignItems: 'center' }}>
+          <Text style={{ ...Fonts.blackColor8SemiBold, lineHeight: 6 }}>
             •{`\n`}•{`\n`}•{`\n`}•{`\n`}•{`\n`}•{`\n`}•
           </Text>
         </View>
@@ -104,7 +104,7 @@ const BookNowScreen = ({navigation}) => {
   function currentLocationInfo() {
     return (
       <View style={styles.currentLocationInfoWrapStyle}>
-        <View style={{width: 24, alignItems: 'center'}}>
+        <View style={{ width: 24, alignItems: 'center' }}>
           <View style={styles.currentLocationIconStyle}>
             <View
               style={{
@@ -167,7 +167,7 @@ const BookNowScreen = ({navigation}) => {
           latitudeDelta: 0.5,
           longitudeDelta: 0.5,
         }}
-        style={{height: '100%'}}
+        style={{ height: '100%' }}
         provider={PROVIDER_GOOGLE}
         mapType="terrain">
         <MapViewDirections
@@ -180,12 +180,12 @@ const BookNowScreen = ({navigation}) => {
         <Marker coordinate={currentCabLocation}>
           <Image
             source={require('../../assets/images/icons/marker2.png')}
-            style={{width: 50.0, height: 50.0, resizeMode: 'stretch'}}
+            style={{ width: 50.0, height: 50.0, resizeMode: 'stretch' }}
           />
           <Callout>
             <View style={styles.calloutWrapStyle}>
               <View style={styles.kilometerInfoWrapStyle}>
-                <Text style={{...Fonts.whiteColor10Bold}}>10km</Text>
+                <Text style={{ ...Fonts.whiteColor10Bold }}>10km</Text>
               </View>
               <Text
                 style={{
@@ -201,11 +201,11 @@ const BookNowScreen = ({navigation}) => {
         <Marker coordinate={userLocation}>
           <Image
             source={require('../../assets/images/icons/marker3.png')}
-            style={{width: 23.0, height: 23.0}}
+            style={{ width: 23.0, height: 23.0 }}
           />
           <Callout>
             <Text
-              style={{width: screenWidth / 1.5, ...Fonts.blackColor14SemiBold}}>
+              style={{ width: screenWidth / 1.5, ...Fonts.blackColor14SemiBold }}>
               9 Bailey Drive, Fredericton, NB E3B 5A3
             </Text>
           </Callout>
