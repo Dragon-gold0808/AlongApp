@@ -29,6 +29,9 @@ import Header from '../../components/header';
 import {auth} from '../../../FirebaseConfig';
 import {ActivityIndicator} from 'react-native-paper';
 import {color} from '@rneui/base';
+import PhoneNumberInput from '../../components/input/phoneNumberInput';
+import ATextInput from '../../components/input/textInput';
+import APasswordInput from '../../components/input/passwordInput';
 
 const LoginScreen = ({navigation}) => {
   const [backClickCount, setBackClickCount] = useState(0);
@@ -99,7 +102,34 @@ const LoginScreen = ({navigation}) => {
           {loginImage()}
           {/* {welcomeInfo()} */}
           <KeyboardAvoidingView behavior="padding">
-            {loginMode ? emailInfo() : mobileNumberInfo()}
+            {loginMode ? (
+              <>
+                <ATextInput
+                  title={'Email Address'}
+                  value={email}
+                  onChangeText={val => {
+                    setEmail(val);
+                  }}
+                  keyboardType="email-address"
+                  placeholder={'Enter Email'}
+                />
+                <APasswordInput
+                  title={'Password'}
+                  value={password}
+                  onChangeText={val => {
+                    setPassword(val);
+                  }}
+                  placeholder={'Enter Password'}
+                />
+              </>
+            ) : (
+              <PhoneNumberInput
+                phoneNumber={phoneNumber}
+                setPhoneNumber={val => {
+                  setPhoneNumber(val);
+                }}
+              />
+            )}
             {loginMode ? emailContinueButton() : phoneContinueButton()}
           </KeyboardAvoidingView>
           <View
@@ -119,49 +149,6 @@ const LoginScreen = ({navigation}) => {
       {exitInfo()}
     </View>
   );
-
-  function emailInfo() {
-    return (
-      <>
-        <View
-          style={{
-            marginHorizontal: Sizes.fixPadding * 2.0,
-            marginTop: Sizes.fixPadding * 2.0,
-            marginBottom: Sizes.fixPadding * 2.0,
-          }}>
-          <Text style={{...Fonts.grayColor15SemiBold}}>Email Address</Text>
-          <TextInput
-            value={email}
-            onChangeText={value => setEmail(value)}
-            style={styles.textFieldStyle}
-            cursorColor={Colors.primaryColor}
-            keyboardType="email-address"
-            placeholder="Enter Email"
-            placeholderTextColor={Colors.lightGrayColor}
-            autoCapitalize="none"
-          />
-          {divider()}
-        </View>
-        <View style={{margin: Sizes.fixPadding * 2.0}}>
-          <Text style={{...Fonts.grayColor15SemiBold}}>Password</Text>
-          <TextInput
-            secureTextEntry={true}
-            value={password}
-            onChangeText={value => setPassword(value)}
-            style={styles.textFieldStyle}
-            cursorColor={Colors.primaryColor}
-            placeholder="Enter Password"
-            placeholderTextColor={Colors.lightGrayColor}
-          />
-          {divider()}
-        </View>
-      </>
-    );
-  }
-
-  function divider() {
-    return <View style={{backgroundColor: Colors.shadowColor, height: 1.0}} />;
-  }
 
   function phoneContinueButton() {
     return (
@@ -259,47 +246,6 @@ const LoginScreen = ({navigation}) => {
     ) : null;
   }
 
-  function mobileNumberInfo() {
-    return (
-      <View
-        style={{
-          marginHorizontal: Sizes.fixPadding * 2.0,
-          marginBottom: Sizes.fixPadding,
-        }}>
-        <IntlPhoneInput
-          onChangeText={({phoneNumber}) => setPhoneNumber(phoneNumber)}
-          defaultCountry="CA"
-          containerStyle={{backgroundColor: Colors.whiteColor}}
-          placeholder={'Enter Your Number'}
-          phoneInputStyle={styles.phoneInputStyle}
-          dialCodeTextStyle={{
-            ...Fonts.blackColor15Bold,
-            marginHorizontal: Sizes.fixPadding - 2.0,
-          }}
-          modalCountryItemCountryNameStyle={{...Fonts.blackColor16Bold}}
-          flagStyle={{width: 40.0, height: 40.0, marginBottom: 10.0}}
-        />
-      </View>
-    );
-  }
-
-  function welcomeInfo() {
-    return (
-      <View
-        style={{
-          marginHorizontal: Sizes.fixPadding * 2.0,
-          marginTop: Sizes.fixPadding * 4.0,
-          marginBottom: Sizes.fixPadding * 2.0,
-        }}>
-        <Text style={{...Fonts.blackColor20Bold}}>Welcome to Along App</Text>
-        <Text
-          style={{marginTop: Sizes.fixPadding, ...Fonts.grayColor14SemiBold}}>
-          Enter your phone number to continue
-        </Text>
-      </View>
-    );
-  }
-
   function loginImage() {
     return (
       <Image
@@ -312,45 +258,11 @@ const LoginScreen = ({navigation}) => {
       />
     );
   }
-
-  function header() {
-    return (
-      <View style={styles.headerWrapStyle}>
-        <FontAwesome6
-          name="arrow-left"
-          size={20}
-          color={Colors.blackColor}
-          onPress={() => navigation.push('AuthHome')}
-        />
-        <Text
-          style={{
-            flex: 1,
-            marginLeft: Sizes.fixPadding + 2.0,
-            ...Fonts.blackColor20ExtraBold,
-          }}>
-          Sign In
-        </Text>
-      </View>
-    );
-  }
 };
 
 export default LoginScreen;
 
 const styles = StyleSheet.create({
-  headerWrapStyle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: Sizes.fixPadding + 5.0,
-    marginVertical: Sizes.fixPadding * 2.0,
-  },
-  phoneInputStyle: {
-    flex: 1,
-    ...Fonts.blackColor15Bold,
-    borderBottomColor: Colors.shadowColor,
-    borderBottomWidth: 1.0,
-    padding: 0,
-  },
   smallButtonStyle: {
     backgroundColor: Colors.primaryColor,
     alignItems: 'center',
