@@ -1,6 +1,6 @@
 import {Text, View, Image, BackHandler} from 'react-native';
 import React, {useCallback} from 'react';
-import {Colors, Fonts, Sizes} from '../../src/constants/styles';
+import {Colors, Fonts, Sizes} from '../constants/styles';
 import {useFocusEffect} from '@react-navigation/native';
 import MyStatusBar from '../../src/components/myStatusBar';
 

@@ -1,13 +1,10 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
   Switch,
   View,
-  Image,
   ScrollView,
   TextInput,
   Platform,
@@ -18,17 +15,40 @@ import {
   Sizes,
   commonStyles,
   screenWidth,
-  screenHeight,
 } from '../../constants/styles';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import { BottomSheet } from '@rneui/themed';
-import { Menu } from 'react-native-material-menu';
 import MyStatusBar from '../../components/myStatusBar';
+import SelectInput from '../../components/input/selectInput';
+import ATextInput from '../../components/input/textInput';
 
-const DriverModeScreen = ({ navigation }) => {
+const DriverModeScreen = ({navigation}) => {
   const carBrandsList = [
+    'Toyota',
+    'Maruti Suzuki',
+    'Hyundai',
+    'Mahindra',
+    'Tata Motors',
+    'Toyota',
+    'Maruti Suzuki',
+    'Hyundai',
+    'Mahindra',
+    'Tata Motors',
+    'Toyota',
+    'Maruti Suzuki',
+    'Hyundai',
+    'Mahindra',
+    'Tata Motors',
+    'Toyota',
+    'Maruti Suzuki',
+    'Hyundai',
+    'Mahindra',
+    'Tata Motors',
+    'Toyota',
+    'Maruti Suzuki',
+    'Hyundai',
+    'Mahindra',
+    'Tata Motors',
     'Toyota',
     'Maruti Suzuki',
     'Hyundai',
@@ -49,16 +69,14 @@ const DriverModeScreen = ({ navigation }) => {
   const [showSheet, setShowSheet] = useState(false);
   const [driverEnabled, setDriverEnabled] = useState(false);
   const [vehicleNumber, setVehicleNumber] = useState('GJ 5 AB 1258');
-  const [showCarBrands, setShowCarBrands] = useState(false);
   const [selectedCarBrand, setSelectedCarBrand] = useState(carBrandsList[0]);
-  const [showCarModels, setShowCarModels] = useState(false);
   const [selectedCarModel, setSelectedCarModel] = useState(carModelsList[0]);
   const toggleSwitch = () => setDriverEnabled(previousState => !previousState);
 
   return (
-    <View style={{ flex: 1, backgroundColor: Colors.whiteColor }}>
+    <View style={{flex: 1, backgroundColor: Colors.whiteColor}}>
       <MyStatusBar />
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         {header()}
         {driverEnabled ? (
           <>
@@ -98,8 +116,8 @@ const DriverModeScreen = ({ navigation }) => {
             alignItems: 'center',
             justifyContent: 'space-between',
           }}>
-          <Text style={{ ...Fonts.grayColor15SemiBold }}>License</Text>
-          <Text style={{ ...Fonts.primaryColor14Bold }}>Upload</Text>
+          <Text style={{...Fonts.grayColor15SemiBold}}>License</Text>
+          <Text style={{...Fonts.primaryColor14Bold}}>Upload</Text>
         </View>
         <View style={styles.govermentIdAndLicenseWrapStyle}>
           <MaterialCommunityIcons
@@ -124,8 +142,8 @@ const DriverModeScreen = ({ navigation }) => {
 
   function govermentIdInfo() {
     return (
-      <View style={{ margin: Sizes.fixPadding * 2.0 }}>
-        <Text style={{ ...Fonts.grayColor15SemiBold }}>Government ID</Text>
+      <View style={{margin: Sizes.fixPadding * 2.0}}>
+        <Text style={{...Fonts.grayColor15SemiBold}}>Government ID</Text>
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
@@ -156,139 +174,27 @@ const DriverModeScreen = ({ navigation }) => {
     return (
       <View style={styles.carInfoWrapStyle}>
         <Text style={styles.carAndDocumentInfoTitleStyle}>Car Info</Text>
-        {carBrandInfo()}
-        {carModelInfo()}
-        {vehicleNumberInfo()}
-      </View>
-    );
-  }
-
-  function carModelInfo() {
-    return (
-      <View style={{ marginHorizontal: Sizes.fixPadding * 2.0 }}>
-        <Text
-          style={{
-            marginBottom: Sizes.fixPadding - 6.0,
-            ...Fonts.grayColor15SemiBold,
-          }}>
-          Car Model
-        </Text>
-        <Menu
-          visible={showCarModels}
-          style={styles.menuStyle}
-          anchor={
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => {
-                setShowCarModels(true);
-              }}
-              style={styles.carModelAndBrandWrapStyle}>
-              <Text style={{ ...Fonts.blackColor16Bold }}>
-                {selectedCarModel}
-              </Text>
-              <MaterialIcons
-                name="keyboard-arrow-down"
-                size={20}
-                color={Colors.primaryColor}
-              />
-            </TouchableOpacity>
-          }
-          onRequestClose={() => {
-            setShowCarModels(false);
-          }}>
-          <ScrollView
-            contentContainerStyle={{ paddingTop: Sizes.fixPadding * 2.0 }}>
-            {carModelsList.map((item, index) => (
-              <Text
-                key={`${index}`}
-                onPress={() => {
-                  setShowCarModels(false);
-                  setSelectedCarModel(item);
-                }}
-                style={{
-                  ...Fonts.blackColor16Bold,
-                  marginBottom: Sizes.fixPadding,
-                  marginHorizontal: Sizes.fixPadding * 2.0,
-                }}>
-                {item}
-              </Text>
-            ))}
-          </ScrollView>
-        </Menu>
-        {divider()}
-      </View>
-    );
-  }
-
-  function carBrandInfo() {
-    return (
-      <View style={{ margin: Sizes.fixPadding * 2.0 }}>
-        <Text
-          style={{
-            marginBottom: Sizes.fixPadding - 6.0,
-            ...Fonts.grayColor15SemiBold,
-          }}>
-          Car Brand
-        </Text>
-        <Menu
-          visible={showCarBrands}
-          style={styles.menuStyle}
-          anchor={
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => {
-                setShowCarBrands(true);
-              }}
-              style={styles.carModelAndBrandWrapStyle}>
-              <Text style={{ ...Fonts.blackColor16Bold }}>
-                {selectedCarBrand}
-              </Text>
-              <MaterialIcons
-                name="keyboard-arrow-down"
-                size={20}
-                color={Colors.primaryColor}
-              />
-            </TouchableOpacity>
-          }
-          onRequestClose={() => {
-            setShowCarBrands(false);
-          }}>
-          <ScrollView
-            contentContainerStyle={{ paddingTop: Sizes.fixPadding * 2.0 }}>
-            {carBrandsList.map((item, index) => (
-              <Text
-                key={`${index}`}
-                onPress={() => {
-                  setShowCarBrands(false);
-                  setSelectedCarBrand(item);
-                }}
-                style={{
-                  ...Fonts.blackColor16Bold,
-                  marginBottom: Sizes.fixPadding,
-                  marginHorizontal: Sizes.fixPadding * 2.0,
-                }}>
-                {item}
-              </Text>
-            ))}
-          </ScrollView>
-        </Menu>
-        {divider()}
-      </View>
-    );
-  }
-
-  function vehicleNumberInfo() {
-    return (
-      <View style={{ margin: Sizes.fixPadding * 2.0 }}>
-        <Text style={{ ...Fonts.grayColor15SemiBold }}>Vehicle Number</Text>
-        <TextInput
-          value={vehicleNumber}
-          onChangeText={value => setVehicleNumber(value)}
-          style={styles.textFieldStyle}
-          cursorColor={Colors.primaryColor}
-          selectionColor={Colors.primaryColor}
+        <SelectInput
+          title={'Car Brand'}
+          listValues={carBrandsList}
+          selectedValue={selectedCarBrand}
+          setSelectedValue={setSelectedCarBrand}
         />
-        {divider()}
+        <SelectInput
+          title={'Car Model'}
+          listValues={carModelsList}
+          selectedValue={selectedCarModel}
+          setSelectedValue={setSelectedCarModel}
+        />
+        <ATextInput
+          title={'Vehicle Number'}
+          value={vehicleNumber}
+          onChangeText={val => {
+            setVehicleNumber(val);
+          }}
+          placeholder={'Enter Vehicle Number'}
+          cursorColor={Colors.primaryColor}
+        />
       </View>
     );
   }
@@ -301,13 +207,13 @@ const DriverModeScreen = ({ navigation }) => {
           navigation.pop();
         }}
         style={styles.buttonStyle}>
-        <Text style={{ ...Fonts.whiteColor18Bold }}>Save</Text>
+        <Text style={{...Fonts.whiteColor18Bold}}>Save</Text>
       </TouchableOpacity>
     );
   }
 
   function divider() {
-    return <View style={{ backgroundColor: Colors.shadowColor, height: 1.0 }} />;
+    return <View style={{backgroundColor: Colors.shadowColor, height: 1.0}} />;
   }
 
   function header() {
@@ -328,7 +234,7 @@ const DriverModeScreen = ({ navigation }) => {
           Driver Mode
         </Text>
         <Switch
-          trackColor={{ false: '#767577', true: '#81b0ff' }}
+          trackColor={{false: '#767577', true: '#81b0ff'}}
           thumbColor={driverEnabled ? '#f5dd4b' : '#f4f3f4'}
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitch}
@@ -408,18 +314,6 @@ const styles = StyleSheet.create({
     borderRadius: Sizes.fixPadding - 5.0,
     margin: Sizes.fixPadding * 2.0,
     paddingBottom: Sizes.fixPadding * 2.0,
-  },
-  carModelAndBrandWrapStyle: {
-    marginBottom: Sizes.fixPadding - 4.0,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  menuStyle: {
-    width: '80%',
-    paddingBottom: Sizes.fixPadding - 5.0,
-    alignSelf: 'center',
-    maxHeight: screenHeight - 150,
   },
   govermentIdAndLicenseWrapStyle: {
     marginTop: Sizes.fixPadding - 5.0,

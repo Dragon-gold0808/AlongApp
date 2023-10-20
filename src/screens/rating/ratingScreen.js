@@ -8,7 +8,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import React, {useState} from 'react';
-import {Colors, Fonts, Sizes, screenWidth} from '../../../src/constants/styles';
+import {Colors, Fonts, Sizes, screenWidth} from '../../constants/styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import AntDesign from 'react-native-vector-icons/AntDesign';

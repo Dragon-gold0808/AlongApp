@@ -7,7 +7,7 @@ import {
   FlatList,
 } from 'react-native';
 import React from 'react';
-import {Colors, Fonts, Sizes, commonStyles} from '../../../src/constants/styles';
+import {Colors, Fonts, Sizes, commonStyles} from '../../constants/styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
@@ -192,7 +192,7 @@ const WalletScreen = ({navigation}) => {
           ...styles.infoWrapStyle,
           marginVertical: Sizes.fixPadding * 2.0,
         }}>
-        <Text style={{flex:1,}}>
+        <Text style={{flex: 1}}>
           <Text style={{...Fonts.blackColor16SemiBold}}>Coupon {}</Text>
           <Text style={{...Fonts.grayColor14SemiBold}}>(3)</Text>
         </Text>
@@ -215,7 +215,9 @@ const WalletScreen = ({navigation}) => {
           navigation.push('PaymentMethods');
         }}
         style={styles.infoWrapStyle}>
-        <Text style={{...Fonts.blackColor16SemiBold,flex:1}}>Payment Methods</Text>
+        <Text style={{...Fonts.blackColor16SemiBold, flex: 1}}>
+          Payment Methods
+        </Text>
         <View style={styles.rightArrowIconWrapStyle}>
           <MaterialIcons
             name="chevron-right"
@@ -324,7 +326,7 @@ const styles = StyleSheet.create({
     elevation: 3.0,
     alignItems: 'center',
     justifyContent: 'center',
-    ...commonStyles.shadow
+    ...commonStyles.shadow,
   },
   infoWrapStyle: {
     backgroundColor: Colors.whiteColor,

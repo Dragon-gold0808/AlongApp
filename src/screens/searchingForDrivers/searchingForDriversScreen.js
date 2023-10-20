@@ -1,12 +1,6 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {Colors, Fonts, Sizes, screenWidth} from '../../../src/constants/styles';
+import {Colors, Fonts, Sizes, screenWidth} from '../../constants/styles';
 import MapViewDirections from 'react-native-maps-directions';
 import {Key} from '../../../src/constants/key';
 import MapView, {PROVIDER_GOOGLE, Marker, Callout} from 'react-native-maps';
@@ -97,7 +91,11 @@ const SearchingForDriversScreen = ({navigation}) => {
       <View style={{alignItems: 'center', marginTop: Sizes.fixPadding + 5.0}}>
         <Image
           source={require('../../assets/images/search_driver.png')}
-          style={{width: '100%', height: screenWidth / 2.5, resizeMode: 'contain'}}
+          style={{
+            width: '100%',
+            height: screenWidth / 2.5,
+            resizeMode: 'contain',
+          }}
         />
         <Text
           style={{
@@ -119,7 +117,7 @@ const SearchingForDriversScreen = ({navigation}) => {
           size={20}
           color={Colors.blackColor}
           onPress={() => navigation.pop()}
-          style={{alignSelf:'flex-start'}}
+          style={{alignSelf: 'flex-start'}}
         />
       </View>
     );
@@ -179,7 +177,8 @@ const SearchingForDriversScreen = ({navigation}) => {
             style={{width: 23.0, height: 23.0}}
           />
           <Callout>
-            <Text style={{width: screenWidth / 1.5, ...Fonts.blackColor14SemiBold}}>
+            <Text
+              style={{width: screenWidth / 1.5, ...Fonts.blackColor14SemiBold}}>
               9 Bailey Drive, Fredericton, NB E3B 5A3
             </Text>
           </Callout>
