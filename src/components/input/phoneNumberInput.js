@@ -13,7 +13,7 @@ export default function PhoneNumberInput({phoneNumber, setPhoneNumber}) {
       <Text style={{...Fonts.grayColor15SemiBold}}>Phone Number</Text>
       <IntlPhoneInput
         value={phoneNumber}
-        onChangeText={setPhoneNumber()}
+        onChangeText={setPhoneNumber}
         defaultCountry="CA"
         containerStyle={{backgroundColor: Colors.whiteColor}}
         placeholder={'Enter Your Number'}

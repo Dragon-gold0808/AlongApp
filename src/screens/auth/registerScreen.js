@@ -4,22 +4,60 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  TextInput,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {Colors, Fonts, Sizes, authStyles} from '../../constants/styles';
+import React, { useEffect, useState } from 'react';
+import { Colors, Fonts, Sizes, authStyles } from '../../../src/constants/styles';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import MyStatusBar from '../../../src/components/myStatusBar';
-import {auth} from '../../../FirebaseConfig';
+import { auth } from '../../../FirebaseConfig';
 import Header from '../../components/header';
 import PhoneNumberInput from '../../components/input/phoneNumberInput';
 import ATextInput from '../../components/input/textInput';
 import APasswordInput from '../../components/input/passwordInput';
+import { firestore } from "../../../FirebaseConfig";
+import { ActivityIndicator } from "react-native-paper";
 
-const RegisterScreen = ({navigation}) => {
+const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const [registerMode, setRegisterMode] = useState(0);
+
+  // useEffect(() => {
+  //   onAuthStateChanged(auth().currentUser)
+  //   .then();
+  // }, [])
+
+  const singUp = async () => {
+    setLoading(true);
+    auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        // Signed in
+        const user = auth().currentUser;
+
+        user.updateProfile({
+          displayName: 'John Doe',
+          photoURL: 'https://example.com/johndoe.jpg'
+        }).then(() => {
+          // Profile updated
+        }).catch((error) => {
+          console.error(error);
+        });
+        navigation.push('Home');
+      })
+      .catch(error => {
+        console.error(error);
+        alert('Sign up faild: ' + error.code);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
+
 
   return (
     <View style={{flex: 1, backgroundColor: Colors.whiteColor}}>
@@ -77,14 +115,19 @@ const RegisterScreen = ({navigation}) => {
 
   function continueButton() {
     return (
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => {
-          navigation.push('Login');
-        }}
-        style={authStyles.buttonStyle}>
-        <Text style={{...Fonts.whiteColor18Bold}}>Continue</Text>
-      </TouchableOpacity>
+      <>
+        {loading ? (<ActivityIndicator size="large" color="#0000ff" />) : (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+              singUp();
+            }}
+            style={authStyles.buttonStyle}
+          >
+            <Text style={{ ...Fonts.whiteColor18Bold }}>Continue</Text>
+          </TouchableOpacity>
+        )}
+      </>
     );
   }
 
