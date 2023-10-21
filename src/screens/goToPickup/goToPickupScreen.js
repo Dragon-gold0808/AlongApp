@@ -144,7 +144,7 @@ const GoToPickupScreen = ({navigation}) => {
           navigation.push('StartRide');
         }}
         style={styles.buttonStyle}>
-        <Text style={{...Fonts.whiteColor18Bold}}>Go to Destination</Text>
+        <Text style={{...Fonts.whiteColor18Bold}}>Go to Pick Up</Text>
       </TouchableOpacity>
     );
   }

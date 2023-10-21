@@ -22,10 +22,12 @@ import SettingsScreen from './src/screens/settings/settingsScreen';
 import RideDetailScreen from './src/screens/rideDetail/rideDetailScreen';
 import WalletScreen from './src/screens/wallet/walletScreen';
 import PaymentMethodsScreen from './src/screens/paymentMethods/paymentMethodsScreen';
+import TopupScreen from './src/screens/topup/topupScreen';
 import AddPaymentMethodScreen from './src/screens/addPaymentMethod/addPaymentMethodScreen';
 import NotificationsScreen from './src/screens/notifications/notificationsScreen';
 import InviteFriendsScreen from './src/screens/inviteFriends/inviteFriendsScreen';
 import FaqsScreen from './src/screens/faqs/faqsScreen';
+import AboutusScreen from './src/screens/aboutus/aboutusScreen.js';
 import ContactUsScreen from './src/screens/contactUs/contactUsScreen';
 import SplashScreen from './src/screens/splashScreen';
 import OnboardingScreen from './src/screens/onboarding/onboardingScreen';
@@ -66,7 +68,7 @@ const DrawerNavigation = () => {
       }}>
       <Drawer.Screen
         name="DrawerScreen"
-        component={driver.driverEnabled ? DriverHomeScreen : HomeScreen}
+        component={driver?.driverEnabled ? DriverHomeScreen : HomeScreen}
       />
     </Drawer.Navigator>
   );
@@ -135,6 +137,7 @@ function MyApp() {
               name="PaymentMethods"
               component={PaymentMethodsScreen}
             />
+            <Stack.Screen name="Topup" component={TopupScreen} />
             <Stack.Screen
               name="AddPaymentMethod"
               component={AddPaymentMethodScreen}
@@ -148,6 +151,7 @@ function MyApp() {
               component={InviteFriendsScreen}
             />
             <Stack.Screen name="Faqs" component={FaqsScreen} />
+            <Stack.Screen name="Aboutus" component={AboutusScreen} />
             <Stack.Screen name="ContactUs" component={ContactUsScreen} />
             {/* For Drivers */}
             <Stack.Screen name="GoToPickup" component={GoToPickupScreen} />

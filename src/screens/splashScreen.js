@@ -59,7 +59,13 @@ const SplashScreen = ({navigation}) => {
     });
     setTimeout(() => {
       console.log('pushhhh');
-      navigation.push(initialState ? 'Onboarding' : 'AuthHome');
+      navigation.push(
+        initialState
+          ? 'Onboarding'
+          : auth().currentUser?._user
+          ? 'Home'
+          : 'AuthHome',
+      );
     }, 2000);
     return subscriber; // unsubscribe on unmount
   }, []);

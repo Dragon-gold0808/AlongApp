@@ -12,10 +12,17 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MyStatusBar from '../../../src/components/myStatusBar';
 import ATextInput from '../../components/input/textInput';
+import {useSelector} from 'react-redux';
+import {useEffect} from 'react';
 
 const ContactUsScreen = ({navigation}) => {
-  const [name, setName] = useState('Samantha Smith');
-  const [email, setEmail] = useState('samanthasmith@gmail.com');
+  const {user} = useSelector(state => state.auth);
+  const [name, setName] = useState(
+    user?.displayName ? user.displayName : 'xxx',
+  );
+  const [email, setEmail] = useState(
+    user?.email ? user.email : 'xxx@gmail.com',
+  );
   const [message, setMessage] = useState('');
 
   return (
