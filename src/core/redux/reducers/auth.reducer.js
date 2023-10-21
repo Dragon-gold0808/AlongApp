@@ -11,7 +11,9 @@ import {
 const initialState = {
   isAutherized: false,
   user: null,
-  driver: null,
+  driver: {
+    driverEnabled: true,
+  },
 };
 
 export default function rootReducer(state = initialState, action) {

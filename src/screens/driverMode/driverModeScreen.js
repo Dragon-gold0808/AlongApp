@@ -85,6 +85,14 @@ const DriverModeScreen = ({navigation}) => {
     }
   }, [driver]);
 
+  // useEffect(() => {
+  //   dispatch({
+  //     type: DRIVER_UPDATE_SUCCESS,
+  //     payload: {
+  //       driverEnabled: driverEnabled,
+  //     },
+  //   });
+  // }, [driverEnabled]);
   const saveButtonPress = async () => {
     try {
       await firestore().collection('users').doc(user.uid).set({

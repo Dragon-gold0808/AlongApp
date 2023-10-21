@@ -13,7 +13,7 @@ import {Colors, Fonts, Sizes, authStyles} from '../../constants/styles';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import OTPTextView from 'react-native-otp-textinput';
 import MyStatusBar from '../../../src/components/myStatusBar';
-import LoadingDialog from '../../components/loadingDialog';
+import LoadingDialog from '../../components/modal/loadingDialog';
 import Header from '../../components/header';
 import {firestore} from '../../../FirebaseConfig';
 import {auth} from '../../../FirebaseConfig';
