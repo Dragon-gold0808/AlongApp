@@ -12,7 +12,7 @@ import SelectCabScreen from './src/screens/selectCab/selectCabScreen';
 import SelectPaymentMethodScreen from './src/screens/selectPaymentMethod/selectPaymentMethodScreen';
 import SearchingForDriversScreen from './src/screens/searchingForDrivers/searchingForDriversScreen';
 import DriverDetailScreen from './src/screens/driverDetail/driverDetailScreen';
-import ChatWithDriverScreen from './src/screens/chatWithDriver/chatScreen';
+import ChatScreen from './src/screens/chat/chatScreen';
 import RideStartedScreen from './src/screens/rideStarted/rideStartedScreen';
 import RideEndScreen from './src/screens/rideEnd/rideEndScreen';
 import RatingScreen from './src/screens/rating/ratingScreen';
@@ -52,7 +52,6 @@ const Stack = createStackNavigator();
 
 const DrawerNavigation = () => {
   const {user, driver} = useSelector(state => state.auth);
-  console.log(driver);
   return (
     <Drawer.Navigator
       drawerContent={props => <CustomDrawer {...props} />}
@@ -121,10 +120,7 @@ function MyApp() {
               component={SearchingForDriversScreen}
             />
             <Stack.Screen name="DriverDetail" component={DriverDetailScreen} />
-            <Stack.Screen
-              name="ChatWithDriver"
-              component={ChatWithDriverScreen}
-            />
+            <Stack.Screen name="Chat" component={ChatScreen} />
             <Stack.Screen name="RideStarted" component={RideStartedScreen} />
             <Stack.Screen name="RideEnd" component={RideEndScreen} />
             <Stack.Screen name="Rating" component={RatingScreen} />

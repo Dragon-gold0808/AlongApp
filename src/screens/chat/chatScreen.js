@@ -45,7 +45,7 @@ const receiverImage = require('../../assets/images/users/user1.png');
 
 const senderImage = require('../../assets/images/users/user2.png');
 
-const ChatWithDriverScreen = ({navigation}) => {
+const ChatScreen = ({navigation}) => {
   const [messagesList, setMessagesList] = useState(userMessages);
 
   return (
@@ -216,7 +216,7 @@ const ChatWithDriverScreen = ({navigation}) => {
   }
 };
 
-export default ChatWithDriverScreen;
+export default ChatScreen;
 
 const styles = StyleSheet.create({
   headerWrapStyle: {

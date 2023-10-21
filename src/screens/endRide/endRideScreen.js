@@ -46,7 +46,7 @@ const EndRideScreen = ({navigation}) => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{paddingBottom: Sizes.fixPadding * 2.0}}>
-          {passengerInfo()}
+          {/* {passengerInfo()} */}
           {tripInfo()}
         </ScrollView>
         {endRideButton()}
@@ -63,7 +63,7 @@ const EndRideScreen = ({navigation}) => {
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => {
-          navigation.navigate('Home');
+          navigation.navigate('RideEnd');
         }}
         style={styles.buttonStyle}>
         <Text style={{...Fonts.whiteColor18Bold}}>End Ride</Text>
@@ -83,13 +83,17 @@ const EndRideScreen = ({navigation}) => {
   function tripInfo() {
     return (
       <View>
-        <Text
-          style={{
-            marginHorizontal: Sizes.fixPadding * 2.0,
-            ...Fonts.blackColor18Bold,
-          }}>
-          Trip Route
-        </Text>
+        <View style={styles.tripRouteTitleWrapStyle}>
+          <Text
+            style={{
+              ...Fonts.blackColor18Bold,
+            }}>
+            Trip Route
+          </Text>
+          <Text style={{...Fonts.primaryColor14Bold}}>
+            10 km (5 min, $ 30.5)
+          </Text>
+        </View>
         {currentLocationInfo()}
         {currentToDropLocDivider()}
         {dropLocationInfo()}
@@ -201,7 +205,7 @@ const EndRideScreen = ({navigation}) => {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
-            navigation.push('ChatWithPassenger');
+            navigation.push('Chat');
           }}
           style={styles.callAndMessageIconWrapStyle}>
           <MaterialIcons
@@ -238,36 +242,40 @@ const EndRideScreen = ({navigation}) => {
       longitude: 88.47412,
     };
     return (
-      <MapView
-        region={{
-          latitude: 22.483643,
-          longitude: 88.37588,
-          latitudeDelta: 0.5,
-          longitudeDelta: 0.5,
-        }}
-        style={{flex: 1}}
-        provider={PROVIDER_GOOGLE}
-        mapType="terrain">
-        <MapViewDirections
-          origin={currentCabLocation}
-          destination={userLocation}
-          apikey={Key.apiKey}
-          strokeColor={Colors.primaryColor}
-          strokeWidth={3}
-        />
-        <Marker coordinate={currentCabLocation}>
-          <Image
-            source={require('../../assets/images/icons/cab.png')}
-            style={styles.cabMarkerStyle}
-          />
-        </Marker>
-        <Marker coordinate={userLocation} title="Drop point">
-          <Image
-            source={require('../../assets/images/icons/marker2.png')}
-            style={{width: 50.0, height: 50.0, resizeMode: 'stretch'}}
-          />
-        </Marker>
-      </MapView>
+      // <MapView
+      //   region={{
+      //     latitude: 22.483643,
+      //     longitude: 88.37588,
+      //     latitudeDelta: 0.5,
+      //     longitudeDelta: 0.5,
+      //   }}
+      //   style={{flex: 1}}
+      //   provider={PROVIDER_GOOGLE}
+      //   mapType="terrain">
+      //   <MapViewDirections
+      //     origin={currentCabLocation}
+      //     destination={userLocation}
+      //     apikey={Key.apiKey}
+      //     strokeColor={Colors.primaryColor}
+      //     strokeWidth={3}
+      //   />
+      //   <Marker coordinate={currentCabLocation}>
+      //     <Image
+      //       source={require('../../assets/images/icons/cab.png')}
+      //       style={styles.cabMarkerStyle}
+      //     />
+      //   </Marker>
+      //   <Marker coordinate={userLocation} title="Drop point">
+      //     <Image
+      //       source={require('../../assets/images/icons/marker2.png')}
+      //       style={{width: 50.0, height: 50.0, resizeMode: 'stretch'}}
+      //     />
+      //   </Marker>
+      // </MapView>
+      <Image
+        source={require('../../assets/images/bg.png')}
+        style={styles.logoStyle}
+      />
     );
   }
 };
@@ -333,6 +341,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lightBlackColor,
     paddingVertical: Sizes.fixPadding,
     paddingHorizontal: Sizes.fixPadding - 5.0,
+  },
+  tripRouteTitleWrapStyle: {
+    marginHorizontal: Sizes.fixPadding * 2.0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   currentLocationInfoWrapStyle: {
     marginTop: Sizes.fixPadding,

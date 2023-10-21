@@ -204,7 +204,11 @@ const DriverHomeScreen = ({navigation}) => {
     };
     return (
       <View style={{flex: 1}}>
-        <MapView
+        <Image
+          source={require('../../assets/images/bg.png')}
+          style={styles.logoStyle}
+        />
+        {/* <MapView
           region={{
             latitude: 22.644066,
             longitude: 88.42122,
@@ -220,7 +224,7 @@ const DriverHomeScreen = ({navigation}) => {
               style={{width: 25.0, height: 45.0, resizeMode: 'contain'}}
             />
           </Marker>
-        </MapView>
+        </MapView> */}
       </View>
     );
   }
