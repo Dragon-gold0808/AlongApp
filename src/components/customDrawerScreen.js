@@ -82,7 +82,7 @@ const CustomDrawer = props => {
     dispatch({
       type: DRIVER_OUT,
     });
-    // props.navigation.push('AuthHome');
+    props.navigation.push('AuthHome');
   };
 
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
@@ -359,10 +359,10 @@ const CustomDrawer = props => {
           </View>
           <View style={{flex: 1, marginLeft: Sizes.fixPadding + 8.0}}>
             <Text numberOfLines={1} style={{...Fonts.whiteColor16Bold}}>
-              {user?.displayName ? user.displayName : 'none'}
+              {user?.displayName ? user.displayName : 'xxx'}
             </Text>
             <Text numberOfLines={1} style={{...Fonts.whiteColor14Regular}}>
-              {user?.email ? user.email : 'none'}
+              {user?.email ? user.email : 'xxx@gmail.com'}
             </Text>
           </View>
         </View>

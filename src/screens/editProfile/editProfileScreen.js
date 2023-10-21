@@ -26,18 +26,28 @@ import {useDispatch, useSelector} from 'react-redux';
 
 const EditProfileScreen = ({navigation}) => {
   const dispatch = useDispatch();
-  const [name, setName] = useState('Samantha Smith');
-  const [email, setEmail] = useState('samanthasmith@gmail.com');
-  const [phoneNumber, setPhoneNumber] = useState('+91 1236457890');
-  const [password, setPassword] = useState('123456789');
+  const [name, setName] = useState('xxx');
+  const [email, setEmail] = useState('xxx@gmail.com');
+  const [phoneNumber, setPhoneNumber] = useState('+1 1111111111');
+  const [password, setPassword] = useState('hhhhhh');
   const [showSheet, setShowSheet] = useState(false);
   const {user} = useSelector(state => state.auth);
 
   useEffect(() => {
-    setName(user.displayName);
-    setEmail(user.email);
-    setPassword(user.password);
-    setPhoneNumber(user.phoneNumber);
+    if (user) {
+      if (user.displayName) {
+        setName(user.displayName);
+      }
+      if (user.email) {
+        setEmail(user.email);
+      }
+      if (user.password) {
+        setPassword(user.password);
+      }
+      if (user.phoneNumber) {
+        setPhoneNumber(user.phoneNumber);
+      }
+    }
   }, []);
 
   const handleUpdate = () => {
@@ -56,7 +66,28 @@ const EditProfileScreen = ({navigation}) => {
     // } catch (e) {
     //   console.log(e);
     // } finally {
-    navigation.pop();
+    const user1 = auth().currentUser;
+    user1
+      .updateProfile({
+        displayName: name,
+      })
+      .then(async () => {
+        // Profile updated
+        console.log('displayName updated!');
+        dispatch({
+          payload: {
+            ...user._user,
+            displayName: name,
+          },
+          type: LOGIN_UPDATE_SUCCESS,
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      })
+      .finally(() => {
+        navigation.pop();
+      });
     // }
   };
 
