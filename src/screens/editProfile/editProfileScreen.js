@@ -20,6 +20,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {BottomSheet} from '@rneui/themed';
 import MyStatusBar from '../../../src/components/myStatusBar';
+import Header from '../../components/header';
+import ATextInput from '../../components/input/textInput';
+import APasswordInput from '../../components/input/passwordInput';
 import {auth} from '../../../FirebaseConfig';
 import {LOGIN_UPDATE_SUCCESS} from '../../core/redux/types';
 import {useDispatch, useSelector} from 'react-redux';
@@ -64,15 +67,35 @@ const EditProfileScreen = ({navigation}) => {
     <View style={{flex: 1, backgroundColor: Colors.whiteColor}}>
       <MyStatusBar />
       <View style={{flex: 1}}>
-        {header()}
+        <Header title="Edit Profile" onPressHandle={() => navigation.pop()} />
         <ScrollView
           automaticallyAdjustKeyboardInsets={true}
           showsVerticalScrollIndicator={false}>
           {profilePic()}
-          {fullNameInfo()}
-          {emailInfo()}
+          <ATextInput
+            title={'Full Name'}
+            placeholder={'Enter Full Name'}
+            value={name}
+            onChangeText={value => setName(value)}
+            cursorColor={Colors.primaryColor}
+          />
+          <ATextInput
+            title={'Email Address'}
+            placeholder={'Enter Email Address'}
+            value={email}
+            onChangeText={value => setEmail(value)}
+            cursorColor={Colors.primaryColor}
+            keyboardType="email-address"
+          />
           {phoneNumberInfo()}
-          {passwordInfo()}
+          <APasswordInput
+            title={'Password'}
+            value={password}
+            onChangeText={val => {
+              setPassword(val);
+            }}
+            placeholder={'Enter Password'}
+          />
         </ScrollView>
       </View>
       {saveButton()}
@@ -155,27 +178,6 @@ const EditProfileScreen = ({navigation}) => {
     );
   }
 
-  function passwordInfo() {
-    return (
-      <View
-        style={{
-          marginHorizontal: Sizes.fixPadding * 2.0,
-          marginBottom: Sizes.fixPadding * 2.0,
-        }}>
-        <Text style={{...Fonts.grayColor15SemiBold}}>Password</Text>
-        <TextInput
-          value={password}
-          onChangeText={value => setPassword(value)}
-          style={styles.textFieldStyle}
-          cursorColor={Colors.primaryColor}
-          selectionColor={Colors.primaryColor}
-          secureTextEntry
-        />
-        {divider()}
-      </View>
-    );
-  }
-
   function phoneNumberInfo() {
     return (
       <View
@@ -191,47 +193,6 @@ const EditProfileScreen = ({navigation}) => {
           cursorColor={Colors.primaryColor}
           selectionColor={Colors.primaryColor}
           keyboardType="phone-pad"
-        />
-        {divider()}
-      </View>
-    );
-  }
-
-  function emailInfo() {
-    return (
-      <View
-        style={{
-          marginHorizontal: Sizes.fixPadding * 2.0,
-          marginBottom: Sizes.fixPadding * 2.0,
-        }}>
-        <Text style={{...Fonts.grayColor15SemiBold}}>Email Address</Text>
-        <TextInput
-          value={email}
-          onChangeText={value => setEmail(value)}
-          style={styles.textFieldStyle}
-          cursorColor={Colors.primaryColor}
-          selectionColor={Colors.primaryColor}
-          keyboardType="email-address"
-        />
-        {divider()}
-      </View>
-    );
-  }
-
-  function fullNameInfo() {
-    return (
-      <View
-        style={{
-          marginHorizontal: Sizes.fixPadding * 2.0,
-          marginBottom: Sizes.fixPadding * 2.0,
-        }}>
-        <Text style={{...Fonts.grayColor15SemiBold}}>Full Name</Text>
-        <TextInput
-          value={name}
-          onChangeText={value => setName(value)}
-          style={styles.textFieldStyle}
-          selectionColor={Colors.primaryColor}
-          cursorColor={Colors.primaryColor}
         />
         {divider()}
       </View>
@@ -265,27 +226,6 @@ const EditProfileScreen = ({navigation}) => {
             color={Colors.primaryColor}
           />
         </TouchableOpacity>
-      </View>
-    );
-  }
-
-  function header() {
-    return (
-      <View style={styles.headerWrapStyle}>
-        <FontAwesome6
-          name="arrow-left"
-          size={20}
-          color={Colors.blackColor}
-          onPress={() => navigation.pop()}
-        />
-        <Text
-          style={{
-            flex: 1,
-            marginLeft: Sizes.fixPadding + 2.0,
-            ...Fonts.blackColor20ExtraBold,
-          }}>
-          Edit Profile
-        </Text>
       </View>
     );
   }

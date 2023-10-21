@@ -23,6 +23,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import * as Animatable from 'react-native-animatable';
 import MyStatusBar from '../../../src/components/myStatusBar';
+import Header from '../../components/header';
 
 const RideStartedScreen = ({navigation}) => {
   return (
@@ -31,7 +32,11 @@ const RideStartedScreen = ({navigation}) => {
       <View style={{flex: 1}}>
         {directionInfo()}
         {reachingDestinationInfo()}
-        {header()}
+        <Header
+          title={'Riding'}
+          type={'absolute'}
+          onPressHandle={() => navigation.pop()}
+        />
         {driverInfoSheet()}
       </View>
     </View>
@@ -46,10 +51,94 @@ const RideStartedScreen = ({navigation}) => {
         style={{...styles.bottomSheetWrapStyle}}>
         {indicator()}
         <ScrollView showsVerticalScrollIndicator={false}>
-          {driverInfo()}
+          {tripInfo()}
         </ScrollView>
         {endRideButton()}
       </Animatable.View>
+    );
+  }
+  function tripInfo() {
+    return (
+      <View style={{marginBottom: Sizes.fixPadding * 2}}>
+        <View style={styles.tripRouteTitleWrapStyle}>
+          <Text style={{...Fonts.blackColor18Bold}}>Trip Route</Text>
+          <Text style={{...Fonts.primaryColor14Bold}}>
+            10 km (15 min, $30.5)
+          </Text>
+        </View>
+        {currentLocationInfo()}
+        {currentToDropLocDivider()}
+        {dropLocationInfo()}
+      </View>
+    );
+  }
+
+  function dropLocationInfo() {
+    return (
+      <View style={styles.dropLocationInfoWrapStyle}>
+        <View style={{width: 24.0, alignItems: 'center'}}>
+          <MaterialIcons
+            name="location-pin"
+            size={24}
+            color={Colors.primaryColor}
+          />
+        </View>
+        <Text
+          numberOfLines={1}
+          style={{
+            flex: 1,
+            marginLeft: Sizes.fixPadding + 5.0,
+            ...Fonts.blackColor15SemiBold,
+          }}>
+          1655 Island Pkwy, Kamloops, BC V2B 6Y9
+        </Text>
+      </View>
+    );
+  }
+
+  function currentToDropLocDivider() {
+    return (
+      <View
+        style={{
+          marginHorizontal: Sizes.fixPadding * 2.0,
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+        <View style={{width: 24.0, alignItems: 'center'}}>
+          <Text style={{...Fonts.blackColor8SemiBold, lineHeight: 6}}>
+            •{`\n`}•{`\n`}•{`\n`}•{`\n`}•{`\n`}•{`\n`}•
+          </Text>
+        </View>
+        <View style={styles.currentToDropLocationInfoDividerStyle} />
+      </View>
+    );
+  }
+
+  function currentLocationInfo() {
+    return (
+      <View style={styles.currentLocationInfoWrapStyle}>
+        <View style={{width: 24, alignItems: 'center'}}>
+          <View style={styles.currentLocationIconStyle}>
+            <View
+              style={{
+                width: 7.0,
+                height: 7.0,
+                borderRadius: 3.5,
+                backgroundColor: Colors.blackColor,
+              }}
+            />
+          </View>
+        </View>
+        <Text
+          numberOfLines={1}
+          style={{
+            marginLeft: Sizes.fixPadding + 5.0,
+            flex: 1,
+            ...Fonts.blackColor15SemiBold,
+          }}>
+          9 Bailey Drive, Fredericton, NB E3B 5A3
+        </Text>
+      </View>
     );
   }
 
@@ -209,42 +298,46 @@ const RideStartedScreen = ({navigation}) => {
       longitude: 88.309215,
     };
     return (
-      <MapView
-        region={{
-          latitude: 22.528682,
-          longitude: 88.374505,
-          latitudeDelta: 0.5,
-          longitudeDelta: 0.5,
-        }}
-        style={{height: '100%'}}
-        provider={PROVIDER_GOOGLE}
-        mapType="terrain">
-        <MapViewDirections
-          origin={userLocation}
-          destination={currentCabLocation}
-          apikey={Key.apiKey}
-          strokeColor={Colors.primaryColor}
-          strokeWidth={3}
-        />
-        <Marker coordinate={currentCabLocation}>
-          <Image
-            source={require('../../assets/images/icons/marker2.png')}
-            style={{width: 50.0, height: 50.0, resizeMode: 'stretch'}}
-          />
-        </Marker>
-        <Marker coordinate={userLocation}>
-          <Image
-            source={require('../../assets/images/icons/cab.png')}
-            style={{
-              width: 25.0,
-              height: 45.0,
-              resizeMode: 'contain',
-              top: 16.0,
-              transform: [{rotate: '70deg'}],
-            }}
-          />
-        </Marker>
-      </MapView>
+      <Image
+        source={require('../../assets/images/bg.png')}
+        style={styles.logoStyle}
+      />
+      // <MapView
+      //   region={{
+      //     latitude: 22.528682,
+      //     longitude: 88.374505,
+      //     latitudeDelta: 0.5,
+      //     longitudeDelta: 0.5,
+      //   }}
+      //   style={{height: '100%'}}
+      //   provider={PROVIDER_GOOGLE}
+      //   mapType="terrain">
+      //   <MapViewDirections
+      //     origin={userLocation}
+      //     destination={currentCabLocation}
+      //     apikey={Key.apiKey}
+      //     strokeColor={Colors.primaryColor}
+      //     strokeWidth={3}
+      //   />
+      //   <Marker coordinate={currentCabLocation}>
+      //     <Image
+      //       source={require('../../assets/images/icons/marker2.png')}
+      //       style={{width: 50.0, height: 50.0, resizeMode: 'stretch'}}
+      //     />
+      //   </Marker>
+      //   <Marker coordinate={userLocation}>
+      //     <Image
+      //       source={require('../../assets/images/icons/cab.png')}
+      //       style={{
+      //         width: 25.0,
+      //         height: 45.0,
+      //         resizeMode: 'contain',
+      //         top: 16.0,
+      //         transform: [{rotate: '70deg'}],
+      //       }}
+      //     />
+      //   </Marker>
+      // </MapView>
     );
   }
 };
@@ -323,5 +416,39 @@ const styles = StyleSheet.create({
     marginHorizontal: Sizes.fixPadding * 2.0,
     overflow: 'hidden',
     justifyContent: 'flex-end',
+  },
+  tripRouteTitleWrapStyle: {
+    marginHorizontal: Sizes.fixPadding * 2.0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  currentLocationInfoWrapStyle: {
+    marginTop: Sizes.fixPadding,
+    marginHorizontal: Sizes.fixPadding * 2.0,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  dropLocationInfoWrapStyle: {
+    marginHorizontal: Sizes.fixPadding * 2.0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: -(Sizes.fixPadding - 5.0),
+  },
+  currentToDropLocationInfoDividerStyle: {
+    backgroundColor: Colors.shadowColor,
+    height: 1.0,
+    flex: 1,
+    marginRight: Sizes.fixPadding * 2.5,
+    marginLeft: Sizes.fixPadding,
+  },
+  currentLocationIconStyle: {
+    width: 18.0,
+    height: 18.0,
+    borderRadius: 9.0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: Colors.blackColor,
+    borderWidth: 2.0,
   },
 });

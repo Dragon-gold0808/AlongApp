@@ -11,7 +11,6 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Colors, Fonts, Sizes, authStyles} from '../../constants/styles';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import {Overlay} from '@rneui/themed';
 import OTPTextView from 'react-native-otp-textinput';
 import MyStatusBar from '../../../src/components/myStatusBar';
 import LoadingDialog from '../../components/loadingDialog';
