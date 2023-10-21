@@ -8,7 +8,7 @@ import {
   BackHandler,
   Platform,
 } from 'react-native';
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {
   Colors,
   Fonts,
@@ -18,6 +18,9 @@ import {
 } from '../../constants/styles';
 import {useFocusEffect} from '@react-navigation/native';
 import MyStatusBar from '../../../src/components/myStatusBar';
+import {auth} from '../../../FirebaseConfig';
+import {LOGOUT, LOGIN_SUCCESS} from '../../core/redux/types';
+import {useDispatch} from 'react-redux';
 
 const AuthHomeScreen = ({navigation}) => {
   const backAction = () => {
@@ -50,6 +53,40 @@ const AuthHomeScreen = ({navigation}) => {
   }
 
   const [backClickCount, setBackClickCount] = useState(0);
+
+  // Set an initializing state whilst Firebase connects
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
+
+  // Handle user state changes
+  function onAuthStateChanged(a) {
+    setUser(a);
+    if (initializing) {
+      setInitializing(false);
+    }
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (initializing) return null;
+
+  if (user) {
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: user,
+    });
+    // navigation.push('Home');
+  } else {
+    dispatch({
+      type: LOGOUT,
+      payload: null,
+    });
+    // navigation.push('AuthHome');
+  }
 
   return (
     <View style={styles.view}>

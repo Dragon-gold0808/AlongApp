@@ -1,7 +1,7 @@
-import { loginFailure, logout } from "./actions/auth.action";
+import {loginFailure, logout} from './actions/auth.action';
 
-const authMiddleware = (store) => (next) => (action) => {
-  if (action.type === "API_REQUEST") {
+const authMiddleware = store => next => action => {
+  if (action.type === 'API_REQUEST') {
     // Check if the user info is valid
     const state = store.getState();
     const user = state.user;

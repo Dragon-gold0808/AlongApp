@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import HomeScreen from './src/screens/home/homeScreen';
 import CustomDrawer from './src/components/customDrawerScreen';
-import { LogBox } from 'react-native';
-import { screenWidth, Sizes } from './src/constants/styles';
+import {LogBox} from 'react-native';
+import {screenWidth, Sizes} from './src/constants/styles';
 import DropOffLocationScreen from './src/screens/dropOffLocation/dropOffLocationScreen';
 import BookNowScreen from './src/screens/bookNow/bookNowScreen';
 import SelectCabScreen from './src/screens/selectCab/selectCabScreen';
@@ -35,9 +35,9 @@ import VerificationScreen from './src/screens/auth/verificationScreen';
 import AuthHomeScreen from './src/screens/auth/authHomeScreen';
 import DriverModeScreen from './src/screens/driverMode/driverModeScreen';
 
-import { Provider } from "react-redux";
-import { store, persistor } from './src/core/redux/store';
-import { PersistGate } from "redux-persist/integration/react";
+import {Provider} from 'react-redux';
+import {store, persistor} from './src/core/redux/store';
+import {PersistGate} from 'redux-persist/integration/react';
 
 LogBox.ignoreAllLogs();
 
@@ -75,25 +75,25 @@ function MyApp() {
             <Stack.Screen
               name="Splash"
               component={SplashScreen}
-              options={{ ...TransitionPresets.DefaultTransition }}
+              options={{...TransitionPresets.DefaultTransition}}
             />
             <Stack.Screen name="Onboarding" component={OnboardingScreen} />
             <Stack.Screen
               name="Login"
               component={LoginScreen}
-              options={{ ...TransitionPresets.DefaultTransition }}
+              options={{...TransitionPresets.DefaultTransition}}
             />
             <Stack.Screen
               name="AuthHome"
               component={AuthHomeScreen}
-              options={{ ...TransitionPresets.DefaultTransition }}
+              options={{...TransitionPresets.DefaultTransition}}
             />
             <Stack.Screen name="Register" component={RegisterScreen} />
             <Stack.Screen name="Verification" component={VerificationScreen} />
             <Stack.Screen
               name="Home"
               component={DrawerNavigation}
-              options={{ ...TransitionPresets.DefaultTransition }}
+              options={{...TransitionPresets.DefaultTransition}}
             />
             <Stack.Screen
               name="DropOffLocation"
@@ -110,7 +110,10 @@ function MyApp() {
               component={SearchingForDriversScreen}
             />
             <Stack.Screen name="DriverDetail" component={DriverDetailScreen} />
-            <Stack.Screen name="ChatWithDriver" component={ChatWithDriverScreen} />
+            <Stack.Screen
+              name="ChatWithDriver"
+              component={ChatWithDriverScreen}
+            />
             <Stack.Screen name="RideStarted" component={RideStartedScreen} />
             <Stack.Screen name="RideEnd" component={RideEndScreen} />
             <Stack.Screen name="Rating" component={RatingScreen} />
@@ -120,13 +123,22 @@ function MyApp() {
             <Stack.Screen name="Settings" component={SettingsScreen} />
             <Stack.Screen name="RideDetail" component={RideDetailScreen} />
             <Stack.Screen name="Wallet" component={WalletScreen} />
-            <Stack.Screen name="PaymentMethods" component={PaymentMethodsScreen} />
+            <Stack.Screen
+              name="PaymentMethods"
+              component={PaymentMethodsScreen}
+            />
             <Stack.Screen
               name="AddPaymentMethod"
               component={AddPaymentMethodScreen}
             />
-            <Stack.Screen name="Notifications" component={NotificationsScreen} />
-            <Stack.Screen name="InviteFriends" component={InviteFriendsScreen} />
+            <Stack.Screen
+              name="Notifications"
+              component={NotificationsScreen}
+            />
+            <Stack.Screen
+              name="InviteFriends"
+              component={InviteFriendsScreen}
+            />
             <Stack.Screen name="Faqs" component={FaqsScreen} />
             <Stack.Screen name="ContactUs" component={ContactUsScreen} />
           </Stack.Navigator>

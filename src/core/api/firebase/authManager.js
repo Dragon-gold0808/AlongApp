@@ -1,5 +1,9 @@
-import { auth } from '../../../../FirebaseConfig';
-import { loginSuccess, loginFailure, logout } from '../../redux/actions/auth.action';
+import {auth} from '../../../../FirebaseConfig';
+import {
+  loginSuccess,
+  loginFailure,
+  logout,
+} from '../../redux/actions/auth.action';
 
 // function logInWithEmailAndPassword(email, password) {
 //     return async function (dispatch) {
@@ -73,16 +77,16 @@ import { loginSuccess, loginFailure, logout } from '../../redux/actions/auth.act
 // }
 
 function signOut() {
-    return async function (dispatch) {
-        // Sign out from Firebase Auth
-        await auth().signOut();
+  return async function (dispatch) {
+    // Sign out from Firebase Auth
+    await auth().signOut();
 
-        // Dispatch the logout action
-        dispatch(logout());
-    };
+    // Dispatch the logout action
+    dispatch(logout());
+  };
 }
 
 export const authManager = {
-    loginWithEmailAndPassword,
-    signOut,
+  loginWithEmailAndPassword,
+  signOut,
 };
