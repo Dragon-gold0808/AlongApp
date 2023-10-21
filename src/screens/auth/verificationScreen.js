@@ -45,10 +45,10 @@ const VerificationScreen = ({navigation}) => {
         //   name,
         // });
       } else {
-        console.log('Invalid code.');
+        alert('Invalid code.: Please type 111111');
       }
     } catch (error) {
-      console.log('Invalid code.');
+      alert('Invalid code.: Please type 111111');
     } finally {
       setisLoading(false);
     }
