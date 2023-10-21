@@ -26,18 +26,22 @@ import {useFocusEffect} from '@react-navigation/native';
 import MyStatusBar from '../../components/myStatusBar';
 import Header from '../../components/header';
 
-import { auth } from '../../../FirebaseConfig';
-import { ActivityIndicator } from 'react-native-paper';
-import { color } from '@rneui/base';
+import {auth, firestore} from '../../../FirebaseConfig';
+import {ActivityIndicator} from 'react-native-paper';
+import {color} from '@rneui/base';
 import PhoneNumberInput from '../../components/input/phoneNumberInput';
 import ATextInput from '../../components/input/textInput';
 import APasswordInput from '../../components/input/passwordInput';
-import { authManager } from '../../core/api/firebase/authManager';
-import { useDispatch } from 'react-redux';
-import { loginSuccess } from '../../core/redux/actions/auth.action';
-import { LOGIN_SUCCESS } from '../../core/redux/types';
+import {authManager} from '../../core/api/firebase/authManager';
+import {useDispatch} from 'react-redux';
+import {loginSuccess} from '../../core/redux/actions/auth.action';
+import {
+  DRIVER_OUT,
+  DRIVER_UPDATE_SUCCESS,
+  LOGIN_SUCCESS,
+} from '../../core/redux/types';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({navigation}) => {
   const [backClickCount, setBackClickCount] = useState(0);
   const [loginMode, setLoginMode] = useState(0);
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -50,14 +54,26 @@ const LoginScreen = ({ navigation }) => {
     setLoading(true);
     auth()
       .signInWithEmailAndPassword(email, password)
-      .then((response) => {
+      .then(response => {
         // Signed in
-        dispatch({
-          payload: {
-            email: email,
-          },
-          type: LOGIN_SUCCESS,
-        });
+        firestore()
+          .collection('users')
+          .doc(response.user.uid)
+          .get()
+          .then(re => {
+            console.log(re.data());
+            dispatch({
+              type: DRIVER_UPDATE_SUCCESS,
+              payload: re.data(),
+            });
+          })
+          .catch(error => {
+            console.error(error);
+            dispatch({
+              type: DRIVER_OUT,
+            });
+          });
+
         navigation.push('Home');
       })
       .catch(error => {
@@ -67,14 +83,6 @@ const LoginScreen = ({ navigation }) => {
       .finally(() => {
         setLoading(false);
       });
-    // authManager.logInWithEmailAndPassword(email, password)
-    //   .then(() => {
-    //     navigation.push('Home');
-    //   }).catch(() => {
-    //     alert('Sign in faild:');
-    //   }).finally(() => {
-    //     setLoading(false);
-    //   });
   };
 
   const backAction = () => {

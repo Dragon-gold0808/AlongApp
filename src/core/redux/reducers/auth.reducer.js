@@ -1,22 +1,37 @@
-/* eslint-disable prettier/prettier */
-import { LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT } from "../types";
+import {
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  LOGOUT,
+  REGISTER_PRE,
+  LOGIN_UPDATE_SUCCESS,
+  DRIVER_UPDATE_SUCCESS,
+  DRIVER_OUT,
+} from '../types';
 
 const initialState = {
-    user: null,
+  isAutherized: false,
+  user: null,
+  driver: null,
 };
 
 export default function rootReducer(state = initialState, action) {
-    // console.log(action);
-    const { type, payload } = action;
-    console.log(payload);
-    switch (type) {
-        case LOGIN_SUCCESS:
-            return { ...state, user: payload };
-        case LOGIN_FAILURE:
-            return { ...state, user: null };
-        case LOGOUT:
-            return { ...state, user: null };
-        default:
-            return state;
-    }
+  const {type, payload} = action;
+  switch (type) {
+    case LOGIN_SUCCESS:
+      return {...state, isAutherized: true, user: payload};
+    case LOGIN_FAILURE:
+      return {...state, isAutherized: false, user: null};
+    case LOGOUT:
+      return {...state, isAutherized: false, user: null};
+    case REGISTER_PRE:
+      return {...state, user: payload};
+    case LOGIN_UPDATE_SUCCESS:
+      return {...state, user: payload};
+    case DRIVER_UPDATE_SUCCESS:
+      return {...state, driver: payload};
+    case DRIVER_OUT:
+      return {...state, driver: null};
+    default:
+      return state;
+  }
 }

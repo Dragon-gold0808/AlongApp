@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -21,8 +21,12 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import MyStatusBar from '../../components/myStatusBar';
 import SelectInput from '../../components/input/selectInput';
 import ATextInput from '../../components/input/textInput';
+import {firestore} from '../../../FirebaseConfig';
+import {useSelector, useDispatch} from 'react-redux';
+import {DRIVER_UPDATE_SUCCESS} from '../../core/redux/types';
 
 const DriverModeScreen = ({navigation}) => {
+  const dispatch = useDispatch();
   const carBrandsList = [
     'Toyota',
     'Maruti Suzuki',
@@ -72,6 +76,40 @@ const DriverModeScreen = ({navigation}) => {
   const [selectedCarBrand, setSelectedCarBrand] = useState(carBrandsList[0]);
   const [selectedCarModel, setSelectedCarModel] = useState(carModelsList[0]);
   const toggleSwitch = () => setDriverEnabled(previousState => !previousState);
+  const {user, driver} = useSelector(state => state.auth);
+
+  useEffect(() => {
+    if (driver) {
+      setDriverEnabled(driver.driverEnabled);
+      setSelectedCarBrand(driver.selectedCarBrand);
+      setSelectedCarModel(driver.selectedCarModel);
+    }
+  }, [driver]);
+
+  const saveButtonPress = async () => {
+    try {
+      await firestore().collection('users').doc(user.uid).set({
+        driverEnabled: driverEnabled,
+        vehicleNumber: vehicleNumber,
+        selectedCarBrand: selectedCarBrand,
+        selectedCarModel: selectedCarModel,
+      });
+      dispatch({
+        type: DRIVER_UPDATE_SUCCESS,
+        payload: {
+          driverEnabled: driverEnabled,
+          vehicleNumber: vehicleNumber,
+          selectedCarBrand: selectedCarBrand,
+          selectedCarModel: selectedCarModel,
+        },
+      });
+      navigation.pop();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // navigation.pop();
+    }
+  };
 
   return (
     <View style={{flex: 1, backgroundColor: Colors.whiteColor}}>
@@ -203,9 +241,7 @@ const DriverModeScreen = ({navigation}) => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => {
-          navigation.pop();
-        }}
+        onPress={saveButtonPress}
         style={styles.buttonStyle}>
         <Text style={{...Fonts.whiteColor18Bold}}>Save</Text>
       </TouchableOpacity>

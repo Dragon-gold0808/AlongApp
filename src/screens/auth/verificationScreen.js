@@ -8,6 +8,7 @@ import {
   Platform,
 } from 'react-native';
 import React, {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {Colors, Fonts, Sizes, authStyles} from '../../constants/styles';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Overlay} from '@rneui/themed';
@@ -15,10 +16,44 @@ import OTPTextView from 'react-native-otp-textinput';
 import MyStatusBar from '../../../src/components/myStatusBar';
 import LoadingDialog from '../../components/loadingDialog';
 import Header from '../../components/header';
+import {firestore} from '../../../FirebaseConfig';
+import {auth} from '../../../FirebaseConfig';
 
 const VerificationScreen = ({navigation}) => {
   const [otpInput, setotpInput] = useState('');
   const [isLoading, setisLoading] = useState(false);
+  const confirm = useSelector(state => state.auth.confirm);
+  const name = useSelector(state => state.auth.name);
+  const dispatch = useDispatch();
+
+  async function confirmOptInput() {
+    setisLoading(true);
+    try {
+      // await confirm.confirm(otpInput);
+      console.log(otpInput);
+      if (otpInput === '111111') {
+        navigation.push('Home');
+        // auth()
+        //   .signInWithPhoneNumber('+1 (111) 111-1111', otpInput)
+        //   .then(user => {
+        //     console.log('User signed in:', user);
+        //   })
+        //   .catch(error => {
+        //     console.log('Error signing in:', error);
+        //   });
+        // // Save the user's name in the Firestore users collection
+        // await firestore().collection('users').doc(user.uid).set({
+        //   name,
+        // });
+      } else {
+        console.log('Invalid code.');
+      }
+    } catch (error) {
+      console.log('Invalid code.');
+    } finally {
+      setisLoading(false);
+    }
+  }
 
   return (
     <View style={{flex: 1, backgroundColor: Colors.whiteColor}}>
@@ -42,13 +77,7 @@ const VerificationScreen = ({navigation}) => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => {
-          setisLoading(true);
-          setTimeout(() => {
-            setisLoading(false);
-            navigation.push('Home');
-          }, 2000);
-        }}
+        onPress={confirmOptInput}
         style={authStyles.buttonStyle}>
         <Text style={{...Fonts.whiteColor18Bold}}>Continue</Text>
       </TouchableOpacity>
@@ -76,15 +105,16 @@ const VerificationScreen = ({navigation}) => {
         }}
         handleTextChange={text => {
           setotpInput(text);
-          if (otpInput.length == 3) {
-            setisLoading(true);
-            setTimeout(() => {
-              setisLoading(false);
-              navigation.push('Home');
-            }, 2000);
+          if (otpInput.length === 6) {
+            confirmOptInput();
+            //   setisLoading(true);
+            //   setTimeout(() => {
+            //     setisLoading(false);
+            //     navigation.push('Home');
+            //   }, 2000);
           }
         }}
-        inputCount={4}
+        inputCount={6}
         keyboardType="numeric"
         tintColor={Colors.primaryColor}
         offTintColor={Colors.shadowColor}
@@ -109,7 +139,7 @@ const VerificationScreen = ({navigation}) => {
             marginTop: Sizes.fixPadding,
             ...Fonts.grayColor15SemiBold,
           }}>
-          A 4 digit code has sent to your phone number
+          A 6 digit code has sent to your phone number
         </Text>
       </View>
     );
