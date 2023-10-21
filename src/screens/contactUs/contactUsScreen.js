@@ -11,6 +11,7 @@ import {Colors, Fonts, Sizes} from '../../constants/styles';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MyStatusBar from '../../../src/components/myStatusBar';
+import ATextInput from '../../components/input/textInput';
 
 const ContactUsScreen = ({navigation}) => {
   const [name, setName] = useState('Samantha Smith');
@@ -53,8 +54,21 @@ const ContactUsScreen = ({navigation}) => {
           style={{margin: Sizes.fixPadding * 2.0, ...Fonts.blackColor18Bold}}>
           Or send your message
         </Text>
-        {fullNameInfo()}
-        {emailInfo()}
+        <ATextInput
+          title={'Full Name'}
+          placeholder={'Enter Full Name'}
+          value={name}
+          onChangeText={value => setName(value)}
+          cursorColor={Colors.primaryColor}
+        />
+        <ATextInput
+          title={'Email Address'}
+          placeholder={'Enter Email Address'}
+          value={email}
+          onChangeText={value => setEmail(value)}
+          cursorColor={Colors.primaryColor}
+          keyboardType="email-address"
+        />
         {messageInfo()}
       </View>
     );
@@ -69,6 +83,9 @@ const ContactUsScreen = ({navigation}) => {
         }}>
         <Text style={{...Fonts.grayColor15SemiBold}}>Your Message</Text>
         <TextInput
+          multiline
+          // numberOfLines={4}
+          // maxLength={40}
           value={message}
           onChangeText={value => setMessage(value)}
           placeholder="Write your message here"

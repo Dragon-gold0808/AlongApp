@@ -22,6 +22,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as Animatable from 'react-native-animatable';
 import BottomSheet from 'react-native-simple-bottom-sheet';
 import MyStatusBar from '../../../src/components/myStatusBar';
+import Header from '../../components/header';
 
 const RideEndScreen = ({navigation}) => {
   return (
@@ -29,7 +30,11 @@ const RideEndScreen = ({navigation}) => {
       <MyStatusBar />
       <View style={{flex: 1}}>
         {directionInfo()}
-        {header()}
+        <Header
+          title={'Dropped Off'}
+          type={'absolute'}
+          onPressHandle={() => navigation.pop()}
+        />
         {rideEndInfoSheet()}
       </View>
     </View>
@@ -114,13 +119,17 @@ const RideEndScreen = ({navigation}) => {
   function tripInfo() {
     return (
       <View style={{marginTop: Sizes.fixPadding * 3.0}}>
-        <Text
-          style={{
-            marginHorizontal: Sizes.fixPadding * 2.0,
-            ...Fonts.blackColor18Bold,
-          }}>
-          Trip Route
-        </Text>
+        <View style={styles.tripRouteTitleWrapStyle}>
+          <Text
+            style={{
+              ...Fonts.blackColor18Bold,
+            }}>
+            Trip Ended
+          </Text>
+          <Text style={{...Fonts.primaryColor14Bold}}>
+            $30.5 Paid (15 min, 10 km)
+          </Text>
+        </View>
         {currentLocationInfo()}
         {currentToDropLocDivider()}
         {dropLocationInfo()}
@@ -263,33 +272,37 @@ const RideEndScreen = ({navigation}) => {
       longitude: 88.47412,
     };
     return (
-      <MapView
-        region={{
-          latitude: 22.494061,
-          longitude: 88.464339,
-          latitudeDelta: 0.5,
-          longitudeDelta: 0.5,
-        }}
-        style={{height: '100%'}}
-        provider={PROVIDER_GOOGLE}
-        mapType="terrain">
-        <Marker coordinate={currentCabLocation} title="Island Pkwy">
-          <Image
-            source={require('../../assets/images/icons/marker2.png')}
-            style={{width: 50.0, height: 50.0, resizeMode: 'stretch'}}
-          />
-        </Marker>
-        <Marker coordinate={userLocation}>
-          <Image
-            source={require('../../assets/images/icons/cab.png')}
-            style={{
-              width: 25.0,
-              height: 30.0,
-              resizeMode: 'stretch',
-            }}
-          />
-        </Marker>
-      </MapView>
+      <Image
+        source={require('../../assets/images/bg.png')}
+        style={styles.logoStyle}
+      />
+      // <MapView
+      //   region={{
+      //     latitude: 22.494061,
+      //     longitude: 88.464339,
+      //     latitudeDelta: 0.5,
+      //     longitudeDelta: 0.5,
+      //   }}
+      //   style={{height: '100%'}}
+      //   provider={PROVIDER_GOOGLE}
+      //   mapType="terrain">
+      //   <Marker coordinate={currentCabLocation} title="Island Pkwy">
+      //     <Image
+      //       source={require('../../assets/images/icons/marker2.png')}
+      //       style={{width: 50.0, height: 50.0, resizeMode: 'stretch'}}
+      //     />
+      //   </Marker>
+      //   <Marker coordinate={userLocation}>
+      //     <Image
+      //       source={require('../../assets/images/icons/cab.png')}
+      //       style={{
+      //         width: 25.0,
+      //         height: 30.0,
+      //         resizeMode: 'stretch',
+      //       }}
+      //     />
+      //   </Marker>
+      // </MapView>
     );
   }
 };
@@ -400,5 +413,11 @@ const styles = StyleSheet.create({
     marginHorizontal: Sizes.fixPadding * 2.0,
     overflow: 'hidden',
     justifyContent: 'flex-end',
+  },
+  tripRouteTitleWrapStyle: {
+    marginHorizontal: Sizes.fixPadding * 2.0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });

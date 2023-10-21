@@ -19,7 +19,7 @@ const SplashScreen = ({navigation}) => {
   );
 
   setTimeout(() => {
-    navigation.push('Onboarding');
+    navigation.push('Home');
   }, 2000);
 
   return (

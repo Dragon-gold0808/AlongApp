@@ -248,7 +248,7 @@ const HomeScreen = ({navigation}) => {
     const rotationsList = [120, 180, 120, 90, 180];
     return (
       <View style={{flex: 1}}>
-        <MapView
+        {/* <MapView
           region={{
             latitude: 22.644066,
             longitude: 88.42122,
@@ -277,7 +277,11 @@ const HomeScreen = ({navigation}) => {
               style={{width: 70.0, height: 70.0, resizeMode: 'contain'}}
             />
           </Marker>
-        </MapView>
+        </MapView> */}
+        <Image
+          source={require('../../assets/images/bg.png')}
+          style={styles.logoStyle}
+        />
       </View>
     );
   }

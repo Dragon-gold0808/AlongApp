@@ -6,7 +6,6 @@ import {
   Switch,
   View,
   ScrollView,
-  TextInput,
   Platform,
 } from 'react-native';
 import {

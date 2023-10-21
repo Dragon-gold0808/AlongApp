@@ -1,6 +1,6 @@
-import { DrawerContentScrollView } from '@react-navigation/drawer';
-import React, { useState, useRef, useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import {DrawerContentScrollView} from '@react-navigation/drawer';
+import React, {useState, useRef, useCallback} from 'react';
+import {useSelector} from 'react-redux';
 import {
   SafeAreaView,
   StyleSheet,
@@ -22,11 +22,11 @@ import {
 } from '../constants/styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
-import { Overlay } from '@rneui/themed';
-import Svg, { Path } from 'react-native-svg';
+import {Overlay} from '@rneui/themed';
+import Svg, {Path} from 'react-native-svg';
 import * as shape from 'd3-shape';
-import { useDrawerStatus } from '@react-navigation/drawer';
-import { useFocusEffect } from '@react-navigation/native';
+import {useDrawerStatus} from '@react-navigation/drawer';
+import {useFocusEffect} from '@react-navigation/native';
 
 const AnimatedSvg = Animated.createAnimatedComponent(Svg);
 
@@ -39,24 +39,24 @@ const getPath = () => {
     .x(d => d.x)
     .y(d => d.y)
     .curve(shape.curveBasis)([
-      { x: screenWidth, y: 0 },
-      { x: screenWidth + 5, y: 2 },
-      { x: screenWidth + 10, y: 8 },
-      { x: screenWidth + 15, y: 15 },
-      { x: screenWidth + 20, y: height },
-      { x: screenWidth + tabWidth - 20, y: height },
-      { x: screenWidth + tabWidth - 15, y: 15 },
-      { x: screenWidth + tabWidth - 10, y: 8 },
-      { x: screenWidth + tabWidth - 5, y: 2 },
-      { x: screenWidth + tabWidth, y: 0 },
-    ]);
+    {x: screenWidth, y: 0},
+    {x: screenWidth + 5, y: 2},
+    {x: screenWidth + 10, y: 8},
+    {x: screenWidth + 15, y: 15},
+    {x: screenWidth + 20, y: height},
+    {x: screenWidth + tabWidth - 20, y: height},
+    {x: screenWidth + tabWidth - 15, y: 15},
+    {x: screenWidth + tabWidth - 10, y: 8},
+    {x: screenWidth + tabWidth - 5, y: 2},
+    {x: screenWidth + tabWidth, y: 0},
+  ]);
   return `${tab}`;
 };
 
 const d = getPath();
 
 const CustomDrawer = props => {
-  const { user } = useSelector(state => state.auth);
+  const {user} = useSelector(state => state.auth);
   console.log(user);
   const backAction = () => {
     if (Platform.OS === 'ios') {
@@ -121,7 +121,7 @@ const CustomDrawer = props => {
             marginVertical: Sizes.fixPadding * 3.0,
             marginHorizontal: Sizes.fixPadding * 2.0,
           }}>
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{flexDirection: 'row'}}>
             <MaterialIcons name="help" size={22} color={Colors.primaryColor} />
             <Text
               style={{
@@ -143,7 +143,7 @@ const CustomDrawer = props => {
                 borderColor: Colors.lightGrayColor,
                 backgroundColor: Colors.whiteColor,
               }}>
-              <Text style={{ ...Fonts.grayColor16Bold }}>Cancel</Text>
+              <Text style={{...Fonts.grayColor16Bold}}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.8}
@@ -155,7 +155,7 @@ const CustomDrawer = props => {
                 ...styles.cancelAndLogoutButtonStyle,
                 ...styles.logoutButtonStyle,
               }}>
-              <Text style={{ ...Fonts.whiteColor16Bold }}>Logout</Text>
+              <Text style={{...Fonts.whiteColor16Bold}}>Logout</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -167,12 +167,12 @@ const CustomDrawer = props => {
     return useDrawerStatus() === 'open' ? (
       <View style={styles.curveWrapStyle}>
         <View
-          {...{ height, screenWidth }}
-          style={{ transform: [{ rotate: '-90deg' }], width: '100%' }}>
+          {...{height, screenWidth}}
+          style={{transform: [{rotate: '-90deg'}], width: '100%'}}>
           <AnimatedSvg
             width={screenWidth * 2}
-            {...{ height }}
-            style={{ transform: [{ translateX }] }}>
+            {...{height}}
+            style={{transform: [{translateX}]}}>
             <Path d={d} fill={Colors.whiteColor} />
           </AnimatedSvg>
         </View>
@@ -294,7 +294,7 @@ const CustomDrawer = props => {
     );
   }
 
-  function drawerOptionSort({ iconName, option, onPress }) {
+  function drawerOptionSort({iconName, option, onPress}) {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
@@ -326,7 +326,7 @@ const CustomDrawer = props => {
           backgroundColor: Colors.primaryColor,
           borderTopRightRadius: Sizes.fixPadding * 2.0,
         }}>
-        <View style={{ ...styles.headerWrapStyle }}>
+        <View style={{...styles.headerWrapStyle}}>
           <View>
             <Image
               source={require('../assets/images/users/user1.png')}
@@ -350,11 +350,11 @@ const CustomDrawer = props => {
               />
             </TouchableOpacity>
           </View>
-          <View style={{ flex: 1, marginLeft: Sizes.fixPadding + 8.0 }}>
-            <Text numberOfLines={1} style={{ ...Fonts.whiteColor16Bold }}>
+          <View style={{flex: 1, marginLeft: Sizes.fixPadding + 8.0}}>
+            <Text numberOfLines={1} style={{...Fonts.whiteColor16Bold}}>
               Samantha Smith
             </Text>
-            <Text numberOfLines={1} style={{ ...Fonts.whiteColor14Regular }}>
+            <Text numberOfLines={1} style={{...Fonts.whiteColor14Regular}}>
               {user.email}
             </Text>
           </View>

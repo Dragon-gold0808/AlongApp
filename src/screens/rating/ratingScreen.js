@@ -13,6 +13,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MyStatusBar from '../../../src/components/myStatusBar';
+import Header from '../../components/header';
 
 const RatingScreen = ({navigation}) => {
   const [rate1, setRate1] = useState(true);
@@ -26,7 +27,10 @@ const RatingScreen = ({navigation}) => {
     <View style={{flex: 1, backgroundColor: Colors.whiteColor}}>
       <MyStatusBar />
       <View style={{flex: 1}}>
-        {backArrow()}
+        <Header
+          title={'Ratings & Review'}
+          onPressHandle={() => navigation.pop()}
+        />
         <ScrollView
           automaticallyAdjustKeyboardInsets={true}
           showsVerticalScrollIndicator={false}
@@ -228,22 +232,6 @@ const RatingScreen = ({navigation}) => {
           Cameron Williamson
         </Text>
       </View>
-    );
-  }
-
-  function backArrow() {
-    return (
-      <FontAwesome6
-        name="arrow-left"
-        size={20}
-        color={Colors.blackColor}
-        onPress={() => navigation.pop()}
-        style={{
-          marginHorizontal: Sizes.fixPadding + 5.0,
-          marginVertical: Sizes.fixPadding * 2.0,
-          alignSelf: 'flex-start',
-        }}
-      />
     );
   }
 };

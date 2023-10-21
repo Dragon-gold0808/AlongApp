@@ -21,51 +21,50 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import * as Animatable from 'react-native-animatable';
 import MyStatusBar from '../../../src/components/myStatusBar';
+import SelectInput from '../../components/input/selectInput';
+import TimePicker from '../../components/input/timePicker';
 
-const cabsList = [
+const weekDay = [
   {
     id: '1',
-    cabImage: require('../../assets/images/cabs/cab1.png'),
-    cabName: 'Sedan',
-    amount: 30.5,
+    day: 'Su',
   },
   {
     id: '2',
-    cabImage: require('../../assets/images/cabs/cab2.png'),
-    cabName: 'Nexon',
-    amount: 32.5,
+    day: 'Mo',
   },
   {
     id: '3',
-    cabImage: require('../../assets/images/cabs/cab3.png'),
-    cabName: 'Baleno',
-    amount: 30.5,
+    day: 'Tu',
   },
   {
     id: '4',
-    cabImage: require('../../assets/images/cabs/cab4.png'),
-    cabName: 'Sedan',
-    amount: 30.5,
+    day: 'We',
   },
   {
     id: '5',
-    cabImage: require('../../assets/images/cabs/cab5.png'),
-    cabName: 'Nexon',
-    amount: 32.5,
+    day: 'Th',
   },
   {
     id: '6',
-    cabImage: require('../../assets/images/cabs/cab6.png'),
-    cabName: 'Baleno',
-    amount: 30.5,
+    day: 'Fr',
+  },
+  {
+    id: '7',
+    day: 'Sa',
   },
 ];
 
-const cabTypes = ['Economy', 'Luxury', 'Extras'];
+const cabTypes = ['Instant', 'Scheduled'];
+
+const numRidersList = [1, 2, 3, 4, 5];
 
 const SelectCabScreen = ({navigation}) => {
   const [selectedCabTypeIndex, setSelectedCabTypeIndex] = useState(0);
-  const [selectedCabIndex, setSelectedCabIndex] = useState(0);
+  const [selectedWeekDay, setSelectedWeekDay] = useState(0);
+  const [numRiders, setNumRiders] = useState(1);
+  const [date, setDate] = useState();
+  console.log(selectedWeekDay);
 
   return (
     <View style={{flex: 1, backgroundColor: Colors.whiteColor}}>
@@ -87,7 +86,14 @@ const SelectCabScreen = ({navigation}) => {
         style={{...styles.bottomSheetWrapStyle}}>
         {indicator()}
         {cabTypesInfo()}
-        {cabsInfo()}
+        <SelectInput
+          title={'Number of Riders'}
+          listValues={numRidersList}
+          selectedValue={numRiders}
+          setSelectedValue={setNumRiders}
+        />
+        <TimePicker title={'Select Time'} date={date} setDate={setDate} />
+        {weekDayRepeat()}
         {bookRideButton()}
       </Animatable.View>
     );
@@ -97,42 +103,22 @@ const SelectCabScreen = ({navigation}) => {
     return <View style={{...styles.sheetIndicatorStyle}} />;
   }
 
-  function cabsInfo() {
+  function weekDayRepeat() {
     const renderItem = ({item, index}) => (
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => {
-          setSelectedCabIndex(index);
+          setSelectedWeekDay(item.id);
         }}
-        style={styles.cabInfoWrapStyle}>
-        <Image source={item.cabImage} style={styles.cabImageStyle} />
-        <View
-          style={{
-            marginLeft: Sizes.fixPadding,
-            marginTop: -(screenWidth / 6.3) + 30.0,
-          }}>
-          <Text style={{...Fonts.blackColor15SemiBold}}>{item.cabName}</Text>
-          <Text style={{...Fonts.blackColor15Bold}}>
-            ${item.amount.toFixed(2)}
-          </Text>
-          <View
-            style={{
-              backgroundColor:
-                selectedCabIndex == index
-                  ? Colors.lightBlackColor
-                  : Colors.shadowColor,
-              ...styles.selectedCabIndicatorStyle,
-            }}>
-            <MaterialIcons name="check" color={Colors.whiteColor} size={14} />
-          </View>
-        </View>
+        style={styles.weekDayStyle}>
+        <Text style={{...Fonts.blackColor16SemiBold}}>{item.day}</Text>
       </TouchableOpacity>
     );
     return (
       <FlatList
         horizontal
         showsHorizontalScrollIndicator={false}
-        data={cabsList}
+        data={weekDay}
         keyExtractor={item => `${item.id}`}
         renderItem={renderItem}
         contentContainerStyle={{
@@ -168,7 +154,7 @@ const SelectCabScreen = ({navigation}) => {
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => {
-          navigation.push('SelectPaymentMethod');
+          navigation.push('SearchingForDrivers');
         }}
         style={styles.buttonStyle}>
         <Text style={{...Fonts.whiteColor18Bold}}>Book Ride</Text>
@@ -207,57 +193,61 @@ const SelectCabScreen = ({navigation}) => {
       longitude: 88.309215,
     };
     return (
-      <MapView
-        region={{
-          latitude: 22.483643,
-          longitude: 88.37588,
-          latitudeDelta: 0.5,
-          longitudeDelta: 0.5,
-        }}
-        style={{height: '100%'}}
-        provider={PROVIDER_GOOGLE}
-        mapType="terrain">
-        <MapViewDirections
-          origin={userLocation}
-          destination={currentCabLocation}
-          apikey={Key.apiKey}
-          strokeColor={Colors.primaryColor}
-          strokeWidth={3}
-        />
-        <Marker coordinate={currentCabLocation}>
-          <Image
-            source={require('../../assets/images/icons/marker2.png')}
-            style={{width: 50.0, height: 50.0, resizeMode: 'stretch'}}
-          />
-          <Callout>
-            <View style={styles.calloutWrapStyle}>
-              <View style={styles.kilometerInfoWrapStyle}>
-                <Text style={{...Fonts.whiteColor10Bold}}>10km</Text>
-              </View>
-              <Text
-                style={{
-                  marginLeft: Sizes.fixPadding,
-                  flex: 1,
-                  ...Fonts.blackColor14SemiBold,
-                }}>
-                1655 Island Pkwy, Kamloops, BC V2B 6Y9
-              </Text>
-            </View>
-          </Callout>
-        </Marker>
-        <Marker coordinate={userLocation}>
-          <Image
-            source={require('../../assets/images/icons/marker3.png')}
-            style={{width: 23.0, height: 23.0}}
-          />
-          <Callout>
-            <Text
-              style={{width: screenWidth / 1.5, ...Fonts.blackColor14SemiBold}}>
-              9 Bailey Drive, Fredericton, NB E3B 5A3
-            </Text>
-          </Callout>
-        </Marker>
-      </MapView>
+      <Image
+        source={require('../../assets/images/bg.png')}
+        style={styles.logoStyle}
+      />
+      // <MapView
+      //   region={{
+      //     latitude: 22.483643,
+      //     longitude: 88.37588,
+      //     latitudeDelta: 0.5,
+      //     longitudeDelta: 0.5,
+      //   }}
+      //   style={{height: '100%'}}
+      //   provider={PROVIDER_GOOGLE}
+      //   mapType="terrain">
+      //   <MapViewDirections
+      //     origin={userLocation}
+      //     destination={currentCabLocation}
+      //     apikey={Key.apiKey}
+      //     strokeColor={Colors.primaryColor}
+      //     strokeWidth={3}
+      //   />
+      //   <Marker coordinate={currentCabLocation}>
+      //     <Image
+      //       source={require('../../assets/images/icons/marker2.png')}
+      //       style={{width: 50.0, height: 50.0, resizeMode: 'stretch'}}
+      //     />
+      //     <Callout>
+      //       <View style={styles.calloutWrapStyle}>
+      //         <View style={styles.kilometerInfoWrapStyle}>
+      //           <Text style={{...Fonts.whiteColor10Bold}}>10km</Text>
+      //         </View>
+      //         <Text
+      //           style={{
+      //             marginLeft: Sizes.fixPadding,
+      //             flex: 1,
+      //             ...Fonts.blackColor14SemiBold,
+      //           }}>
+      //           1655 Island Pkwy, Kamloops, BC V2B 6Y9
+      //         </Text>
+      //       </View>
+      //     </Callout>
+      //   </Marker>
+      //   <Marker coordinate={userLocation}>
+      //     <Image
+      //       source={require('../../assets/images/icons/marker3.png')}
+      //       style={{width: 23.0, height: 23.0}}
+      //     />
+      //     <Callout>
+      //       <Text
+      //         style={{width: screenWidth / 1.5, ...Fonts.blackColor14SemiBold}}>
+      //         9 Bailey Drive, Fredericton, NB E3B 5A3
+      //       </Text>
+      //     </Callout>
+      //   </Marker>
+      // </MapView>
     );
   }
 };
@@ -319,13 +309,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: Sizes.fixPadding + 5.0,
   },
-  cabInfoWrapStyle: {
+  weekDayStyle: {
     backgroundColor: Colors.whiteColor,
     borderColor: Colors.shadowColor,
     borderWidth: 1.0,
     borderRadius: Sizes.fixPadding,
+    padding: Sizes.fixPadding,
     marginRight: Sizes.fixPadding,
-    marginTop: screenWidth / 6.3 / 1.5,
+    marginVertical: Sizes.fixPadding,
   },
   cabImageStyle: {
     top: -(screenWidth / 6.3) / 1.5,
