@@ -12,7 +12,7 @@ import {
 import {Colors, Fonts, Sizes, commonStyles} from '../../constants/styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import MyStatusBar from '../../../src/components/myStatusBar';
+import MyStatusBar from '../../components/myStatusBar';
 
 const userMessages = [
   {
@@ -244,7 +244,6 @@ const styles = StyleSheet.create({
     padding: Sizes.fixPadding * 2.0,
     borderColor: Colors.shadowColor,
     borderWidth: 1.0,
-    padding: Sizes.fixPadding + 5.0,
     marginHorizontal: Sizes.fixPadding * 2.0,
     borderRadius: Sizes.fixPadding - 5.0,
     marginBottom: Sizes.fixPadding * 2.0,

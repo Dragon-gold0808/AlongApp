@@ -225,6 +225,15 @@ const CustomDrawer = props => {
         })}
         {divider()}
         {drawerOptionSort({
+          iconName: 'star',
+          option: 'My Ratings',
+          onPress: () => {
+            props.navigation.closeDrawer();
+            props.navigation.push('UserRatings');
+          },
+        })}
+        {divider()}
+        {drawerOptionSort({
           iconName: 'account-balance-wallet',
           option: 'Wallet',
           onPress: () => {

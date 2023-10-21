@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Overlay} from '@rneui/themed';
 import {Text, ActivityIndicator, Platform, StyleSheet} from 'react-native';
-import {Colors, Fonts, Sizes} from '../constants/styles';
+import {Colors, Fonts, Sizes} from '../../constants/styles';
 
 export default function LoadingDialog({text, isVisible}) {
   return (

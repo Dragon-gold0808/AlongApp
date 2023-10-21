@@ -12,7 +12,7 @@ import SelectCabScreen from './src/screens/selectCab/selectCabScreen';
 import SelectPaymentMethodScreen from './src/screens/selectPaymentMethod/selectPaymentMethodScreen';
 import SearchingForDriversScreen from './src/screens/searchingForDrivers/searchingForDriversScreen';
 import DriverDetailScreen from './src/screens/driverDetail/driverDetailScreen';
-import ChatWithDriverScreen from './src/screens/chatWithDriver/chatWithDriverScreen';
+import ChatWithDriverScreen from './src/screens/chatWithDriver/chatScreen';
 import RideStartedScreen from './src/screens/rideStarted/rideStartedScreen';
 import RideEndScreen from './src/screens/rideEnd/rideEndScreen';
 import RatingScreen from './src/screens/rating/ratingScreen';
@@ -34,10 +34,16 @@ import RegisterScreen from './src/screens/auth/registerScreen';
 import VerificationScreen from './src/screens/auth/verificationScreen';
 import AuthHomeScreen from './src/screens/auth/authHomeScreen';
 import DriverModeScreen from './src/screens/driverMode/driverModeScreen';
+import UserRatingsScreen from './src/screens/userRatings/userRatingsScreen';
+import GoToPickupScreen from './src/screens/goToPickup/goToPickupScreen';
+import SelectRouteScreen from './src/screens/selectRoute/selectRouteScreen';
+import StartRideScreen from './src/screens/startRide/startRideScreen';
+import EndRideScreen from './src/screens/endRide/endRideScreen';
 
-import {Provider} from 'react-redux';
+import {Provider, useSelector} from 'react-redux';
 import {store, persistor} from './src/core/redux/store';
 import {PersistGate} from 'redux-persist/integration/react';
+import DriverHomeScreen from './src/screens/home/driverHomeScreen';
 
 LogBox.ignoreAllLogs();
 
@@ -45,6 +51,8 @@ const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 const DrawerNavigation = () => {
+  const {user, driver} = useSelector(state => state.auth);
+  console.log(driver);
   return (
     <Drawer.Navigator
       drawerContent={props => <CustomDrawer {...props} />}
@@ -57,7 +65,10 @@ const DrawerNavigation = () => {
         },
         drawerType: 'front',
       }}>
-      <Drawer.Screen name="DrawerScreen" component={HomeScreen} />
+      <Drawer.Screen
+        name="DrawerScreen"
+        component={driver.driverEnabled ? DriverHomeScreen : HomeScreen}
+      />
     </Drawer.Navigator>
   );
 };
@@ -119,6 +130,7 @@ function MyApp() {
             <Stack.Screen name="Rating" component={RatingScreen} />
             <Stack.Screen name="EditProfile" component={EditProfileScreen} />
             <Stack.Screen name="DriverMode" component={DriverModeScreen} />
+            <Stack.Screen name="UserRatings" component={UserRatingsScreen} />
             <Stack.Screen name="UserRides" component={UserRidesScreen} />
             <Stack.Screen name="Settings" component={SettingsScreen} />
             <Stack.Screen name="RideDetail" component={RideDetailScreen} />
@@ -141,6 +153,11 @@ function MyApp() {
             />
             <Stack.Screen name="Faqs" component={FaqsScreen} />
             <Stack.Screen name="ContactUs" component={ContactUsScreen} />
+            {/* For Drivers */}
+            <Stack.Screen name="GoToPickup" component={GoToPickupScreen} />
+            <Stack.Screen name="SelectRoute" component={SelectRouteScreen} />
+            <Stack.Screen name="StartRide" component={StartRideScreen} />
+            <Stack.Screen name="EndRide" component={EndRideScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

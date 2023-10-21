@@ -246,6 +246,30 @@ export const Fonts = {
     fontSize: 16.0,
     fontFamily: 'NunitoSans-Bold',
   },
+
+  whiteColor12SemiBold: {
+    color: Colors.whiteColor,
+    fontSize: 12.0,
+    fontFamily: 'NunitoSans-SemiBold',
+  },
+
+  whiteColor13Bold: {
+    color: Colors.whiteColor,
+    fontSize: 13.0,
+    fontFamily: 'NunitoSans-Bold',
+  },
+
+  whiteColor18ExtraBold: {
+    color: Colors.whiteColor,
+    fontSize: 18.0,
+    fontFamily: 'NunitoSans-ExtraBold',
+  },
+
+  primaryColor12Bold: {
+    color: Colors.primaryColor,
+    fontSize: 12.0,
+    fontFamily: 'NunitoSans-Bold',
+  },
 };
 
 export const screenWidth = Dimensions.get('window').width;
