@@ -246,7 +246,7 @@ const WalletScreen = ({navigation}) => {
                 marginTop: Sizes.fixPadding - 7.0,
                 ...Fonts.grayColor14SemiBold,
               }}>
-              Default Payment Method
+              D5EB-4C55-D4F4-2A2E-7
             </Text>
           </View>
         </View>

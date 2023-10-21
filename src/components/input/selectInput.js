@@ -77,13 +77,6 @@ export default function SelectInput({
 }
 
 const styles = StyleSheet.create({
-  textFieldStyle: {
-    height: 20.0,
-    ...Fonts.blackColor16Bold,
-    marginTop: Sizes.fixPadding - 5.0,
-    marginBottom: Sizes.fixPadding - 4.0,
-    padding: 0,
-  },
   dropdownWrapStyle: {
     marginBottom: Sizes.fixPadding - 4.0,
     flexDirection: 'row',

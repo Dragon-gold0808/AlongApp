@@ -16,6 +16,7 @@ import {
   screenHeight,
   screenWidth,
 } from '../../constants/styles';
+import {Overlay} from '@rneui/themed';
 import MapViewDirections from 'react-native-maps-directions';
 import {Key} from '../../../src/constants/key';
 import MapView, {PROVIDER_GOOGLE, Marker, Callout} from 'react-native-maps';
@@ -23,10 +24,10 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import * as Animatable from 'react-native-animatable';
 import MyStatusBar from '../../../src/components/myStatusBar';
+import BottomSheet from 'react-native-simple-bottom-sheet';
 
 const DriverDetailScreen = ({navigation}) => {
-  const [showMore, setshowMore] = useState(false);
-
+  const [overlayVisible, setOverlayVisible] = useState(false);
   return (
     <View style={{flex: 1, backgroundColor: Colors.shadowColor}}>
       <MyStatusBar />
@@ -40,37 +41,30 @@ const DriverDetailScreen = ({navigation}) => {
 
   function driverInfoSheet() {
     return (
-      <Animatable.View
-        animation="slideInUp"
-        iterationCount={1}
-        duration={1500}
-        style={{
-          ...styles.bottomSheetWrapStyle,
-          maxHeight: showMore ? screenHeight - 100.0 : null,
-        }}>
-        {indicator()}
+      <BottomSheet
+        isOpen={false}
+        sliderMinHeight={screenHeight / 3.2}
+        sliderMaxHeight={screenHeight - 100}
+        lineContainerStyle={{
+          height: 0.0,
+          marginVertical: Sizes.fixPadding + 5.0,
+        }}
+        lineStyle={styles.sheetIndicatorStyle}
+        wrapperStyle={{...styles.bottomSheetWrapStyle}}>
         <ScrollView
-          contentContainerStyle={{paddingBottom: Sizes.fixPadding}}
+          contentContainerStyle={{
+            paddingTop: Sizes.fixPadding,
+            paddingBottom: Sizes.fixPadding * 3.0,
+          }}
           showsVerticalScrollIndicator={false}>
           {driverInfo()}
-          {showMore ? (
-            <View>
-              {divider()}
-              {tripInfo()}
-              {divider()}
-              {paymentInfo()}
-              {divider()}
-              {otherInfo()}
-            </View>
-          ) : null}
+          {divider()}
+          {tripInfo()}
         </ScrollView>
         {moreAndCancelRideButton()}
-      </Animatable.View>
+        {pinDialog()}
+      </BottomSheet>
     );
-  }
-
-  function indicator() {
-    return <View style={{...styles.sheetIndicatorStyle}} />;
   }
 
   function otherInfo() {
@@ -135,7 +129,9 @@ const DriverDetailScreen = ({navigation}) => {
       <View>
         <View style={styles.tripRouteTitleWrapStyle}>
           <Text style={{...Fonts.blackColor18Bold}}>Trip Route</Text>
-          <Text style={{...Fonts.primaryColor14Bold}}>10 km (15 min)</Text>
+          <Text style={{...Fonts.primaryColor14Bold}}>
+            10 km (15 min, $30.5)
+          </Text>
         </View>
         {currentLocationInfo()}
         {currentToDropLocDivider()}
@@ -222,29 +218,77 @@ const DriverDetailScreen = ({navigation}) => {
       <View style={styles.moreAndCancelRideButtonWrapStyle}>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => {
-            setshowMore(!showMore);
-          }}
+          // onPress={() => {
+          //   setshowMore(!showMore);
+          // }}
           style={{flexDirection: 'row', alignItems: 'center'}}>
-          <MaterialIcons
-            name={showMore ? 'keyboard-arrow-down' : 'keyboard-arrow-up'}
-            size={28}
-            color={Colors.primaryColor}
-          />
           <Text
             style={{marginLeft: Sizes.fixPadding, ...Fonts.blackColor16Bold}}>
-            {showMore ? 'Less' : 'More'}
+            Cancel Ride
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
-            navigation.push('RideStarted');
+            setOverlayVisible(true);
           }}
           style={styles.cancelRideButtonStyle}>
-          <Text style={{...Fonts.whiteColor18Bold}}>Cancel Ride</Text>
+          <Text style={{...Fonts.whiteColor18Bold}}>Confirm Pickup</Text>
         </TouchableOpacity>
       </View>
+    );
+  }
+
+  function pinDialog() {
+    return (
+      <Overlay
+        isVisible={overlayVisible}
+        onBackdropPress={() => setOverlayVisible(false)}
+        overlayStyle={styles.dialogStyle}>
+        <View
+          style={{
+            marginVertical: Sizes.fixPadding * 3.0,
+            marginHorizontal: Sizes.fixPadding * 2.0,
+          }}>
+          <View style={{flexDirection: 'row'}}>
+            <MaterialIcons name="help" size={22} color={Colors.primaryColor} />
+            <Text
+              style={{
+                flex: 1,
+                marginLeft: Sizes.fixPadding,
+                ...Fonts.blackColor16SemiBold,
+              }}>
+              Pin Number: 152482
+            </Text>
+          </View>
+          <View style={styles.cancelAndLogoutButtonWrapStyle}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => {
+                setOverlayVisible(false);
+              }}
+              style={{
+                ...styles.cancelAndLogoutButtonStyle,
+                borderColor: Colors.lightGrayColor,
+                backgroundColor: Colors.whiteColor,
+              }}>
+              <Text style={{...Fonts.grayColor16Bold}}>Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => {
+                setOverlayVisible(false);
+                navigation.push('RideStarted');
+              }}
+              style={{
+                ...styles.cancelAndLogoutButtonStyle,
+                ...styles.logoutButtonStyle,
+              }}>
+              <Text style={{...Fonts.whiteColor16Bold}}>Confirm</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Overlay>
     );
   }
 
@@ -389,57 +433,61 @@ const DriverDetailScreen = ({navigation}) => {
       longitude: 88.309215,
     };
     return (
-      <MapView
-        region={{
-          latitude: 22.483643,
-          longitude: 88.37588,
-          latitudeDelta: 0.5,
-          longitudeDelta: 0.5,
-        }}
-        style={{height: '100%'}}
-        provider={PROVIDER_GOOGLE}
-        mapType="terrain">
-        <MapViewDirections
-          origin={userLocation}
-          destination={currentCabLocation}
-          apikey={Key.apiKey}
-          strokeColor={Colors.primaryColor}
-          strokeWidth={3}
-        />
-        <Marker coordinate={currentCabLocation}>
-          <Image
-            source={require('../../assets/images/icons/marker2.png')}
-            style={{width: 50.0, height: 50.0, resizeMode: 'stretch'}}
-          />
-          <Callout>
-            <View style={styles.calloutWrapStyle}>
-              <View style={styles.kilometerInfoWrapStyle}>
-                <Text style={{...Fonts.whiteColor10Bold}}>10km</Text>
-              </View>
-              <Text
-                style={{
-                  marginLeft: Sizes.fixPadding,
-                  flex: 1,
-                  ...Fonts.blackColor14SemiBold,
-                }}>
-                1655 Island Pkwy, Kamloops, BC V2B 6Y9
-              </Text>
-            </View>
-          </Callout>
-        </Marker>
-        <Marker coordinate={userLocation}>
-          <Image
-            source={require('../../assets/images/icons/marker3.png')}
-            style={{width: 23.0, height: 23.0}}
-          />
-          <Callout>
-            <Text
-              style={{width: screenWidth / 1.5, ...Fonts.blackColor14SemiBold}}>
-              9 Bailey Drive, Fredericton, NB E3B 5A3
-            </Text>
-          </Callout>
-        </Marker>
-      </MapView>
+      <Image
+        source={require('../../assets/images/bg.png')}
+        style={styles.logoStyle}
+      />
+      // <MapView
+      //   region={{
+      //     latitude: 22.483643,
+      //     longitude: 88.37588,
+      //     latitudeDelta: 0.5,
+      //     longitudeDelta: 0.5,
+      //   }}
+      //   style={{height: '100%'}}
+      //   provider={PROVIDER_GOOGLE}
+      //   mapType="terrain">
+      //   <MapViewDirections
+      //     origin={userLocation}
+      //     destination={currentCabLocation}
+      //     apikey={Key.apiKey}
+      //     strokeColor={Colors.primaryColor}
+      //     strokeWidth={3}
+      //   />
+      //   <Marker coordinate={currentCabLocation}>
+      //     <Image
+      //       source={require('../../assets/images/icons/marker2.png')}
+      //       style={{width: 50.0, height: 50.0, resizeMode: 'stretch'}}
+      //     />
+      //     <Callout>
+      //       <View style={styles.calloutWrapStyle}>
+      //         <View style={styles.kilometerInfoWrapStyle}>
+      //           <Text style={{...Fonts.whiteColor10Bold}}>10km</Text>
+      //         </View>
+      //         <Text
+      //           style={{
+      //             marginLeft: Sizes.fixPadding,
+      //             flex: 1,
+      //             ...Fonts.blackColor14SemiBold,
+      //           }}>
+      //           1655 Island Pkwy, Kamloops, BC V2B 6Y9
+      //         </Text>
+      //       </View>
+      //     </Callout>
+      //   </Marker>
+      //   <Marker coordinate={userLocation}>
+      //     <Image
+      //       source={require('../../assets/images/icons/marker3.png')}
+      //       style={{width: 23.0, height: 23.0}}
+      //     />
+      //     <Callout>
+      //       <Text
+      //         style={{width: screenWidth / 1.5, ...Fonts.blackColor14SemiBold}}>
+      //         9 Bailey Drive, Fredericton, NB E3B 5A3
+      //       </Text>
+      //     </Callout>
+      //   </Marker>
+      // </MapView>
     );
   }
 };
@@ -481,13 +529,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: Sizes.fixPadding - 5.0,
   },
   bottomSheetWrapStyle: {
+    paddingBottom: Sizes.fixPadding - 5.0,
+    paddingTop: Sizes.fixPadding + 5.0,
+    paddingHorizontal: Sizes.fixPadding * 2.0,
     borderTopLeftRadius: Sizes.fixPadding * 2.5,
     borderTopRightRadius: Sizes.fixPadding * 2.5,
     backgroundColor: Colors.whiteColor,
-    position: 'absolute',
-    left: 0.0,
-    right: 0.0,
-    bottom: 0.0,
   },
   sheetIndicatorStyle: {
     width: 50,
@@ -590,5 +637,29 @@ const styles = StyleSheet.create({
     marginHorizontal: Sizes.fixPadding * 2.0,
     overflow: 'hidden',
     justifyContent: 'flex-end',
+  },
+  dialogStyle: {
+    width: '90%',
+    backgroundColor: Colors.whiteColor,
+    padding: 0.0,
+    borderRadius: Sizes.fixPadding - 5.0,
+  },
+  cancelAndLogoutButtonStyle: {
+    paddingVertical: Sizes.fixPadding - 2.0,
+    paddingHorizontal: Sizes.fixPadding * 2.0,
+    borderWidth: 1.0,
+    borderRadius: Sizes.fixPadding - 5.0,
+    elevation: 1.0,
+  },
+  cancelAndLogoutButtonWrapStyle: {
+    marginTop: Sizes.fixPadding * 3.0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  logoutButtonStyle: {
+    borderColor: Colors.primaryColor,
+    backgroundColor: Colors.primaryColor,
+    marginLeft: Sizes.fixPadding,
   },
 });

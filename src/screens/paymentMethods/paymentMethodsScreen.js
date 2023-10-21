@@ -14,12 +14,6 @@ import MyStatusBar from '../../../src/components/myStatusBar';
 
 const paymentmethods = [
   {
-    id: '1',
-    paymentIcon: require('../../assets/images/paymentMethods/wallet.png'),
-    paymentType: 'other',
-    paymentMethod: 'Wallet',
-  },
-  {
     id: '2',
     paymentIcon: require('../../assets/images/paymentMethods/visa.png'),
     paymentType: 'card',
