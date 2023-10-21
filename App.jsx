@@ -52,7 +52,6 @@ const Stack = createStackNavigator();
 
 const DrawerNavigation = () => {
   const {user, driver} = useSelector(state => state.auth);
-  console.log(driver);
   return (
     <Drawer.Navigator
       drawerContent={props => <CustomDrawer {...props} />}
