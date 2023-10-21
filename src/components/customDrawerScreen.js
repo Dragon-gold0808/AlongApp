@@ -57,7 +57,7 @@ const getPath = () => {
 const d = getPath();
 
 const CustomDrawer = props => {
-  const {user} = useSelector(state => state.auth);
+  const {user, driver} = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const backAction = () => {
     if (Platform.OS === 'ios') {
@@ -265,7 +265,7 @@ const CustomDrawer = props => {
           option: 'About us',
           onPress: () => {
             props.navigation.closeDrawer();
-            props.navigation.push('Faqs');
+            props.navigation.push('Aboutus');
           },
         })}
         {divider()}
@@ -345,7 +345,11 @@ const CustomDrawer = props => {
         <View style={{...styles.headerWrapStyle}}>
           <View>
             <Image
-              source={require('../assets/images/users/user1.png')}
+              source={
+                driver?.driverEnabled
+                  ? require('../assets/images/users/user2.png')
+                  : require('../assets/images/users/user1.png')
+              }
               style={{
                 width: screenWidth / 5.0,
                 height: screenWidth / 5.0,
@@ -367,6 +371,9 @@ const CustomDrawer = props => {
             </TouchableOpacity>
           </View>
           <View style={{flex: 1, marginLeft: Sizes.fixPadding + 8.0}}>
+            <Text numberOfLines={1} style={{...Fonts.whiteColor18Bold}}>
+              {driver?.driverEnabled ? 'Driver' : 'User'}
+            </Text>
             <Text numberOfLines={1} style={{...Fonts.whiteColor16Bold}}>
               {user?.displayName ? user.displayName : 'xxx'}
             </Text>

@@ -68,6 +68,10 @@ const nearestLocations = [
 ];
 
 const HomeScreen = ({navigation}) => {
+  // navigation.reset({
+  //   index: 0,
+  //   routes: [{name: 'Home'}],
+  // });
   const backAction = () => {
     if (Platform.OS === 'ios') {
       navigation.addListener('beforeRemove', e => {

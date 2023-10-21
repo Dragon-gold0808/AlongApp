@@ -107,8 +107,8 @@ const WalletScreen = ({navigation}) => {
         <FlatList
           ListHeaderComponent={
             <>
+              {topUp()}
               {paymentMethodsInfo()}
-              {couponsInfo()}
               {recentTransactionsInfo()}
             </>
           }
@@ -185,15 +185,16 @@ const WalletScreen = ({navigation}) => {
     );
   }
 
-  function couponsInfo() {
+  function topUp() {
     return (
-      <View
-        style={{
-          ...styles.infoWrapStyle,
-          marginVertical: Sizes.fixPadding * 2.0,
-        }}>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => {
+          navigation.push('Topup');
+        }}
+        style={styles.infoWrapStyle}>
         <Text style={{flex: 1}}>
-          <Text style={{...Fonts.blackColor16SemiBold}}>Coupon {}</Text>
+          <Text style={{...Fonts.blackColor16SemiBold}}>TopUp {}</Text>
           <Text style={{...Fonts.grayColor14SemiBold}}>(3)</Text>
         </Text>
         <View style={styles.rightArrowIconWrapStyle}>
@@ -203,7 +204,7 @@ const WalletScreen = ({navigation}) => {
             color={Colors.blackColor}
           />
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 
@@ -335,6 +336,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginHorizontal: Sizes.fixPadding * 2.0,
+    marginVertical: Sizes.fixPadding ,
     padding: Sizes.fixPadding + 5.0,
     borderColor: Colors.shadowColor,
     borderWidth: 1.5,
