@@ -22,7 +22,10 @@ import SelectInput from '../../components/input/selectInput';
 import ATextInput from '../../components/input/textInput';
 import {firestore} from '../../../FirebaseConfig';
 import {useSelector, useDispatch} from 'react-redux';
-import {DRIVER_UPDATE_SUCCESS} from '../../core/redux/types';
+import {
+  DRIVER_UPDATE_SUCCESS,
+  DRIVER_UPDATE_STATE,
+} from '../../core/redux/types';
 
 const DriverModeScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -80,8 +83,12 @@ const DriverModeScreen = ({navigation}) => {
   useEffect(() => {
     if (driver) {
       setDriverEnabled(driver.driverEnabled);
-      setSelectedCarBrand(driver.selectedCarBrand);
-      setSelectedCarModel(driver.selectedCarModel);
+      if (driver.selectedCarBrand) {
+        setSelectedCarBrand(driver.selectedCarBrand);
+      }
+      if (driver.selectedCarModel) {
+        setSelectedCarModel(driver.selectedCarModel);
+      }
     }
   }, [driver]);
 
@@ -95,7 +102,7 @@ const DriverModeScreen = ({navigation}) => {
   // }, [driverEnabled]);
   const saveButtonPress = async () => {
     try {
-      await firestore().collection('users').doc(user.uid).set({
+      await firestore().collection('users').doc(user.uid).update({
         driverEnabled: driverEnabled,
         vehicleNumber: vehicleNumber,
         selectedCarBrand: selectedCarBrand,
@@ -110,11 +117,31 @@ const DriverModeScreen = ({navigation}) => {
           selectedCarModel: selectedCarModel,
         },
       });
-      navigation.pop();
     } catch (error) {
       console.log(error);
     } finally {
-      // navigation.pop();
+      navigation.pop();
+    }
+  };
+
+  const backButtonPress = async () => {
+    if (driverEnabled) {
+      navigation.pop();
+    } else {
+      try {
+        await firestore().collection('users').doc(user.uid).update({
+          driverEnabled: driverEnabled,
+        });
+        dispatch({
+          type: DRIVER_UPDATE_STATE,
+          payload: driverEnabled,
+        });
+        // navigation.pop();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        navigation.pop();
+      }
     }
   };
 
@@ -266,7 +293,7 @@ const DriverModeScreen = ({navigation}) => {
           name="arrow-left"
           size={20}
           color={Colors.blackColor}
-          onPress={() => navigation.pop()}
+          onPress={backButtonPress}
         />
         <Text
           style={{

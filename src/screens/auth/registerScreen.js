@@ -46,6 +46,10 @@ const RegisterScreen = ({navigation}) => {
   const [showSheet, setShowSheet] = useState(false);
 
   const singUpWithEmailAndPassword = async () => {
+    if (email.length === 0 || password.length === 0) {
+      alert('Please fill in all fields');
+      return;
+    }
     setLoading(true);
     auth()
       .createUserWithEmailAndPassword(email, password)
@@ -57,7 +61,7 @@ const RegisterScreen = ({navigation}) => {
             displayName: name,
             photoURL: 'https://example.com/johndoe.jpg',
           })
-          .then(() => {
+          .then(async () => {
             // Profile updated
             console.log('displayName updated!');
             dispatch({
@@ -67,6 +71,9 @@ const RegisterScreen = ({navigation}) => {
                 photoURL: 'https://example.com/johndoe.jpg',
               },
               type: LOGIN_UPDATE_SUCCESS,
+            });
+            await firestore().collection('users').doc(user.uid).set({
+              driverEnabled: false,
             });
             navigation.push('Home');
           })
@@ -90,11 +97,11 @@ const RegisterScreen = ({navigation}) => {
       // Sign up the user with their phone number using Firebase Authentication
       console.log(phoneNumber);
       console.log(phoneNumber.dialCode + phoneNumber.phoneNumber);
-      const confirmation = await auth().signInWithPhoneNumber(
-        // phoneNumber.dialCode + ' ' + phoneNumber.phoneNumber,
-        '+1 (111) 111-1111',
-      );
-      setConfirm(confirmation);
+      // const confirmation = await auth().signInWithPhoneNumber(
+      //   // phoneNumber.dialCode + ' ' + phoneNumber.phoneNumber,
+      //   '+1 (111) 111-1111',
+      // );
+      // setConfirm(confirmation);
 
       // Save the user's full name in Firestore
       dispatch({
@@ -355,6 +362,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: Sizes.fixPadding * 2.5,
     backgroundColor: Colors.whiteColor,
     paddingHorizontal: Sizes.fixPadding * 2.0,
-    paddingBottom: Platform.OS == 'ios' ? Sizes.fixPadding * 1.5 : 0,
+    paddingBottom: Platform.OS === 'ios' ? Sizes.fixPadding * 1.5 : 0,
   },
 });
