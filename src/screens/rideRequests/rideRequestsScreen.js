@@ -374,7 +374,7 @@ const RideRequestsScreen = ({navigation, onPress}) => {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
-            navigation.push('ChatWithPassenger');
+            navigation.push('Chat');
           }}
           style={styles.callAndMessageIconWrapStyle}>
           <MaterialIcons
@@ -397,57 +397,61 @@ const RideRequestsScreen = ({navigation, onPress}) => {
       longitude: 88.474119,
     };
     return (
-      <MapView
-        region={{
-          latitude: 22.560257,
-          longitude: 88.366021,
-          latitudeDelta: 0.5,
-          longitudeDelta: 0.5,
-        }}
-        style={{height: '100%'}}
-        provider={PROVIDER_GOOGLE}
-        mapType="terrain">
-        <MapViewDirections
-          origin={currentCabLocation}
-          destination={userLocation}
-          apikey={Key.apiKey}
-          strokeColor={Colors.primaryColor}
-          strokeWidth={3}
-        />
-        <Marker coordinate={currentCabLocation}>
-          <Image
-            source={require('../../assets/images/icons/marker3.png')}
-            style={{width: 23.0, height: 23.0}}
-          />
-          <Callout>
-            <Text
-              style={{width: screenWidth / 1.5, ...Fonts.blackColor14SemiBold}}>
-              9 Bailey Drive, Fredericton, NB E3B 5A3
-            </Text>
-          </Callout>
-        </Marker>
-        <Marker coordinate={userLocation}>
-          <Image
-            source={require('../../assets/images/icons/marker2.png')}
-            style={{width: 50.0, height: 50.0, resizeMode: 'stretch'}}
-          />
-          <Callout>
-            <View style={styles.calloutWrapStyle}>
-              <View style={styles.kilometerInfoWrapStyle}>
-                <Text style={{...Fonts.whiteColor10Bold}}>10km</Text>
-              </View>
-              <Text
-                style={{
-                  marginLeft: Sizes.fixPadding,
-                  flex: 1,
-                  ...Fonts.blackColor14SemiBold,
-                }}>
-                1655 Island Pkwy, Kamloops, BC V2B 6Y9
-              </Text>
-            </View>
-          </Callout>
-        </Marker>
-      </MapView>
+      // <MapView
+      //   region={{
+      //     latitude: 22.560257,
+      //     longitude: 88.366021,
+      //     latitudeDelta: 0.5,
+      //     longitudeDelta: 0.5,
+      //   }}
+      //   style={{height: '100%'}}
+      //   provider={PROVIDER_GOOGLE}
+      //   mapType="terrain">
+      //   <MapViewDirections
+      //     origin={currentCabLocation}
+      //     destination={userLocation}
+      //     apikey={Key.apiKey}
+      //     strokeColor={Colors.primaryColor}
+      //     strokeWidth={3}
+      //   />
+      //   <Marker coordinate={currentCabLocation}>
+      //     <Image
+      //       source={require('../../assets/images/icons/marker3.png')}
+      //       style={{width: 23.0, height: 23.0}}
+      //     />
+      //     <Callout>
+      //       <Text
+      //         style={{width: screenWidth / 1.5, ...Fonts.blackColor14SemiBold}}>
+      //         9 Bailey Drive, Fredericton, NB E3B 5A3
+      //       </Text>
+      //     </Callout>
+      //   </Marker>
+      //   <Marker coordinate={userLocation}>
+      //     <Image
+      //       source={require('../../assets/images/icons/marker2.png')}
+      //       style={{width: 50.0, height: 50.0, resizeMode: 'stretch'}}
+      //     />
+      //     <Callout>
+      //       <View style={styles.calloutWrapStyle}>
+      //         <View style={styles.kilometerInfoWrapStyle}>
+      //           <Text style={{...Fonts.whiteColor10Bold}}>10km</Text>
+      //         </View>
+      //         <Text
+      //           style={{
+      //             marginLeft: Sizes.fixPadding,
+      //             flex: 1,
+      //             ...Fonts.blackColor14SemiBold,
+      //           }}>
+      //           1655 Island Pkwy, Kamloops, BC V2B 6Y9
+      //         </Text>
+      //       </View>
+      //     </Callout>
+      //   </Marker>
+      // </MapView>
+      <Image
+        source={require('../../assets/images/bg.png')}
+        style={styles.logoStyle}
+      />
     );
   }
 };

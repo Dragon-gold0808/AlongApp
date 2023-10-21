@@ -250,7 +250,7 @@ const RideStartedScreen = ({navigation}) => {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
-            navigation.push('ChatWithDriver');
+            navigation.push('Chat');
           }}
           style={styles.callAndMessageIconWrapStyle}>
           <MaterialIcons

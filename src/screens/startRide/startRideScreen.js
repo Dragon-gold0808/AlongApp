@@ -216,7 +216,7 @@ const StartRideScreen = ({navigation}) => {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
-            navigation.push('ChatWithPassenger');
+            navigation.push('Chat');
           }}
           style={styles.callAndMessageIconWrapStyle}>
           <MaterialIcons
@@ -253,42 +253,46 @@ const StartRideScreen = ({navigation}) => {
       longitude: 88.474119,
     };
     return (
-      <MapView
-        region={{
-          latitude: 22.483643,
-          longitude: 88.37588,
-          latitudeDelta: 0.5,
-          longitudeDelta: 0.5,
-        }}
-        style={{height: '100%'}}
-        provider={PROVIDER_GOOGLE}
-        mapType="terrain">
-        <MapViewDirections
-          origin={currentCabLocation}
-          destination={userLocation}
-          apikey={Key.apiKey}
-          strokeColor={Colors.primaryColor}
-          strokeWidth={3}
-        />
-        <Marker coordinate={currentCabLocation}>
-          <Image
-            source={require('../../assets/images/icons/cab.png')}
-            style={{
-              width: 25.0,
-              height: 45.0,
-              resizeMode: 'contain',
-              top: 16.0,
-              transform: [{rotate: '70deg'}],
-            }}
-          />
-        </Marker>
-        <Marker coordinate={userLocation} title="Drop point">
-          <Image
-            source={require('../../assets/images/icons/marker2.png')}
-            style={{width: 50.0, height: 50.0, resizeMode: 'stretch'}}
-          />
-        </Marker>
-      </MapView>
+      <Image
+        source={require('../../assets/images/bg.png')}
+        style={styles.logoStyle}
+      />
+      // <MapView
+      //   region={{
+      //     latitude: 22.483643,
+      //     longitude: 88.37588,
+      //     latitudeDelta: 0.5,
+      //     longitudeDelta: 0.5,
+      //   }}
+      //   style={{height: '100%'}}
+      //   provider={PROVIDER_GOOGLE}
+      //   mapType="terrain">
+      //   <MapViewDirections
+      //     origin={currentCabLocation}
+      //     destination={userLocation}
+      //     apikey={Key.apiKey}
+      //     strokeColor={Colors.primaryColor}
+      //     strokeWidth={3}
+      //   />
+      //   <Marker coordinate={currentCabLocation}>
+      //     <Image
+      //       source={require('../../assets/images/icons/cab.png')}
+      //       style={{
+      //         width: 25.0,
+      //         height: 45.0,
+      //         resizeMode: 'contain',
+      //         top: 16.0,
+      //         transform: [{rotate: '70deg'}],
+      //       }}
+      //     />
+      //   </Marker>
+      //   <Marker coordinate={userLocation} title="Drop point">
+      //     <Image
+      //       source={require('../../assets/images/icons/marker2.png')}
+      //       style={{width: 50.0, height: 50.0, resizeMode: 'stretch'}}
+      //     />
+      //   </Marker>
+      // </MapView>
     );
   }
 };
