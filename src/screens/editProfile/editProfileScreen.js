@@ -8,7 +8,7 @@ import {
   TextInput,
   Platform,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Colors,
   Fonts,
@@ -23,13 +23,45 @@ import MyStatusBar from '../../../src/components/myStatusBar';
 import Header from '../../components/header';
 import ATextInput from '../../components/input/textInput';
 import APasswordInput from '../../components/input/passwordInput';
+import {auth} from '../../../FirebaseConfig';
+import {LOGIN_UPDATE_SUCCESS} from '../../core/redux/types';
+import {useDispatch, useSelector} from 'react-redux';
 
 const EditProfileScreen = ({navigation}) => {
+  const dispatch = useDispatch();
   const [name, setName] = useState('Samantha Smith');
   const [email, setEmail] = useState('samanthasmith@gmail.com');
   const [phoneNumber, setPhoneNumber] = useState('+91 1236457890');
   const [password, setPassword] = useState('123456789');
   const [showSheet, setShowSheet] = useState(false);
+  const {user} = useSelector(state => state.auth);
+
+  useEffect(() => {
+    setName(user.displayName);
+    setEmail(user.email);
+    setPassword(user.password);
+    setPhoneNumber(user.phoneNumber);
+  }, []);
+
+  const handleUpdate = () => {
+    // try {
+    //   const user1 = auth().currentUser;
+    //   console.log(user1);
+    //   console.log(email);
+    //   user1.updateEmail(email);
+    //   // user1.updatePhoneNumber(phoneNumber);
+    //   // user1.updateDisplayName(name);
+    //   // user1.updatePassword(password);
+    //   dispatch({
+    //     type: LOGIN_UPDATE_SUCCESS,
+    //     payload: user1._user,
+    //   });
+    // } catch (e) {
+    //   console.log(e);
+    // } finally {
+    navigation.pop();
+    // }
+  };
 
   return (
     <View style={{flex: 1, backgroundColor: Colors.whiteColor}}>
@@ -139,9 +171,7 @@ const EditProfileScreen = ({navigation}) => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => {
-          navigation.pop();
-        }}
+        onPress={handleUpdate}
         style={styles.buttonStyle}>
         <Text style={{...Fonts.whiteColor18Bold}}>Save</Text>
       </TouchableOpacity>

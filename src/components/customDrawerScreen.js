@@ -1,6 +1,6 @@
 import {DrawerContentScrollView} from '@react-navigation/drawer';
 import React, {useState, useRef, useCallback} from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   SafeAreaView,
   StyleSheet,
@@ -27,9 +27,10 @@ import Svg, {Path} from 'react-native-svg';
 import * as shape from 'd3-shape';
 import {useDrawerStatus} from '@react-navigation/drawer';
 import {useFocusEffect} from '@react-navigation/native';
+import {auth} from '../../FirebaseConfig';
+import {DRIVER_OUT} from '../core/redux/types';
 
 const AnimatedSvg = Animated.createAnimatedComponent(Svg);
-
 const height = screenWidth / 7.0;
 const tabWidth = screenWidth / 3.5;
 
@@ -57,7 +58,7 @@ const d = getPath();
 
 const CustomDrawer = props => {
   const {user} = useSelector(state => state.auth);
-  console.log(user);
+  const dispatch = useDispatch();
   const backAction = () => {
     if (Platform.OS === 'ios') {
       props.navigation.addListener('beforeRemove', e => {
@@ -74,6 +75,15 @@ const CustomDrawer = props => {
       };
     }, [backAction]),
   );
+
+  const signOut = () => {
+    setShowLogoutDialog(false);
+    auth().signOut();
+    dispatch({
+      type: DRIVER_OUT,
+    });
+    // props.navigation.push('AuthHome');
+  };
 
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
@@ -147,10 +157,7 @@ const CustomDrawer = props => {
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={() => {
-                setShowLogoutDialog(false);
-                props.navigation.push('AuthHome');
-              }}
+              onPress={signOut}
               style={{
                 ...styles.cancelAndLogoutButtonStyle,
                 ...styles.logoutButtonStyle,
@@ -352,10 +359,10 @@ const CustomDrawer = props => {
           </View>
           <View style={{flex: 1, marginLeft: Sizes.fixPadding + 8.0}}>
             <Text numberOfLines={1} style={{...Fonts.whiteColor16Bold}}>
-              Samantha Smith
+              {user?.displayName ? user.displayName : 'none'}
             </Text>
             <Text numberOfLines={1} style={{...Fonts.whiteColor14Regular}}>
-              {user.email}
+              {user?.email ? user.email : 'none'}
             </Text>
           </View>
         </View>
