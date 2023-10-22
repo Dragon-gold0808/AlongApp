@@ -86,7 +86,7 @@ const SplashScreen = ({navigation}) => {
       });
       // navigation.push('AuthHome');
     }
-  }, [user]);
+  }, [user, dispatch]);
 
   if (initializing) {
     return null;
