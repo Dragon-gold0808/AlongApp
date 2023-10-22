@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "rnCLI_CabWind_UserApp.app"
-               BlueprintName = "rnCLI_CabWind_UserApp"
-               ReferencedContainer = "container:rnCLI_CabWind_UserApp.xcodeproj">
+               BuildableName = "along_Taxi_App.app"
+               BlueprintName = "along_Taxi_App"
+               ReferencedContainer = "container:along_Taxi_App.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "rnCLI_CabWind_UserAppTests.xctest"
-               BlueprintName = "rnCLI_CabWind_UserAppTests"
-               ReferencedContainer = "container:rnCLI_CabWind_UserApp.xcodeproj">
+               BuildableName = "along_Taxi_AppTests.xctest"
+               BlueprintName = "along_Taxi_AppTests"
+               ReferencedContainer = "container:along_Taxi_App.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "rnCLI_CabWind_UserApp.app"
-            BlueprintName = "rnCLI_CabWind_UserApp"
-            ReferencedContainer = "container:rnCLI_CabWind_UserApp.xcodeproj">
+            BuildableName = "along_Taxi_App.app"
+            BlueprintName = "along_Taxi_App"
+            ReferencedContainer = "container:along_Taxi_App.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "rnCLI_CabWind_UserApp.app"
-            BlueprintName = "rnCLI_CabWind_UserApp"
-            ReferencedContainer = "container:rnCLI_CabWind_UserApp.xcodeproj">
+            BuildableName = "along_Taxi_App.app"
+            BlueprintName = "along_Taxi_App"
+            ReferencedContainer = "container:along_Taxi_App.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

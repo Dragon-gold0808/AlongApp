@@ -73,9 +73,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.rncli_cabwind_userapp"
+    namespace "com.along_taxi_app"
     defaultConfig {
-        applicationId "com.rncli_cabwind_userapp"
+        applicationId "com.along_taxi_app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

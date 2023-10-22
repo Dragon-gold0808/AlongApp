@@ -1,4 +1,4 @@
-package com.rncli_cabwind_userapp;
+package com.along_taxi_app;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -13,7 +13,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "rnCLI_CabWind_UserApp";
+    return "along_Taxi_App";
   }
 
   /**
