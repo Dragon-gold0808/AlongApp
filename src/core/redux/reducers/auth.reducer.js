@@ -12,9 +12,9 @@ import {
 
 const initialState = {
   isAutherized: false,
-  user: null,
+  user: {},
   driver: {
-    driverEnabled: true,
+    driverEnabled: false,
   },
   initialState: true,
 };

@@ -27,28 +27,36 @@ const VerificationScreen = ({navigation}) => {
 
   async function confirmOptInput() {
     setisLoading(true);
+    // try {
+    //   // await confirm.confirm(otpInput);
+    //   console.log(otpInput);
+    //   if (otpInput === '111111') {
+    //     navigation.push('Home');
+    //     // auth()
+    //     //   .signInWithPhoneNumber('+1 (111) 111-1111', otpInput)
+    //     //   .then(user => {
+    //     //     console.log('User signed in:', user);
+    //     //   })
+    //     //   .catch(error => {
+    //     //     console.log('Error signing in:', error);
+    //     //   });
+    //     // // Save the user's name in the Firestore users collection
+    //     // await firestore().collection('users').doc(user.uid).set({
+    //     //   name,
+    //     // });
+    //   } else {
+    //     alert('Invalid code.: Please type 111111');
+    //   }
+    // } catch (error) {
+    //   alert('Invalid code.: Please type 111111');
+    // } finally {
+    //   setisLoading(false);
+    // }
+    console.log(confirm, otpInput);
     try {
-      // await confirm.confirm(otpInput);
-      console.log(otpInput);
-      if (otpInput === '111111') {
-        navigation.push('Home');
-        // auth()
-        //   .signInWithPhoneNumber('+1 (111) 111-1111', otpInput)
-        //   .then(user => {
-        //     console.log('User signed in:', user);
-        //   })
-        //   .catch(error => {
-        //     console.log('Error signing in:', error);
-        //   });
-        // // Save the user's name in the Firestore users collection
-        // await firestore().collection('users').doc(user.uid).set({
-        //   name,
-        // });
-      } else {
-        alert('Invalid code.: Please type 111111');
-      }
+      await confirm.confirm(otpInput);
     } catch (error) {
-      alert('Invalid code.: Please type 111111');
+      console.log('Invalid code.');
     } finally {
       setisLoading(false);
     }

@@ -97,11 +97,11 @@ const RegisterScreen = ({navigation}) => {
       // Sign up the user with their phone number using Firebase Authentication
       console.log(phoneNumber);
       console.log(phoneNumber.dialCode + phoneNumber.phoneNumber);
-      // const confirmation = await auth().signInWithPhoneNumber(
-      //   // phoneNumber.dialCode + ' ' + phoneNumber.phoneNumber,
-      //   '+1 (111) 111-1111',
-      // );
-      // setConfirm(confirmation);
+      const confirmation = await auth().signInWithPhoneNumber(
+        // phoneNumber.dialCode + ' ' + phoneNumber.phoneNumber,
+        '+1 (111) 111-1111',
+      );
+      setConfirm(confirmation);
 
       // Save the user's full name in Firestore
       dispatch({
@@ -111,6 +111,7 @@ const RegisterScreen = ({navigation}) => {
         },
         type: REGISTER_PRE,
       });
+      console.log(confirm);
 
       navigation.push('Verification');
 
