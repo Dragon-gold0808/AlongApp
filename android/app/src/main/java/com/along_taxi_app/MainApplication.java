@@ -1,4 +1,4 @@
-package com.rncli_cabwind_userapp;
+package com.along_taxi_app;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

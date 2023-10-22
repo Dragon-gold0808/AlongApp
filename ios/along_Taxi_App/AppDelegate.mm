@@ -8,7 +8,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   [GMSServices provideAPIKey:@"YOUR GOOGLE MAP API KEY HERE"];
-  self.moduleName = @"rnCLI_CabWind_UserApp";
+  self.moduleName = @"along_Taxi_App";
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};

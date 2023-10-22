@@ -171,7 +171,7 @@ const ContactUsScreen = ({navigation}) => {
               flex: 1,
               ...Fonts.grayColor16SemiBold,
             }}>
-            +91 2365479130
+            +1 1111111111
           </Text>
         </View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -182,7 +182,7 @@ const ContactUsScreen = ({navigation}) => {
               flex: 1,
               ...Fonts.grayColor16SemiBold,
             }}>
-            cabwind@gmail.com
+            alongapp@gmail.com
           </Text>
         </View>
       </View>
