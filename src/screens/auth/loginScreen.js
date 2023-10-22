@@ -34,7 +34,7 @@ import {DRIVER_OUT, DRIVER_UPDATE_SUCCESS} from '../../core/redux/types';
 
 const LoginScreen = ({navigation}) => {
   const [backClickCount, setBackClickCount] = useState(0);
-  const [loginMode, setLoginMode] = useState(0);
+  const [loginMode, setLoginMode] = useState(1);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
