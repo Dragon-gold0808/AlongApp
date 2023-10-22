@@ -40,7 +40,7 @@ const RegisterScreen = ({navigation}) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [registerMode, setRegisterMode] = useState(0);
+  const [registerMode, setRegisterMode] = useState(1);
   // If null, no SMS has been sent
   const [confirm, setConfirm] = useState(null);
   const [showSheet, setShowSheet] = useState(false);

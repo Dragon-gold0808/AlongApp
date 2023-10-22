@@ -3,7 +3,7 @@ import {authStyles} from './authStyles';
 import {headerWrapStyle} from './headerWrapStyle';
 
 export const Colors = {
-  primaryColor: '#087F23',
+  primaryColor: '#db4b01',
   blackColor: '#000000',
   whiteColor: '#FFFFFF',
   grayColor: '#949494',
