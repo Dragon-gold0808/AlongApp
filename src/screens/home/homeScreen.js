@@ -8,12 +8,16 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {Colors, Fonts, Sizes, screenHeight} from '../../constants/styles';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import BottomSheet from 'react-native-simple-bottom-sheet';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {useFocusEffect} from '@react-navigation/native';
+import {
+  CommonActions,
+  StackActions,
+  useFocusEffect,
+} from '@react-navigation/native';
 import MyStatusBar from '../../../src/components/myStatusBar';
 
 const nearestCabs = [
@@ -68,10 +72,6 @@ const nearestLocations = [
 ];
 
 const HomeScreen = ({navigation}) => {
-  // navigation.reset({
-  //   index: 0,
-  //   routes: [{name: 'Home'}],
-  // });
   const backAction = () => {
     if (Platform.OS === 'ios') {
       navigation.addListener('beforeRemove', e => {

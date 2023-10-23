@@ -82,7 +82,10 @@ const CustomDrawer = props => {
     dispatch({
       type: DRIVER_OUT,
     });
-    props.navigation.push('AuthHome');
+    props.navigation.reset({
+      index: 0,
+      routes: [{name: 'AuthHome'}],
+    });
   };
 
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);

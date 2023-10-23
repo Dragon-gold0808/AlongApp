@@ -69,7 +69,10 @@ const LoginScreen = ({navigation}) => {
             });
           });
 
-        navigation.push('Home');
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'Home'}],
+        });
       })
       .catch(error => {
         console.error(error);
@@ -115,7 +118,12 @@ const LoginScreen = ({navigation}) => {
       <View style={{flex: 1}}>
         <Header
           title="Sign In"
-          onPressHandle={() => navigation.push('AuthHome')}
+          onPressHandle={() =>
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'AuthHome'}],
+            })
+          }
         />
         <ScrollView
           automaticallyAdjustKeyboardInsets={true}
