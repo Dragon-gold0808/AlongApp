@@ -27,11 +27,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {BottomSheet} from '@rneui/themed';
 import {auth} from '../../../FirebaseConfig';
 import {firestore} from '../../../FirebaseConfig';
-import {
-  LOGIN_UPDATE_SUCCESS,
-  REGISTER_PRE,
-  UPDATE_SUCCESS,
-} from '../../core/redux/types';
+import {utils} from '@react-native-firebase/app';
+import {storage} from '../../../FirebaseConfig';
+import {LOGIN_UPDATE_SUCCESS, REGISTER_PRE} from '../../core/redux/types';
 
 const RegisterScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -44,6 +42,8 @@ const RegisterScreen = ({navigation}) => {
   // If null, no SMS has been sent
   const [confirm, setConfirm] = useState(null);
   const [showSheet, setShowSheet] = useState(false);
+  // create bucket storage reference to not yet existing image
+  const reference = storage().ref('black-t-shirt-sm.png');
 
   const singUpWithEmailAndPassword = async () => {
     if (email.length === 0 || password.length === 0) {
@@ -98,8 +98,8 @@ const RegisterScreen = ({navigation}) => {
       console.log(phoneNumber);
       console.log(phoneNumber.dialCode + phoneNumber.phoneNumber);
       const confirmation = await auth().signInWithPhoneNumber(
-        // phoneNumber.dialCode + ' ' + phoneNumber.phoneNumber,
-        '+1 (111) 111-1111',
+        phoneNumber.dialCode + ' ' + phoneNumber.phoneNumber,
+        // '+1 (111) 111-1111',
       );
       setConfirm(confirmation);
 
@@ -107,7 +107,7 @@ const RegisterScreen = ({navigation}) => {
       dispatch({
         payload: {
           name,
-          confirm,
+          confirmation,
         },
         type: REGISTER_PRE,
       });
@@ -232,7 +232,10 @@ const RegisterScreen = ({navigation}) => {
           {profilePicOptionSort({
             icon: 'photo',
             option: 'Upload from Gallery',
-            onPress: () => {
+            onPress: async () => {
+              const pathToFile = `${utils.FilePath.PICTURES_DIRECTORY}/image1.jpg`;
+              // uploads file
+              await reference.putFile(pathToFile);
               setShowSheet(false);
             },
           })}
