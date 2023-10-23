@@ -26,6 +26,7 @@ import APasswordInput from '../../components/input/passwordInput';
 import {auth} from '../../../FirebaseConfig';
 import {LOGIN_UPDATE_SUCCESS} from '../../core/redux/types';
 import {useDispatch, useSelector} from 'react-redux';
+import {launchImageLibrary, launchCamera} from 'react-native-image-picker';
 
 const EditProfileScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -34,6 +35,9 @@ const EditProfileScreen = ({navigation}) => {
   const [phoneNumber, setPhoneNumber] = useState('+1 1111111111');
   const [password, setPassword] = useState('hhhhhh');
   const [showSheet, setShowSheet] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(
+    require('../../assets/images/users/user1.png'),
+  );
   const {user} = useSelector(state => state.auth);
 
   useEffect(() => {
@@ -94,6 +98,53 @@ const EditProfileScreen = ({navigation}) => {
     // }
   };
 
+  const openImagePicker = () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 2000,
+      maxWidth: 2000,
+    };
+
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('Image picker error: ', response.error);
+      } else {
+        let imageUri = response.uri || response.assets?.[0]?.uri;
+        setSelectedImage({uri: imageUri});
+      }
+    });
+  };
+
+  const handleCameraLaunch = () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 2000,
+      maxWidth: 2000,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+
+    launchCamera(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled camera');
+      } else if (response.error) {
+        console.log('Camera Error: ', response.error);
+      } else {
+        let imageUri = response.uri || response.assets?.[0]?.uri;
+        setSelectedImage({uri: imageUri});
+        console.log(imageUri);
+      }
+    });
+  };
+
+  console.log(selectedImage);
+
   return (
     <View style={{flex: 1, backgroundColor: Colors.whiteColor}}>
       <MyStatusBar />
@@ -153,6 +204,7 @@ const EditProfileScreen = ({navigation}) => {
             icon: 'photo-camera',
             option: 'Use Camera',
             onPress: () => {
+              handleCameraLaunch();
               setShowSheet(false);
             },
           })}
@@ -160,6 +212,7 @@ const EditProfileScreen = ({navigation}) => {
             icon: 'photo',
             option: 'Upload from Gallery',
             onPress: () => {
+              openImagePicker();
               setShowSheet(false);
             },
           })}
@@ -167,6 +220,7 @@ const EditProfileScreen = ({navigation}) => {
             icon: 'delete',
             option: 'Remove Photo',
             onPress: () => {
+              setSelectedImage(require('../../assets/images/users/user1.png'));
               setShowSheet(false);
             },
           })}
@@ -238,7 +292,7 @@ const EditProfileScreen = ({navigation}) => {
     return (
       <View style={styles.profilePicWrapStyle}>
         <Image
-          source={require('../../assets/images/users/user1.png')}
+          source={selectedImage}
           style={{
             width: screenWidth / 4.8,
             height: screenWidth / 4.8,

@@ -75,12 +75,18 @@ const RegisterScreen = ({navigation}) => {
             await firestore().collection('users').doc(user.uid).set({
               driverEnabled: false,
             });
-            navigation.push('Home');
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'Home'}],
+            });
           })
           .catch(error => {
             console.error(error);
           });
-        navigation.push('Home');
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'Home'}],
+        });
       })
       .catch(error => {
         console.error(error);
