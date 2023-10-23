@@ -59,13 +59,18 @@ const SplashScreen = ({navigation}) => {
     });
     setTimeout(() => {
       console.log('pushhhh');
-      navigation.push(
-        initialState
-          ? 'Onboarding'
-          : auth().currentUser?._user
-          ? 'Home'
-          : 'AuthHome',
-      );
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: initialState
+              ? 'Onboarding'
+              : auth().currentUser?._user
+              ? 'Home'
+              : 'AuthHome',
+          },
+        ],
+      });
     }, 2000);
     return subscriber; // unsubscribe on unmount
   }, []);
@@ -77,14 +82,12 @@ const SplashScreen = ({navigation}) => {
         type: LOGIN_SUCCESS,
         payload: user,
       });
-      // navigation.push('Home');
     } else {
       console.log('null lllll');
       dispatch({
         type: LOGOUT,
         payload: null,
       });
-      // navigation.push('AuthHome');
     }
   }, [user, dispatch]);
 
