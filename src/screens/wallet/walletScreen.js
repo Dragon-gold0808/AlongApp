@@ -108,7 +108,7 @@ const WalletScreen = ({navigation}) => {
           ListHeaderComponent={
             <>
               {topUp()}
-              {paymentMethodsInfo()}
+              {/* {paymentMethodsInfo()} */}
               {recentTransactionsInfo()}
             </>
           }
@@ -195,7 +195,7 @@ const WalletScreen = ({navigation}) => {
         style={styles.infoWrapStyle}>
         <Text style={{flex: 1}}>
           <Text style={{...Fonts.blackColor16SemiBold}}>TopUp {}</Text>
-          <Text style={{...Fonts.grayColor14SemiBold}}>(3)</Text>
+          {/* <Text style={{...Fonts.grayColor14SemiBold}}>(3)</Text> */}
         </Text>
         <View style={styles.rightArrowIconWrapStyle}>
           <MaterialIcons

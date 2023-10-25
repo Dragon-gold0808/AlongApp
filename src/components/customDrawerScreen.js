@@ -28,7 +28,7 @@ import * as shape from 'd3-shape';
 import {useDrawerStatus} from '@react-navigation/drawer';
 import {useFocusEffect} from '@react-navigation/native';
 import {auth} from '../../FirebaseConfig';
-import {DRIVER_OUT} from '../core/redux/types';
+import {DRIVER_OUT, LOGOUT} from '../core/redux/types';
 
 const AnimatedSvg = Animated.createAnimatedComponent(Svg);
 const height = screenWidth / 7.0;
@@ -81,6 +81,10 @@ const CustomDrawer = props => {
     auth().signOut();
     dispatch({
       type: DRIVER_OUT,
+    });
+    dispatch({
+      type: LOGOUT,
+      payload: null,
     });
     props.navigation.reset({
       index: 0,
@@ -142,7 +146,7 @@ const CustomDrawer = props => {
                 marginLeft: Sizes.fixPadding,
                 ...Fonts.blackColor16SemiBold,
               }}>
-              Do You Want to Logout...?
+              Do You Want to log out...?
             </Text>
           </View>
           <View style={styles.cancelAndLogoutButtonWrapStyle}>
@@ -348,11 +352,7 @@ const CustomDrawer = props => {
         <View style={{...styles.headerWrapStyle}}>
           <View>
             <Image
-              source={
-                driver?.driverEnabled
-                  ? require('../assets/images/users/user2.png')
-                  : require('../assets/images/users/user1.png')
-              }
+              source={{uri: user?.photoURL}}
               style={{
                 width: screenWidth / 5.0,
                 height: screenWidth / 5.0,
