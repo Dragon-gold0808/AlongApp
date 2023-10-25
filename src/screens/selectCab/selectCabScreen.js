@@ -92,8 +92,12 @@ const SelectCabScreen = ({navigation}) => {
           selectedValue={numRiders}
           setSelectedValue={setNumRiders}
         />
-        <TimePicker title={'Select Time'} date={date} setDate={setDate} />
-        {weekDayRepeat()}
+        {selectedCabTypeIndex === 1 ? (
+          <TimePicker title={'Select Time'} date={date} setDate={setDate} />
+        ) : (
+          <></>
+        )}
+        {selectedCabTypeIndex === 1 ? weekDayRepeat() : <></>}
         {bookRideButton()}
       </Animatable.View>
     );
@@ -137,7 +141,7 @@ const SelectCabScreen = ({navigation}) => {
             key={`${index}`}
             onPress={() => setSelectedCabTypeIndex(index)}
             style={{
-              ...(selectedCabTypeIndex == index
+              ...(selectedCabTypeIndex === index
                 ? {...Fonts.blackColor18SemiBold}
                 : {...Fonts.lightGrayColor18SemiBold}),
               ...styles.cabTypeTextStyle,

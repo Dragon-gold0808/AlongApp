@@ -1,18 +1,38 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
-import React from 'react';
+import {StyleSheet, Text, View, Switch, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {Overlay} from '@rneui/base';
 import {Colors, Fonts, Sizes} from '../../constants/styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import MyStatusBar from '../../components/myStatusBar';
+import {auth} from '../../../FirebaseConfig';
+import {useDispatch} from 'react-redux';
+import {DRIVER_OUT, LOGOUT} from '../../core/redux/types';
 
 const SettingsScreen = ({navigation}) => {
+  const dispatch = useDispatch();
+  const [deleteAccountDialog, setDeleteAccountDialog] = useState(false);
+  const [locationEnabled, setLocationEnabled] = useState(false);
+  const toggleSwitch = () => {
+    setLocationEnabled(!locationEnabled);
+  };
+
+  const signOut = () => {
+    setDeleteAccountDialog(false);
+    auth().signOut();
+    dispatch({
+      type: DRIVER_OUT,
+    });
+    dispatch({
+      type: LOGOUT,
+      payload: null,
+    });
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'AuthHome'}],
+    });
+  };
+
   return (
     <View style={{flex: 1, backgroundColor: Colors.whiteColor}}>
       <MyStatusBar />
@@ -35,9 +55,7 @@ const SettingsScreen = ({navigation}) => {
         }}>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => {
-            // navigation.push('BookNow');
-          }}
+          onPress={() => {}}
           style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={styles.iconCircleStyle}>
             <MaterialIcons
@@ -48,9 +66,23 @@ const SettingsScreen = ({navigation}) => {
           </View>
           <View style={{flex: 1, marginLeft: Sizes.fixPadding + 5.0}}>
             <Text style={{...Fonts.blackColor16SemiBold}}>Location</Text>
-            <Text style={{...Fonts.grayColor15Regular}}>
-              Location Settings Detail
-            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+              <Text style={{...Fonts.grayColor15Regular}}>
+                Location Settings Detail
+              </Text>
+              <Switch
+                trackColor={{false: '#767577', true: '#81b0ff'}}
+                thumbColor={locationEnabled ? '#f5dd4b' : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch}
+                value={locationEnabled}
+              />
+            </View>
           </View>
         </TouchableOpacity>
         <View
@@ -63,7 +95,7 @@ const SettingsScreen = ({navigation}) => {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
-            // navigation.push('BookNow');
+            setDeleteAccountDialog(true);
           }}
           style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={styles.iconCircleStyle}>
@@ -80,6 +112,7 @@ const SettingsScreen = ({navigation}) => {
             </Text>
           </View>
         </TouchableOpacity>
+        {deleteDialog()}
       </View>
     );
   }
@@ -102,6 +135,56 @@ const SettingsScreen = ({navigation}) => {
           Settings
         </Text>
       </View>
+    );
+  }
+
+  function deleteDialog() {
+    return (
+      <Overlay
+        isVisible={deleteAccountDialog}
+        onBackdropPress={() => setDeleteAccountDialog(false)}
+        overlayStyle={styles.dialogStyle}>
+        <View
+          style={{
+            marginVertical: Sizes.fixPadding * 3.0,
+            marginHorizontal: Sizes.fixPadding * 2.0,
+          }}>
+          <View style={{flexDirection: 'row'}}>
+            <MaterialIcons name="help" size={22} color={Colors.primaryColor} />
+            <Text
+              style={{
+                flex: 1,
+                marginLeft: Sizes.fixPadding,
+                ...Fonts.blackColor16SemiBold,
+              }}>
+              Do You Want to delete this account?
+            </Text>
+          </View>
+          <View style={styles.cancelAndLogoutButtonWrapStyle}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => {
+                setDeleteAccountDialog(false);
+              }}
+              style={{
+                ...styles.cancelAndLogoutButtonStyle,
+                borderColor: Colors.lightGrayColor,
+                backgroundColor: Colors.whiteColor,
+              }}>
+              <Text style={{...Fonts.grayColor16Bold}}>Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={signOut}
+              style={{
+                ...styles.cancelAndLogoutButtonStyle,
+                ...styles.logoutButtonStyle,
+              }}>
+              <Text style={{...Fonts.whiteColor16Bold}}>Delete</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Overlay>
     );
   }
 };
@@ -148,5 +231,35 @@ const styles = StyleSheet.create({
     borderRadius: 15.0,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  dialogStyle: {
+    width: '90%',
+    backgroundColor: Colors.whiteColor,
+    padding: 0.0,
+    borderRadius: Sizes.fixPadding - 5.0,
+  },
+  cancelAndLogoutButtonStyle: {
+    paddingVertical: Sizes.fixPadding - 2.0,
+    paddingHorizontal: Sizes.fixPadding * 2.0,
+    borderWidth: 1.0,
+    borderRadius: Sizes.fixPadding - 5.0,
+    elevation: 1.0,
+  },
+  cancelAndLogoutButtonWrapStyle: {
+    marginTop: Sizes.fixPadding * 3.0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  logoutButtonStyle: {
+    borderColor: Colors.primaryColor,
+    backgroundColor: Colors.primaryColor,
+    marginLeft: Sizes.fixPadding,
+  },
+  drawerWrapStyle: {
+    flex: 1,
+    borderTopRightRadius: Sizes.fixPadding * 2.0,
+    borderBottomRightRadius: Sizes.fixPadding * 2.0,
+    backgroundColor: Colors.whiteColor,
   },
 });

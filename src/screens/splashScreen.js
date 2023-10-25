@@ -34,7 +34,6 @@ const SplashScreen = ({navigation}) => {
   // );
 
   const initialState = useSelector(state => state.auth.initialState);
-  // console.log('SplashScreen', auth().currentUser);
 
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
@@ -42,23 +41,18 @@ const SplashScreen = ({navigation}) => {
   const dispatch = useDispatch();
 
   function onAuthStateChanged(a) {
-    console.log('aaaa', user, a);
     setUser(a);
     if (initializing) {
       setInitializing(false);
     }
   }
 
-  console.log('rendering', user, initializing);
-
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    console.log('effect');
     dispatch({
       type: INITIALSTATE,
     });
     setTimeout(() => {
-      console.log('pushhhh');
       navigation.reset({
         index: 0,
         routes: [
@@ -77,19 +71,17 @@ const SplashScreen = ({navigation}) => {
 
   useEffect(() => {
     if (user) {
-      console.log('auth state changed in splash screen', user);
       dispatch({
         type: LOGIN_SUCCESS,
         payload: user,
       });
     } else {
-      console.log('null lllll');
       dispatch({
         type: LOGOUT,
         payload: null,
       });
     }
-  }, [user, dispatch]);
+  }, [user]);
 
   if (initializing) {
     return null;
