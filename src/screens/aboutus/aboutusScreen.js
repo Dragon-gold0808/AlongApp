@@ -64,30 +64,30 @@ const AboutusScreen = ({navigation}) => {
       <MyStatusBar />
       <View style={{flex: 1}}>
         {header()}
-        {faqs()}
+        {aboutUs()}
       </View>
     </View>
   );
 
-  function updateFaqs({id}) {
+  function updateAboutUs({id}) {
     const copyFaqs = faqsData;
     const newFaqs = copyFaqs.map(item => {
-      if (item.id == id) {
+      if (item.id === id) {
         return {...item, isExpanded: !item.isExpanded};
       } else {
-        return item;
+        return {...item, isExpanded: false};
       }
     });
     setFaqsData(newFaqs);
   }
 
-  function faqs() {
+  function aboutUs() {
     const renderItem = ({item, index}) => (
       <View style={{marginHorizontal: Sizes.fixPadding * 2.0}}>
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
-            updateFaqs({id: item.id});
+            updateAboutUs({id: item.id});
           }}>
           <View
             style={{

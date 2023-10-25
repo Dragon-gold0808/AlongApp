@@ -17,7 +17,6 @@ import {
   screenWidth,
 } from '../../constants/styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {BottomSheet} from '@rneui/themed';
 import MyStatusBar from '../../../src/components/myStatusBar';
 import Header from '../../components/header';
@@ -54,25 +53,13 @@ const EditProfileScreen = ({navigation}) => {
       if (user.phoneNumber) {
         setPhoneNumber(user.phoneNumber);
       }
+      if (user.photoURL) {
+        setSelectedImage({uri: user.photoURL});
+      }
     }
   }, []);
 
   const handleUpdate = () => {
-    // try {
-    //   const user1 = auth().currentUser;
-    //   console.log(user1);
-    //   console.log(email);
-    //   user1.updateEmail(email);
-    //   // user1.updatePhoneNumber(phoneNumber);
-    //   // user1.updateDisplayName(name);
-    //   // user1.updatePassword(password);
-    //   dispatch({
-    //     type: LOGIN_UPDATE_SUCCESS,
-    //     payload: user1._user,
-    //   });
-    // } catch (e) {
-    //   console.log(e);
-    // } finally {
     const user1 = auth().currentUser;
     user1
       .updateProfile({
@@ -81,9 +68,10 @@ const EditProfileScreen = ({navigation}) => {
       .then(async () => {
         // Profile updated
         console.log('displayName updated!');
+        console.log('user', user);
         dispatch({
           payload: {
-            ...user._user,
+            ...user,
             displayName: name,
           },
           type: LOGIN_UPDATE_SUCCESS,
@@ -95,7 +83,6 @@ const EditProfileScreen = ({navigation}) => {
       .finally(() => {
         navigation.pop();
       });
-    // }
   };
 
   const openImagePicker = () => {
@@ -143,8 +130,6 @@ const EditProfileScreen = ({navigation}) => {
     });
   };
 
-  console.log(selectedImage);
-
   return (
     <View style={{flex: 1, backgroundColor: Colors.whiteColor}}>
       <MyStatusBar />
@@ -167,16 +152,21 @@ const EditProfileScreen = ({navigation}) => {
             value={email}
             onChangeText={value => setEmail(value)}
             cursorColor={Colors.primaryColor}
+            editable={false}
+            selectable={false}
             keyboardType="email-address"
           />
-          {phoneNumberInfo()}
+          {/* {phoneNumberInfo()} */}
           <APasswordInput
             title={'Password'}
             value={password}
             onChangeText={val => {
               setPassword(val);
             }}
+            editable={false}
+            selectable={false}
             placeholder={'Enter Password'}
+            // style={{color: 'lightgray'}}
           />
         </ScrollView>
       </View>

@@ -23,14 +23,18 @@ import {
 import {useFocusEffect} from '@react-navigation/native';
 import MyStatusBar from '../../components/myStatusBar';
 import Header from '../../components/header';
-
-import {auth, firestore} from '../../../FirebaseConfig';
+import {Alert} from 'react-native';
+import {auth, firestore, storage} from '../../../FirebaseConfig';
 import {ActivityIndicator} from 'react-native-paper';
 import PhoneNumberInput from '../../components/input/phoneNumberInput';
 import ATextInput from '../../components/input/textInput';
 import APasswordInput from '../../components/input/passwordInput';
 import {useDispatch} from 'react-redux';
-import {DRIVER_OUT, DRIVER_UPDATE_SUCCESS} from '../../core/redux/types';
+import {
+  DRIVER_OUT,
+  DRIVER_UPDATE_SUCCESS,
+  LOGIN_SUCCESS,
+} from '../../core/redux/types';
 
 const LoginScreen = ({navigation}) => {
   const [backClickCount, setBackClickCount] = useState(0);
@@ -50,16 +54,19 @@ const LoginScreen = ({navigation}) => {
     auth()
       .signInWithEmailAndPassword(email, password)
       .then(response => {
-        // Signed in
+        // get driver data
         firestore()
           .collection('users')
           .doc(response.user.uid)
           .get()
           .then(re => {
-            console.log(re.data());
             dispatch({
               type: DRIVER_UPDATE_SUCCESS,
               payload: re.data(),
+            });
+            dispatch({
+              type: LOGIN_SUCCESS,
+              payload: response.user._user,
             });
           })
           .catch(error => {
@@ -68,7 +75,6 @@ const LoginScreen = ({navigation}) => {
               type: DRIVER_OUT,
             });
           });
-
         navigation.reset({
           index: 0,
           routes: [{name: 'Home'}],
@@ -76,7 +82,7 @@ const LoginScreen = ({navigation}) => {
       })
       .catch(error => {
         console.error(error);
-        alert('Sign in faild: ' + error.message);
+        Alert.alert('Sign in faild: ' + error.message);
       })
       .finally(() => {
         setLoading(false);

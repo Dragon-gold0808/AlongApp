@@ -33,7 +33,7 @@ export default function rootReducer(state = initialState, action) {
     case REGISTER_PRE:
       return {...state, user: payload};
     case LOGIN_UPDATE_SUCCESS:
-      return {...state, user: payload};
+      return {...state, isAutherized: true, user: payload};
     case DRIVER_UPDATE_SUCCESS:
       return {...state, driver: payload};
     case DRIVER_UPDATE_STATE:

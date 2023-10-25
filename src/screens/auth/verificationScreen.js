@@ -4,8 +4,6 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
-  ActivityIndicator,
-  Platform,
 } from 'react-native';
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -17,12 +15,13 @@ import LoadingDialog from '../../components/modal/loadingDialog';
 import Header from '../../components/header';
 import {firestore} from '../../../FirebaseConfig';
 import {auth} from '../../../FirebaseConfig';
+import {LOGIN_UPDATE_SUCCESS} from '../../core/redux/types';
 
 const VerificationScreen = ({navigation}) => {
   const [otpInput, setotpInput] = useState('');
   const [isLoading, setisLoading] = useState(false);
-  const confirm = useSelector(state => state.auth.confirm);
-  const name = useSelector(state => state.auth.name);
+  const confirm = useSelector(state => state.auth.user.confirmation);
+  const name = useSelector(state => state.auth.user.name);
   const dispatch = useDispatch();
 
   async function confirmOptInput() {
@@ -55,6 +54,31 @@ const VerificationScreen = ({navigation}) => {
     console.log(confirm, otpInput);
     try {
       await confirm.confirm(otpInput);
+      const user = auth().currentUser;
+      user
+        .updateProfile({
+          displayName: name,
+          photoURL: 'https://example.com/johndoe.jpg',
+        })
+        .then(async () => {
+          // Profile updated
+          console.log('displayName updated!');
+          dispatch({
+            payload: {
+              ...user._user,
+              displayName: name,
+              photoURL: 'https://example.com/johndoe.jpg',
+            },
+            type: LOGIN_UPDATE_SUCCESS,
+          });
+          await firestore().collection('users').doc(user.uid).set({
+            driverEnabled: false,
+          });
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      navigation.push('Home');
     } catch (error) {
       console.log('Invalid code.');
     } finally {

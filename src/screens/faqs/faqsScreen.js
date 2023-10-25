@@ -72,10 +72,10 @@ const FaqsScreen = ({navigation}) => {
   function updateFaqs({id}) {
     const copyFaqs = faqsData;
     const newFaqs = copyFaqs.map(item => {
-      if (item.id == id) {
+      if (item.id === id) {
         return {...item, isExpanded: !item.isExpanded};
       } else {
-        return item;
+        return {...item, isExpanded: false};
       }
     });
     setFaqsData(newFaqs);

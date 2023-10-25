@@ -16,6 +16,8 @@ import {
   screenWidth,
 } from '../../constants/styles';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {BottomSheet} from '@rneui/themed';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import MyStatusBar from '../../components/myStatusBar';
 import SelectInput from '../../components/input/selectInput';
@@ -26,6 +28,7 @@ import {
   DRIVER_UPDATE_SUCCESS,
   DRIVER_UPDATE_STATE,
 } from '../../core/redux/types';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const DriverModeScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -73,12 +76,15 @@ const DriverModeScreen = ({navigation}) => {
   ];
 
   const [showSheet, setShowSheet] = useState(false);
+  const [gOL, setGOL] = useState(true);
   const [driverEnabled, setDriverEnabled] = useState(false);
   const [vehicleNumber, setVehicleNumber] = useState('GJ 5 AB 1258');
   const [selectedCarBrand, setSelectedCarBrand] = useState(carBrandsList[0]);
   const [selectedCarModel, setSelectedCarModel] = useState(carModelsList[0]);
   const toggleSwitch = () => setDriverEnabled(previousState => !previousState);
   const {user, driver} = useSelector(state => state.auth);
+  const [licenseImage, setLicenseImage] = useState(null);
+  const [govermentIdImage, setGovermentIdImage] = useState(null);
 
   useEffect(() => {
     if (driver) {
@@ -126,7 +132,10 @@ const DriverModeScreen = ({navigation}) => {
 
   const backButtonPress = async () => {
     if (driverEnabled) {
-      navigation.pop();
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Home'}],
+      });
     } else {
       try {
         await firestore().collection('users').doc(user.uid).update({
@@ -140,9 +149,62 @@ const DriverModeScreen = ({navigation}) => {
       } catch (error) {
         console.log(error);
       } finally {
-        navigation.pop();
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'Home'}],
+        });
       }
     }
+  };
+
+  const openImagePicker = () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 2000,
+      maxWidth: 2000,
+    };
+
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('Image picker error: ', response.error);
+      } else {
+        let imageUri = response.uri || response.assets?.[0]?.uri;
+        gOL
+          ? setGovermentIdImage({uri: imageUri})
+          : setLicenseImage({uri: imageUri});
+        console.log(imageUri);
+      }
+    });
+  };
+
+  const handleCameraLaunch = () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 2000,
+      maxWidth: 2000,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+
+    launchCamera(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled camera');
+      } else if (response.error) {
+        console.log('Camera Error: ', response.error);
+      } else {
+        let imageUri = response.uri || response.assets?.[0]?.uri;
+        gOL
+          ? setGovermentIdImage({uri: imageUri})
+          : setLicenseImage({uri: imageUri});
+        console.log(imageUri.name);
+      }
+    });
   };
 
   return (
@@ -162,8 +224,91 @@ const DriverModeScreen = ({navigation}) => {
           </>
         ) : null}
       </View>
+      {editProfilePicSheet()}
     </View>
   );
+
+  function profilePic() {
+    return (
+      <View>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            // setShowSheet(true);
+            // setGOL(false);
+          }}>
+          <Text style={{...Fonts.primaryColor14Bold}}>Upload</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  function editProfilePicSheet() {
+    return (
+      <BottomSheet
+        isVisible={showSheet}
+        onBackdropPress={() => setShowSheet(false)}>
+        <View style={styles.sheetWrapStyle}>
+          <View style={styles.sheetIndicatorStyle} />
+          <Text
+            style={{
+              marginBottom: Sizes.fixPadding * 2.0,
+              textAlign: 'center',
+              ...Fonts.blackColor18Bold,
+            }}>
+            Choose Option
+          </Text>
+          {profilePicOptionSort({
+            icon: 'photo-camera',
+            option: 'Use Camera',
+            onPress: () => {
+              handleCameraLaunch();
+              setShowSheet(false);
+            },
+          })}
+          {profilePicOptionSort({
+            icon: 'photo',
+            option: 'Upload from Gallery',
+            onPress: () => {
+              openImagePicker();
+              setShowSheet(false);
+            },
+          })}
+          {profilePicOptionSort({
+            icon: 'delete',
+            option: 'Remove Photo',
+            onPress: () => {
+              gOL ? setGovermentIdImage(null) : setLicenseImage(null);
+              setShowSheet(false);
+            },
+          })}
+        </View>
+      </BottomSheet>
+    );
+  }
+
+  function profilePicOptionSort({icon, option, onPress}) {
+    return (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={onPress}
+        style={{
+          marginBottom: Sizes.fixPadding + 5.0,
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+        <MaterialIcons name={icon} size={20} color={Colors.lightGrayColor} />
+        <Text
+          style={{
+            marginLeft: Sizes.fixPadding + 5.0,
+            flex: 1,
+            ...Fonts.grayColor15SemiBold,
+          }}>
+          {option}
+        </Text>
+      </TouchableOpacity>
+    );
+  }
 
   function documentInfo() {
     return (
@@ -189,13 +334,19 @@ const DriverModeScreen = ({navigation}) => {
             justifyContent: 'space-between',
           }}>
           <Text style={{...Fonts.grayColor15SemiBold}}>License</Text>
-          <Text style={{...Fonts.primaryColor14Bold}}>Upload</Text>
+          {/* {profilePic()} */}
         </View>
-        <View style={styles.govermentIdAndLicenseWrapStyle}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            setShowSheet(true);
+            setGOL(false);
+          }}
+          style={styles.govermentIdAndLicenseWrapStyle}>
           <MaterialCommunityIcons
             name="shield-check"
             size={18}
-            color={Colors.lightGrayColor}
+            color={licenseImage ? Colors.primaryColor : Colors.lightGrayColor}
           />
           <Text
             numberOfLines={1}
@@ -204,9 +355,9 @@ const DriverModeScreen = ({navigation}) => {
               flex: 1,
               ...Fonts.blackColor16Bold,
             }}>
-            Not yet uploaded
+            {licenseImage ? 'License Uploaded' : 'Not yet uploaded'}
           </Text>
-        </View>
+        </TouchableOpacity>
         {divider()}
       </View>
     );
@@ -215,17 +366,28 @@ const DriverModeScreen = ({navigation}) => {
   function govermentIdInfo() {
     return (
       <View style={{margin: Sizes.fixPadding * 2.0}}>
-        <Text style={{...Fonts.grayColor15SemiBold}}>Government ID</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+          <Text style={{...Fonts.grayColor15SemiBold}}>Government ID</Text>
+          {/* {profilePic()} */}
+        </View>
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
             setShowSheet(true);
+            setGOL(true);
           }}
           style={styles.govermentIdAndLicenseWrapStyle}>
           <MaterialCommunityIcons
             name="shield-check"
             size={18}
-            color={Colors.primaryColor}
+            color={
+              govermentIdImage ? Colors.primaryColor : Colors.lightGrayColor
+            }
           />
           <Text
             numberOfLines={1}
@@ -234,7 +396,7 @@ const DriverModeScreen = ({navigation}) => {
               flex: 1,
               ...Fonts.blackColor16Bold,
             }}>
-            Voted.jpg
+            {govermentIdImage ? 'Goverment Id Uploaded' : 'Not yet uploaded'}
           </Text>
         </TouchableOpacity>
         {divider()}

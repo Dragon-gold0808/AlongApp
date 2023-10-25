@@ -25,13 +25,14 @@ import {ActivityIndicator} from 'react-native-paper';
 import {Alert} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {BottomSheet} from '@rneui/themed';
-import {auth} from '../../../FirebaseConfig';
-import {firestore} from '../../../FirebaseConfig';
+import {auth, firestore, storage} from '../../../FirebaseConfig';
+import {utils} from '@react-native-firebase/app';
 import {
   LOGIN_UPDATE_SUCCESS,
   REGISTER_PRE,
-  UPDATE_SUCCESS,
+  DRIVER_UPDATE_STATE,
 } from '../../core/redux/types';
+import {launchImageLibrary, launchCamera} from 'react-native-image-picker';
 
 const RegisterScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -44,6 +45,54 @@ const RegisterScreen = ({navigation}) => {
   // If null, no SMS has been sent
   const [confirm, setConfirm] = useState(null);
   const [showSheet, setShowSheet] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(
+    require('../../assets/images/users/user1.png'),
+  );
+
+  const openImagePicker = () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 2000,
+      maxWidth: 2000,
+    };
+
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('Image picker error: ', response.error);
+      } else {
+        let imageUri = response.uri || response.assets?.[0]?.uri;
+        setSelectedImage({uri: imageUri});
+      }
+    });
+  };
+
+  const handleCameraLaunch = () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 2000,
+      maxWidth: 2000,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+
+    launchCamera(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled camera');
+      } else if (response.error) {
+        console.log('Camera Error: ', response.error);
+      } else {
+        let imageUri = response.uri || response.assets?.[0]?.uri;
+        setSelectedImage({uri: imageUri});
+        console.log(imageUri);
+      }
+    });
+  };
 
   const singUpWithEmailAndPassword = async () => {
     if (email.length === 0 || password.length === 0) {
@@ -53,31 +102,42 @@ const RegisterScreen = ({navigation}) => {
     setLoading(true);
     auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        // Signed in
+      .then(async () => {
         const user = auth().currentUser;
+        // path to existing file on filesystem
+        // const pathToFile = `${utils.FilePath.PICTURES_DIRECTORY}/black-t-shirt-sm.png`;
+        let photoURL;
+        if (selectedImage.uri) {
+          const imageUri = `avatars/${user.uid}.png`;
+          const reference = storage().ref(imageUri);
+          await reference.putFile(selectedImage.uri);
+          photoURL = await storage().ref(imageUri).getDownloadURL();
+        } else {
+          photoURL = await storage().ref('avatars/user1.png').getDownloadURL();
+        }
+        // Signed in
         user
           .updateProfile({
             displayName: name,
-            photoURL: 'https://example.com/johndoe.jpg',
+            photoURL: photoURL,
           })
           .then(async () => {
             // Profile updated
             console.log('displayName updated!');
+            await firestore().collection('users').doc(user.uid).set({
+              driverEnabled: false,
+            });
             dispatch({
               payload: {
                 ...user._user,
                 displayName: name,
-                photoURL: 'https://example.com/johndoe.jpg',
+                photoURL: photoURL,
               },
               type: LOGIN_UPDATE_SUCCESS,
             });
-            await firestore().collection('users').doc(user.uid).set({
-              driverEnabled: false,
-            });
-            navigation.reset({
-              index: 0,
-              routes: [{name: 'Home'}],
+            dispatch({
+              type: DRIVER_UPDATE_STATE,
+              payload: false,
             });
           })
           .catch(error => {
@@ -89,8 +149,24 @@ const RegisterScreen = ({navigation}) => {
         });
       })
       .catch(error => {
-        console.error(error);
-        Alert.alert('Sign up faild: ' + error.code);
+        const errorCode = error.code; // Get the error code
+        switch (errorCode) {
+          case 'auth/email-already-in-use':
+            Alert.alert('The email is already in use');
+            break;
+          case 'auth/invalid-email':
+            Alert.alert('The email is invalid');
+            break;
+          case 'auth/weak-password':
+            Alert.alert('The password is too weak');
+            break;
+          case 'auth/operation-not-allowed':
+            Alert.alert('The password is too weak');
+            break;
+          default:
+            // Display a generic error message
+            break;
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -104,8 +180,8 @@ const RegisterScreen = ({navigation}) => {
       console.log(phoneNumber);
       console.log(phoneNumber.dialCode + phoneNumber.phoneNumber);
       const confirmation = await auth().signInWithPhoneNumber(
-        // phoneNumber.dialCode + ' ' + phoneNumber.phoneNumber,
-        '+1 (111) 111-1111',
+        phoneNumber.dialCode + ' ' + phoneNumber.phoneNumber,
+        // '+1 (111) 111-1111',
       );
       setConfirm(confirmation);
 
@@ -113,7 +189,7 @@ const RegisterScreen = ({navigation}) => {
       dispatch({
         payload: {
           name,
-          confirm,
+          confirmation,
         },
         type: REGISTER_PRE,
       });
@@ -190,7 +266,7 @@ const RegisterScreen = ({navigation}) => {
     return (
       <View style={styles.profilePicWrapStyle}>
         <Image
-          source={require('../../assets/images/users/user1.png')}
+          source={selectedImage}
           style={{
             width: screenWidth / 4.8,
             height: screenWidth / 4.8,
@@ -232,13 +308,15 @@ const RegisterScreen = ({navigation}) => {
             icon: 'photo-camera',
             option: 'Use Camera',
             onPress: () => {
+              handleCameraLaunch();
               setShowSheet(false);
             },
           })}
           {profilePicOptionSort({
             icon: 'photo',
             option: 'Upload from Gallery',
-            onPress: () => {
+            onPress: async () => {
+              openImagePicker();
               setShowSheet(false);
             },
           })}
@@ -246,6 +324,7 @@ const RegisterScreen = ({navigation}) => {
             icon: 'delete',
             option: 'Remove Photo',
             onPress: () => {
+              setSelectedImage(require('../../assets/images/users/user1.png'));
               setShowSheet(false);
             },
           })}
