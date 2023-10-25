@@ -9,7 +9,13 @@ import {
   Platform,
 } from 'react-native';
 import React, {useState, useCallback, useEffect} from 'react';
-import {Colors, Fonts, Sizes, screenHeight} from '../../constants/styles';
+import {
+  Colors,
+  Fonts,
+  Sizes,
+  bgStyle,
+  screenHeight,
+} from '../../constants/styles';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import BottomSheet from 'react-native-simple-bottom-sheet';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -283,8 +289,8 @@ const HomeScreen = ({navigation}) => {
           </Marker>
         </MapView> */}
         <Image
-          source={require('../../assets/images/bg.png')}
-          style={styles.logoStyle}
+          source={require('../../assets/images/bg2.png')}
+          style={bgStyle.bgStyle}
         />
       </View>
     );

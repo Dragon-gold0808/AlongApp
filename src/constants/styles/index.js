@@ -284,4 +284,11 @@ export const commonStyles = {
   },
 };
 
+export const bgStyle = {
+  bgStyle: {
+    width: '100%',
+    height: '100%',
+  },
+};
+
 export {authStyles, headerWrapStyle};
