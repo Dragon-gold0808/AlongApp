@@ -289,8 +289,18 @@ const HomeScreen = ({navigation}) => {
           </Marker>
         </MapView> */}
         <Image
-          source={require('../../assets/images/bg2.png')}
+          source={require('../../assets/images/bg.png')}
           style={bgStyle.bgStyle}
+        />
+        <Image
+          source={require('../../assets/images/pin2.png')}
+          style={{
+            width: 30,
+            height: 30,
+            position: 'absolute',
+            top: 380,
+            left: 190,
+          }}
         />
       </View>
     );

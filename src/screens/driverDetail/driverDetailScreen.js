@@ -12,6 +12,7 @@ import {
   Colors,
   Fonts,
   Sizes,
+  bgStyle,
   commonStyles,
   screenHeight,
   screenWidth,
@@ -28,13 +29,14 @@ import BottomSheet from 'react-native-simple-bottom-sheet';
 
 const DriverDetailScreen = ({navigation}) => {
   const [overlayVisible, setOverlayVisible] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   return (
     <View style={{flex: 1, backgroundColor: Colors.shadowColor}}>
       <MyStatusBar />
       <View style={{flex: 1}}>
         {directionInfo()}
         {header()}
-        {driverInfoSheet()}
+        {modalOpen ? driverInfoSheet() : null}
       </View>
     </View>
   );
@@ -433,10 +435,37 @@ const DriverDetailScreen = ({navigation}) => {
       longitude: 88.309215,
     };
     return (
-      <Image
-        source={require('../../assets/images/bg.png')}
-        style={styles.logoStyle}
-      />
+      <>
+        <View onPress={() => setModalOpen(false)}>
+          <Image
+            source={require('../../assets/images/route1.png')}
+            style={bgStyle.bgStyle}
+          />
+
+          <Image
+            source={require('../../assets/images/pin2.png')}
+            style={{
+              width: 30,
+              height: 30,
+              position: 'absolute',
+              top: 380,
+              left: 190,
+            }}
+          />
+        </View>
+        <TouchableOpacity
+          style={{
+            position: 'absolute',
+            top: 392,
+            left: 21,
+          }}
+          onPress={() => setModalOpen(val => !val)}>
+          <Image
+            style={{width: 40, height: 40}}
+            source={require('../../assets/images/pin1.png')}
+          />
+        </TouchableOpacity>
+      </>
       // <MapView
       //   region={{
       //     latitude: 22.483643,

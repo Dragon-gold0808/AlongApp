@@ -11,6 +11,7 @@ import {
   Colors,
   Fonts,
   Sizes,
+  bgStyle,
   commonStyles,
   screenHeight,
   screenWidth,
@@ -210,10 +211,22 @@ const SelectRouteScreen = ({navigation}) => {
       //     </Callout>
       //   </Marker>
       // </MapView>
-      <Image
-        source={require('../../assets/images/bg.png')}
-        style={styles.logoStyle}
-      />
+      <>
+        <Image
+          source={require('../../assets/images/route_destination.png')}
+          style={bgStyle.bgStyle}
+        />
+        <Image
+          source={require('../../assets/images/pin2.png')}
+          style={{
+            width: 30,
+            height: 30,
+            position: 'absolute',
+            top: 375,
+            left: 195,
+          }}
+        />
+      </>
     );
   }
 };

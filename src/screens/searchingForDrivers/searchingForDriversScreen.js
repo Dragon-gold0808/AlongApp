@@ -1,6 +1,12 @@
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import React from 'react';
-import {Colors, Fonts, Sizes, screenWidth} from '../../constants/styles';
+import React, {useState, useEffect} from 'react';
+import {
+  Colors,
+  Fonts,
+  Sizes,
+  screenWidth,
+  bgStyle,
+} from '../../constants/styles';
 import MapViewDirections from 'react-native-maps-directions';
 import {Key} from '../../../src/constants/key';
 import MapView, {PROVIDER_GOOGLE, Marker, Callout} from 'react-native-maps';
@@ -8,8 +14,19 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import * as Animatable from 'react-native-animatable';
 import * as Progress from 'react-native-progress';
 import MyStatusBar from '../../../src/components/myStatusBar';
+import {useFocusEffect} from '@react-navigation/native';
 
 const SearchingForDriversScreen = ({navigation}) => {
+  const [progress, setProgress] = useState(0);
+  let timer;
+  useEffect(() => {
+    setInterval(() => {
+      setProgress(prevProgress => prevProgress + 1 / 120); // Increment by 1/120 every second for 2 minutes
+    }, 1000);
+  }, []);
+  useEffect(() => {
+    if (progress === 1 / 12) navigation.push('DriverDetail');
+  }, [progress]);
   return (
     <View style={{flex: 1, backgroundColor: Colors.whiteColor}}>
       <MyStatusBar />
@@ -75,7 +92,9 @@ const SearchingForDriversScreen = ({navigation}) => {
           marginVertical: Sizes.fixPadding,
         }}>
         <Progress.Bar
-          progress={0.5}
+          progress={progress}
+          animated
+          // indeterminate={2}
           width={null}
           color={Colors.lightBlackColor}
           height={8.0}
@@ -133,10 +152,22 @@ const SearchingForDriversScreen = ({navigation}) => {
       longitude: 88.309215,
     };
     return (
-      <Image
-        source={require('../../assets/images/bg.png')}
-        style={styles.logoStyle}
-      />
+      <>
+        <Image
+          source={require('../../assets/images/rider_route.png')}
+          style={bgStyle.bgStyle}
+        />
+        <Image
+          source={require('../../assets/images/pin2.png')}
+          style={{
+            width: 30,
+            height: 30,
+            position: 'absolute',
+            top: 380,
+            left: 190,
+          }}
+        />
+      </>
       // <MapView
       //   region={{
       //     latitude: 22.424259,
