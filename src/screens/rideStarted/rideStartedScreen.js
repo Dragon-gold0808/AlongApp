@@ -12,6 +12,7 @@ import {
   Colors,
   Fonts,
   Sizes,
+  bgStyle,
   commonStyles,
   screenHeight,
   screenWidth,
@@ -298,10 +299,22 @@ const RideStartedScreen = ({navigation}) => {
       longitude: 88.309215,
     };
     return (
-      <Image
-        source={require('../../assets/images/bg.png')}
-        style={styles.logoStyle}
-      />
+      <>
+        <Image
+          source={require('../../assets/images/riding.png')}
+          style={bgStyle.bgStyle}
+        />
+        <Image
+          source={require('../../assets/images/pin2.png')}
+          style={{
+            width: 30,
+            height: 30,
+            position: 'absolute',
+            top: 315,
+            left: 182,
+          }}
+        />
+      </>
       // <MapView
       //   region={{
       //     latitude: 22.528682,

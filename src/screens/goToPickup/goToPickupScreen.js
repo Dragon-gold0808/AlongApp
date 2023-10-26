@@ -11,6 +11,7 @@ import {
   Colors,
   Fonts,
   Sizes,
+  bgStyle,
   commonStyles,
   screenHeight,
   screenWidth,
@@ -210,10 +211,23 @@ const GoToPickupScreen = ({navigation}) => {
       //     </Callout>
       //   </Marker>
       // </MapView>
-      <Image
-        source={require('../../assets/images/bg.png')}
-        style={styles.logoStyle}
-      />
+      <>
+        <Image
+          source={require('../../assets/images/route_to_rider.png')}
+          style={bgStyle.bgStyle}
+        />
+        <TouchableOpacity
+          style={{
+            position: 'absolute',
+            top: 392,
+            left: 21,
+          }}>
+          <Image
+            style={{width: 40, height: 40}}
+            source={require('../../assets/images/pin1.png')}
+          />
+        </TouchableOpacity>
+      </>
     );
   }
 };

@@ -11,6 +11,7 @@ import {
   Colors,
   Fonts,
   Sizes,
+  bgStyle,
   commonStyles,
   screenHeight,
   screenWidth,
@@ -253,10 +254,23 @@ const StartRideScreen = ({navigation}) => {
       longitude: 88.474119,
     };
     return (
-      <Image
-        source={require('../../assets/images/bg.png')}
-        style={styles.logoStyle}
-      />
+      <>
+        <Image
+          source={require('../../assets/images/reaching_to_driver.png')}
+          style={bgStyle.bgStyle}
+        />
+        <TouchableOpacity
+          style={{
+            position: 'absolute',
+            top: 418,
+            left: 150,
+          }}>
+          <Image
+            style={{width: 40, height: 40}}
+            source={require('../../assets/images/pin1.png')}
+          />
+        </TouchableOpacity>
+      </>
       // <MapView
       //   region={{
       //     latitude: 22.483643,
